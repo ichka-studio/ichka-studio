@@ -148,7 +148,7 @@ body::before {
 .hero-nav-cta:hover { background: var(--amber); color: var(--black); }
 
 .hero-center {
-  position: relative; z-index: 2;
+  position: relative; z-index: 8;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -335,6 +335,9 @@ body::before {
   gap: 0.4rem;
   margin-top: 0.95rem;
   text-align: center;
+  position: relative;
+  z-index: 30;
+  pointer-events: auto;
 }
 .hero-bottom-links-label {
   display: inline-flex;
@@ -366,8 +369,16 @@ body::before {
   align-items: center;
   justify-content: center;
   gap: 0.95rem;
+  position: relative;
+  z-index: 31;
 }
 .hero-bottom-links a {
+  position: relative;
+  z-index: 32;
+  pointer-events: auto;
+  display: inline-flex;
+  min-height: 32px;
+  align-items: center;
   font-family: var(--font-mono);
   font-size: 0.68rem;
   letter-spacing: 0.22em;
@@ -1256,6 +1267,9 @@ body::before {
   margin-bottom: 2.5rem;
 }
 .about-social-link {
+  position: relative;
+  z-index: 3;
+  pointer-events: auto;
   display: flex; align-items: center; gap: 0.7rem;
   font-family: var(--font-mono);
   font-size: 0.63rem;
@@ -2035,9 +2049,9 @@ footer {
           <span class="hero-bottom-links-label-text">sur</span>
         </span>
         <div class="hero-bottom-links-row">
-          <a rel="noopener" href="https://www.threads.net/@ichkastudio" target="_blank">Threads</a>
+          <a rel="noopener noreferrer" href="https://www.threads.net/@ichkastudio" target="_blank" class="social-direct-link">Threads</a>
           <span class="sep">·</span>
-          <a rel="noopener" href="https://twitter.com/IchkaStudio" target="_blank">X</a>
+          <a rel="noopener noreferrer" href="https://twitter.com/IchkaStudio" target="_blank" class="social-direct-link">X</a>
         </div>
       </div>
     </div>
@@ -2107,7 +2121,7 @@ footer {
         <h2 class="section-title">Portfolio visuel</h2>
         <p class="section-intro">Explorez les images, utilisez des outils gratuits pour construire vos prompts IA, puis plongez dans les fiches Midjourney pour comprendre les méthodes derrière les créations.</p>
       </div>
-      <a rel="noopener" href="https://twitter.com/IchkaStudio" target="_blank" class="section-link">Voir sur X ↗</a>
+      <a rel="noopener noreferrer" href="https://twitter.com/IchkaStudio" target="_blank" class="section-link social-direct-link">Voir sur X ↗</a>
     </div>
 
     <div class="portfolio-filters" id="portfolio-filters"></div>
@@ -5202,8 +5216,8 @@ footer {
 
       <div class="about-right sr">
         <div class="about-socials">
-          <a rel="noopener" href="https://twitter.com/IchkaStudio" target="_blank" class="about-social-link">X — @IchkaStudio</a>
-          <a rel="noopener" href="https://www.threads.net/@ichkastudio" target="_blank" class="about-social-link">Threads — @ichkastudio</a>
+          <a rel="noopener noreferrer" href="https://twitter.com/IchkaStudio" target="_blank" class="about-social-link social-direct-link">X — @IchkaStudio</a>
+          <a rel="noopener noreferrer" href="https://www.threads.net/@ichkastudio" target="_blank" class="about-social-link social-direct-link">Threads — @ichkastudio</a>
           <span class="about-social-link">Etsy — Boutique bientôt disponible</span>
         </div>
         <div class="etsy-strip" id="shop">
@@ -5698,6 +5712,14 @@ footer {
   mobileClose.addEventListener('click', closeMobileNav);
   mobileNav.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', closeMobileNav); });
 
+
+  document.querySelectorAll('.social-direct-link').forEach(function (link) {
+    link.addEventListener('click', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      window.open(link.href, '_blank', 'noopener,noreferrer');
+    }, true);
+  });
   // ─── NAVIGATION RAPIDE ENTRE SECTIONS ───
   (function () {
     var jumpNav = document.getElementById('section-jump');
