@@ -5768,17 +5768,7 @@ footer {
     document.addEventListener('mouseup', function (e) {
       if (e.button === 1) stopAutoScroll();
     });
-    document.addEventListener('wheel', function (e) {
-      stopAutoScroll();
-      if (e.target.closest('.lightbox.open, .mobile-nav.open')) return;
-      var before = window.scrollY;
-      var delta = e.deltaY;
-      requestAnimationFrame(function () {
-        if (Math.abs(window.scrollY - before) < 1 && Math.abs(delta) > 0) {
-          window.scrollBy({ top: delta * 3.2, left: 0, behavior: 'auto' });
-        }
-      });
-    }, { passive: true });
+    document.addEventListener('wheel', stopAutoScroll, { passive: true });
     document.addEventListener('keydown', stopAutoScroll);
   })();
 
