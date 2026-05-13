@@ -1360,6 +1360,18 @@ body::before {
   transition: background 0.3s, color 0.3s, transform 0.3s;
 }
 .btn-etsy:hover { background: var(--amber); color: var(--black); transform: translateY(-1px); }
+.btn-etsy.copy-email-btn { background: transparent; cursor: pointer; }
+.btn-etsy.copy-email-btn.copied { background: var(--amber); color: var(--black); }
+.contact-copy-status {
+  display: block;
+  margin-top: 0.38rem;
+  font-family: var(--font-mono);
+  font-size: 0.56rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--amber);
+  min-height: 0.9rem;
+}
 
 /* ═══ FOOTER ═══ */
 footer {
@@ -6020,6 +6032,7 @@ footer {
         <div class="about-socials">
           <a rel="noopener noreferrer" href="https://twitter.com/IchkaStudio" target="_blank" class="about-social-link social-direct-link">X — @IchkaStudio</a>
           <a rel="noopener noreferrer" href="https://www.threads.net/@ichkastudio" target="_blank" class="about-social-link social-direct-link">Threads — @ichkastudio</a>
+          <span class="about-social-link">Contact - ichka-studio@tutamail.com</span>
           <span class="about-social-link">Etsy — Shop coming soon</span>
         </div>
         <div class="etsy-strip" id="contact">
@@ -6027,7 +6040,8 @@ footer {
             <strong>Contact & requests</strong>
             For an image, a series, a future print or a collaboration, you can write directly to the studio.
           </p>
-          <a href="mailto:ichka-studio@tutamail.com?subject=ICHKA%20Studio%20request" class="btn-etsy">Write</a>
+          <button type="button" class="btn-etsy copy-email-btn" data-copy-email="ichka-studio@tutamail.com" data-default-text="Copy address" data-copied-text="Address copied" data-status-target="#contact-copy-status-en">Copy address</button>
+          <span class="contact-copy-status" id="contact-copy-status-en" aria-live="polite"></span>
         </div>
         <div class="etsy-strip" id="shop">
           <p>
@@ -6529,6 +6543,47 @@ footer {
   mobileClose.addEventListener('click', closeMobileNav);
   mobileNav.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', closeMobileNav); });
 
+
+  function copyEmailFallback(text) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.setAttribute('readonly', '');
+    ta.style.position = 'fixed';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    ta.remove();
+  }
+
+  function copyEmailToClipboard(text) {
+    if (navigator.clipboard && window.isSecureContext) {
+      return navigator.clipboard.writeText(text).catch(function () {
+        copyEmailFallback(text);
+      });
+    }
+    copyEmailFallback(text);
+    return Promise.resolve();
+  }
+
+  document.querySelectorAll('[data-copy-email]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var email = btn.dataset.copyEmail;
+      var original = btn.dataset.defaultText || btn.textContent;
+      var copied = btn.dataset.copiedText || 'Copied';
+      var status = document.querySelector(btn.dataset.statusTarget || '');
+      copyEmailToClipboard(email).then(function () {
+        btn.textContent = copied;
+        btn.classList.add('copied');
+        if (status) status.textContent = copied + ' : ' + email;
+        window.setTimeout(function () {
+          btn.textContent = original;
+          btn.classList.remove('copied');
+          if (status) status.textContent = '';
+        }, 2400);
+      });
+    });
+  });
 
   document.querySelectorAll('.social-direct-link').forEach(function (link) {
     link.addEventListener('click', function (e) {
