@@ -482,6 +482,29 @@ body::before {
   line-height: 0.95;
   color: var(--white);
 }
+.about-logo-title {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  line-height: 1;
+  gap: 0.05rem;
+}
+.about-logo-title img {
+  display: block;
+  width: clamp(180px, 22vw, 300px);
+  max-width: 72vw;
+  height: auto;
+}
+.about-logo-title em {
+  align-self: flex-end;
+  color: var(--amber);
+  font-family: var(--font-body);
+  font-size: clamp(1rem, 1.7vw, 1.45rem);
+  font-style: italic;
+  font-weight: 300;
+  letter-spacing: 0.18em;
+  transform: translateX(0.18em);
+}
 .section-intro {
   max-width: 620px;
   margin-top: 0.85rem;
@@ -6009,7 +6032,7 @@ footer {
     <div class="section-head sr">
       <div>
         <p class="section-label">À propos</p>
-        <h2 class="section-title">ICHKA Studio</h2>
+        <h2 class="section-title about-logo-title" aria-label="ICHKA Studio"><img src="assets/images/Logo ichka fin.webp" alt="ICHKA"><em>Studio</em></h2>
       </div>
     </div>
     <div class="about-inner">
