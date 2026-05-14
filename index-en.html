@@ -2029,11 +2029,28 @@ footer {
   .section { padding: 5rem 2rem; }
   .gen-grid { grid-template-columns: 1fr; }
   .about-inner { grid-template-columns: 1fr; gap: 3rem; }
+  .about-brand-row { align-items: flex-start; gap: 1rem; }
   .about-logo-title img { width: clamp(160px, 20vw, 250px); }
-  .about-community-link { max-width: 100%; }
+  .about-community-link {
+    max-width: 100%;
+    width: min(100%, 520px);
+  }
   .about-manifeste { font-size: 1.05rem; }
   .about-manifeste::after { font-size: 3.5rem; }
   .kb-count { font-size: 2.8rem; }
+  .kb-start {
+    padding: 0.9rem;
+    margin-bottom: 1.8rem;
+  }
+  .kb-start-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .kb-start-card {
+    min-height: 112px;
+    padding: 0.8rem;
+  }
+  .kb-start-card strong { font-size: 1.1rem; }
+  .kb-start-card span { font-size: 0.74rem; }
   .portfolio-grid { grid-template-columns: repeat(2, 1fr); }
   .portfolio-item.wide { grid-column: span 2; }
   .cat-full { grid-template-columns: repeat(2, 1fr); }
@@ -2117,6 +2134,27 @@ footer {
   }
   .section-head { flex-direction: column; align-items: flex-start; gap: 1rem; }
   .section-head p { max-width: 100% !important; text-align: left !important; }
+  .knowledge-intro {
+    font-size: 0.84rem;
+    line-height: 1.65;
+    margin-bottom: 1.6rem;
+  }
+  .kb-start {
+    padding: 0.78rem;
+    margin-bottom: 1.4rem;
+  }
+  .kb-start h3 { font-size: 1.4rem; }
+  .kb-start p { font-size: 0.8rem; }
+  .kb-start-grid {
+    grid-template-columns: 1fr;
+    gap: 0.55rem;
+  }
+  .kb-start-card {
+    min-height: 0;
+    padding: 0.72rem;
+  }
+  .kb-start-card strong { font-size: 1.02rem; }
+  .kb-start-card span { font-size: 0.72rem; }
   .portfolio {
     padding-top: 4.5rem;
   }
@@ -2182,6 +2220,7 @@ footer {
     height: 42px;
   }
   .about-community-link--text { min-height: 0; }
+  .about-community-copy { gap: 0.16rem; }
   .about-community-kicker { font-size: 0.48rem; }
   .about-community-text { font-size: 0.68rem; }
   .about-social-link { align-items: flex-start; font-size: 0.58rem; letter-spacing: 0.1em; }
