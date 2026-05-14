@@ -12,6 +12,33 @@
 <link rel="alternate" hreflang="fr" href="https://ichka-studio.com/">
 <link rel="alternate" hreflang="en" href="https://ichka-studio.com/index-en.html">
 <link rel="alternate" hreflang="x-default" href="https://ichka-studio.com/">
+<script>
+(function () {
+  var key = 'ichka-lang';
+  var path = location.pathname || '/';
+  var isRoot = /\/(?:index\.html)?$/i.test(path);
+  var stored = null;
+
+  try {
+    stored = localStorage.getItem(key);
+  } catch (e) {}
+
+  if (stored === 'en' && isRoot) {
+    location.replace('index-en.html' + location.search + location.hash);
+    return;
+  }
+
+  if (!stored && isRoot) {
+    var langs = (navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || '']).join(',').toLowerCase();
+    var prefersEnglish = langs.indexOf('en') !== -1;
+    var prefersFrench = langs.indexOf('fr') !== -1;
+
+    if (prefersEnglish && !prefersFrench) {
+      location.replace('index-en.html' + location.search + location.hash);
+    }
+  }
+})();
+</script>
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="ICHKA Studio">
 <meta property="og:locale" content="fr_FR">

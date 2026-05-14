@@ -6790,6 +6790,15 @@ footer {
 })();
 </script>
 
+<script>
+document.querySelectorAll('.lang-link, .footer-lang').forEach(function (link) {
+  link.addEventListener('click', function () {
+    try {
+      localStorage.setItem('ichka-lang', this.textContent.trim().toLowerCase());
+    } catch (e) {}
+  });
+});
+</script>
 </body>
 </html>
 
