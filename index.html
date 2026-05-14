@@ -532,6 +532,52 @@ body::before {
   letter-spacing: 0.18em;
   transform: translateX(0.18em);
 }
+.about-brand-row {
+  display: flex;
+  align-items: center;
+  gap: 1.3rem;
+  flex-wrap: wrap;
+}
+.about-community-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 56px;
+  max-width: 520px;
+  padding: 0.7rem 0.85rem;
+  border: 1px solid rgba(245,166,35,0.18);
+  background: linear-gradient(135deg, rgba(245,166,35,0.05), rgba(255,255,255,0.018));
+  color: var(--muted);
+  text-decoration: none;
+  transition: border-color 0.25s, background 0.25s, color 0.25s, transform 0.25s;
+}
+.about-community-link:hover {
+  border-color: rgba(245,166,35,0.34);
+  background: rgba(245,166,35,0.06);
+  color: var(--white);
+  transform: translateX(3px);
+}
+.about-community-link img {
+  width: 54px;
+  height: 54px;
+  object-fit: contain;
+  flex: 0 0 auto;
+}
+.about-community-copy {
+  display: grid;
+  gap: 0.22rem;
+}
+.about-community-kicker {
+  font-family: var(--font-mono);
+  font-size: 0.54rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--amber);
+}
+.about-community-text {
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
 .section-intro {
   max-width: 620px;
   margin-top: 0.85rem;
@@ -2007,6 +2053,8 @@ footer {
   .section { padding: 5rem 2rem; }
   .gen-grid { grid-template-columns: 1fr; }
   .about-inner { grid-template-columns: 1fr; gap: 3rem; }
+  .about-logo-title img { width: clamp(160px, 20vw, 250px); }
+  .about-community-link { max-width: 100%; }
   .about-manifeste { font-size: 1.05rem; }
   .about-manifeste::after { font-size: 3.5rem; }
   .kb-count { font-size: 2.8rem; }
@@ -2145,6 +2193,20 @@ footer {
   }
   .about-manifeste { font-size: 0.95rem; padding-left: 1.3rem; }
   .about-manifeste::after { font-size: 2.5rem; top: -0.3rem; left: 1rem; }
+  .about-brand-row { align-items: flex-start; gap: 0.9rem; }
+  .about-logo-title img { width: clamp(132px, 44vw, 190px); }
+  .about-logo-title em { font-size: 1rem; }
+  .about-community-link {
+    width: 100%;
+    padding: 0.62rem 0.68rem;
+    gap: 0.62rem;
+  }
+  .about-community-link img {
+    width: 42px;
+    height: 42px;
+  }
+  .about-community-kicker { font-size: 0.48rem; }
+  .about-community-text { font-size: 0.68rem; }
   .about-social-link { align-items: flex-start; font-size: 0.58rem; letter-spacing: 0.1em; }
   .mobile-nav { justify-content: flex-start; }
   .mobile-nav a { font-size: clamp(1.8rem, 11vw, 2.7rem); }
@@ -6171,7 +6233,16 @@ footer {
     <div class="section-head sr">
       <div>
         <p class="section-label">À propos</p>
-        <h2 class="section-title about-logo-title" aria-label="ICHKA Studio"><img src="assets/images/Logo ichka fin.webp" alt="ICHKA"><em>Studio</em></h2>
+        <div class="about-brand-row">
+          <h2 class="section-title about-logo-title" aria-label="ICHKA Studio"><img src="assets/images/Logo ichka fin.webp" alt="ICHKA"><em>Studio</em></h2>
+          <a class="about-community-link" href="https://discord.gg/geniart" target="_blank" rel="noopener noreferrer" aria-label="ICHKA Studio est membre de la communauté Geniart.fr sur Discord">
+            <img src="assets/images/geniart-logo.png" alt="Geniart.fr">
+            <span class="about-community-copy">
+              <span class="about-community-kicker">Communauté partenaire</span>
+              <span class="about-community-text">ICHKA Studio est membre de la communauté Geniart.fr sur Discord.</span>
+            </span>
+          </a>
+        </div>
       </div>
     </div>
     <div class="about-inner">
