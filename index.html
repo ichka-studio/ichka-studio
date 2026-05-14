@@ -967,6 +967,75 @@ body::before {
   font-weight: 500;
 }
 
+.kb-start {
+  max-width: 980px;
+  margin: 0 0 2.2rem;
+  padding: 1rem;
+  border: 1px solid rgba(245,166,35,0.16);
+  background:
+    linear-gradient(135deg, rgba(245,166,35,0.07), rgba(255,255,255,0.018) 42%, rgba(92,116,132,0.04));
+  position: relative;
+}
+.kb-start-kicker {
+  margin: 0 0 0.25rem;
+  font-family: var(--font-mono);
+  font-size: 0.56rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--amber);
+}
+.kb-start h3 {
+  margin: 0 0 0.45rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.7rem, 3vw, 2.5rem);
+  line-height: 0.95;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.kb-start p {
+  margin: 0;
+  max-width: 680px;
+  color: var(--muted);
+  font-size: 0.86rem;
+  line-height: 1.65;
+}
+.kb-start-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.7rem;
+  margin-top: 1rem;
+}
+.kb-start-card {
+  min-height: 122px;
+  padding: 0.9rem;
+  border: 1px solid var(--border);
+  background: rgba(8,8,8,0.34);
+  color: var(--muted);
+  text-decoration: none;
+  transition: border-color 0.25s, background 0.25s, transform 0.25s, color 0.25s;
+}
+.kb-start-card:hover {
+  border-color: rgba(245,166,35,0.28);
+  background: rgba(245,166,35,0.055);
+  color: var(--white);
+  transform: translateY(-2px);
+}
+.kb-start-card strong {
+  display: block;
+  margin-bottom: 0.45rem;
+  color: var(--white);
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  line-height: 0.95;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.kb-start-card span {
+  display: block;
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+
 .kb-count {
   display: inline-flex;
   align-items: center;
@@ -1233,6 +1302,7 @@ body::before {
 
 @media (max-width: 720px) {
   .kb-groups { grid-template-columns: 1fr; }
+  .kb-start-grid { grid-template-columns: 1fr; }
 }
 @media (min-width: 721px) and (max-width: 1100px) {
   .kb-groups { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -2106,7 +2176,7 @@ footer {
     <ul class="hero-nav">
       <li><a href="#portfolio">Portfolio</a></li>
       <li><a href="#generators">Générateurs</a></li>
-      <li><a href="#knowledge">Fiches</a></li>
+      <li><a href="#knowledge">Guides</a></li>
       <li><a href="#about">À propos</a></li>
       <li><a href="#contact">Contact</a></li>
       <li><a href="#shop">Boutique</a></li>
@@ -2121,7 +2191,7 @@ footer {
   <button class="mobile-nav-close" id="mobile-nav-close" aria-label="Fermer">×</button>
   <a href="#portfolio">Portfolio</a>
   <a href="#generators">Générateurs</a>
-  <a href="#knowledge">Fiches</a>
+  <a href="#knowledge">Guides</a>
   <a href="#about">À propos</a>
   <a href="#contact">Contact</a>
   <a href="#shop" class="mobile-nav-etsy">Boutique</a>
@@ -2131,7 +2201,7 @@ footer {
   <a href="#top" data-target="top" aria-label="Retour au héros"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10.5V20h13v-9.5"/><path d="M9.5 20v-5h5v5"/></svg></a>
   <a href="#portfolio" data-target="portfolio" aria-label="Aller au portfolio"><span>Port</span></a>
   <a href="#generators" data-target="generators" aria-label="Aller aux outils"><span>Outils</span></a>
-  <a href="#knowledge" data-target="knowledge" aria-label="Aller aux fiches"><span>Fiches</span></a>
+  <a href="#knowledge" data-target="knowledge" aria-label="Aller aux guides"><span>Guides</span></a>
   <a href="#about" data-target="about" aria-label="Aller à propos"><span>Info</span></a>
 </nav>
 
@@ -5952,6 +6022,17 @@ footer {
     <p class="knowledge-intro sr sr-d1">
       Des fiches pratiques pour mieux composer, formuler, cadrer, styliser et contrôler vos images Midjourney — une base <strong>vivante et évolutive</strong>.
     </p>
+
+    <div class="kb-start sr sr-d2">
+      <p class="kb-start-kicker">Par où commencer ?</p>
+      <h3>Choisissez votre porte d'entrée</h3>
+      <p>Pas besoin de parcourir les 43 fiches d'un coup : partez d'un besoin simple, puis explorez le reste quand l'image demande plus de précision.</p>
+      <div class="kb-start-grid">
+        <a class="kb-start-card" href="fiches.html#PROMPT_guide-rapide.md"><strong>Commencer par les bases</strong><span>Structurer un prompt clair, puis comprendre lumière, cadrage et finitions.</span></a>
+        <a class="kb-start-card" href="fiches.html#VOCAB_expressions.md"><strong>Améliorer un personnage</strong><span>Expressions, posture, corps, cheveux, mains et action pour rendre un sujet plus vivant.</span></a>
+        <a class="kb-start-card" href="fiches.html#EFFET_atmospheres.md"><strong>Style, lumière, ambiance</strong><span>Explorer les atmosphères, couleurs, effets visuels et directions artistiques.</span></a>
+      </div>
+    </div>
 
     <div class="kb-groups sr sr-d2">
       <details class="kb-group" open>
