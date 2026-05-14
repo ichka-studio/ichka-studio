@@ -512,35 +512,6 @@ body::before {
   gap: var(--about-brand-gap);
   flex-wrap: wrap;
 }
-.about-gap-control {
-  display: inline-grid;
-  gap: 0.45rem;
-  min-width: 220px;
-  padding: 0.7rem 0.9rem;
-  border: 1px solid rgba(245,166,35,0.16);
-  background: rgba(18,16,15,0.72);
-}
-.about-gap-label {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.8rem;
-  font: 500 0.58rem/1 'DM Mono', monospace;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-.about-gap-value {
-  color: var(--amber);
-}
-.about-gap-slider {
-  width: 100%;
-  accent-color: var(--amber);
-}
-.about-gap-note {
-  font-size: 0.74rem;
-  color: var(--muted);
-}
 .about-community-link {
   display: inline-flex;
   align-items: center;
@@ -2065,7 +2036,6 @@ footer {
     max-width: 100%;
     width: min(100%, 520px);
   }
-  .about-gap-control { min-width: min(100%, 300px); }
   .about-manifeste { font-size: 1.05rem; }
   .about-manifeste::after { font-size: 3.5rem; }
   .kb-count { font-size: 2.8rem; }
@@ -2247,16 +2217,6 @@ footer {
     padding: 0.62rem 0.68rem;
     gap: 0.62rem;
   }
-  .about-gap-control {
-    width: 100%;
-    padding: 0.62rem 0.68rem;
-    gap: 0.36rem;
-  }
-  .about-gap-label {
-    font-size: 0.5rem;
-    letter-spacing: 0.14em;
-  }
-  .about-gap-note { font-size: 0.66rem; }
   .about-community-link img {
     width: 42px;
     height: 42px;
@@ -6293,14 +6253,6 @@ footer {
         <p class="section-label">About</p>
       <div class="about-brand-row">
         <h2 class="section-title about-logo-title" aria-label="ICHKA Studio"><img src="assets/images/Logo ichka fin.webp" alt="ICHKA"><em>Studio</em></h2>
-        <div class="about-gap-control" aria-label="Manual spacing control between the logo and partner blocks">
-          <div class="about-gap-label">
-            <span>Logo / partner spacing</span>
-            <span class="about-gap-value" data-about-gap-value>2.1rem</span>
-          </div>
-          <input class="about-gap-slider" type="range" min="1.2" max="6" step="0.1" value="2.1" data-about-gap-slider>
-          <div class="about-gap-note">Move the slider to adjust the space right here.</div>
-        </div>
         <a class="about-community-link" href="https://discord.gg/geniart" target="_blank" rel="noopener noreferrer" aria-label="ICHKA Studio is a member of the Geniart.fr community on Discord">
             <img src="assets/images/geniart-logo.png" alt="Geniart.fr">
             <span class="about-community-copy">
@@ -7049,38 +7001,6 @@ document.querySelectorAll('.lang-link, .footer-lang').forEach(function (link) {
     } catch (e) {}
   });
 });
-</script>
-<script>
-(function () {
-  var storageKey = 'ichka-about-gap-en';
-  var slider = document.querySelector('[data-about-gap-slider]');
-  var value = document.querySelector('[data-about-gap-value]');
-  if (!slider || !value) return;
-
-  function applyGap(rawValue) {
-    var next = Number(rawValue);
-    if (!isFinite(next)) next = 2.1;
-    var rem = next.toFixed(1) + 'rem';
-    document.documentElement.style.setProperty('--about-brand-gap', rem);
-    slider.value = next.toFixed(1);
-    value.textContent = rem;
-  }
-
-  try {
-    var saved = localStorage.getItem(storageKey);
-    if (saved) applyGap(saved);
-    else applyGap(slider.value);
-  } catch (e) {
-    applyGap(slider.value);
-  }
-
-  slider.addEventListener('input', function () {
-    applyGap(this.value);
-    try {
-      localStorage.setItem(storageKey, this.value);
-    } catch (e) {}
-  });
-})();
 </script>
 </body>
 </html>
