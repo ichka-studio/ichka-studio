@@ -563,6 +563,9 @@ body::before {
   object-fit: contain;
   flex: 0 0 auto;
 }
+.about-community-link--text {
+  min-height: 56px;
+}
 .about-community-copy {
   display: grid;
   gap: 0.22rem;
@@ -2205,6 +2208,7 @@ footer {
     width: 42px;
     height: 42px;
   }
+  .about-community-link--text { min-height: 0; }
   .about-community-kicker { font-size: 0.48rem; }
   .about-community-text { font-size: 0.68rem; }
   .about-social-link { align-items: flex-start; font-size: 0.58rem; letter-spacing: 0.1em; }
@@ -6240,6 +6244,12 @@ footer {
             <span class="about-community-copy">
               <span class="about-community-kicker">Communauté partenaire</span>
               <span class="about-community-text">ICHKA Studio est membre de la communauté Geniart.fr sur Discord.</span>
+            </span>
+          </a>
+          <a class="about-community-link about-community-link--text" href="https://www.skool.com/ia-labs/about?ref=8efb50b5de1c4fbea1493e626a7e77c7" target="_blank" rel="noopener noreferrer" aria-label="Découvrir IA Labs sur Skool">
+            <span class="about-community-copy">
+              <span class="about-community-kicker">IA Labs</span>
+              <span class="about-community-text">Retrouvez aussi la communauté IA Labs sur Skool.</span>
             </span>
           </a>
         </div>
