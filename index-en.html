@@ -2704,7 +2704,7 @@ footer {
         <div class="portfolio-item-hover"><p class="portfolio-item-series">Mycelium Forests</p><p class="portfolio-item-title">Mycelium Grove 12</p></div>
       </div>
 
-      <div class="portfolio-item fit-contain" data-series="Comics Fury" data-title="Comics Fury 01">
+      <div class="portfolio-item fit-contain" data-series="Comics Fury" data-title="Comics Fury 01" data-preview-skip="true">
         <img src="assets/images/comics-fury-01.webp" style="width:100%;display:block;" alt="Comics Fury 01">
         <div class="portfolio-item-hover"><p class="portfolio-item-series">Comics Fury</p><p class="portfolio-item-title">Comics Fury 01</p></div>
       </div>
@@ -6397,8 +6397,11 @@ footer {
     function selectShowcaseItems(items, maxCount) {
       var selected = [];
       var seenSeries = new Set();
+      var previewItems = items.filter(function (item) {
+        return item.dataset.previewSkip !== 'true';
+      });
 
-      items.forEach(function (item) {
+      previewItems.forEach(function (item) {
         var series = item.dataset.series || '';
         if (selected.length < maxCount && !seenSeries.has(series)) {
           selected.push(item);
