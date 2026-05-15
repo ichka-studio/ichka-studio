@@ -533,18 +533,15 @@ body::before {
   transform: translateX(0.18em);
 }
 .about-brand-row {
-  display: grid;
-  grid-template-columns: minmax(220px, 360px) minmax(0, 1fr);
-  align-items: center;
-  column-gap: clamp(5rem, 13vw, 15rem);
-  row-gap: 1.2rem;
+  display: block;
 }
 .about-partner-links {
   display: flex;
-  align-items: center;
+  align-items: stretch;
   justify-content: flex-end;
   gap: 2rem;
   width: 100%;
+  margin-bottom: 3rem;
 }
 .about-community-link {
   display: inline-flex;
@@ -2064,8 +2061,8 @@ footer {
   .section { padding: 5rem 2rem; }
   .gen-grid { grid-template-columns: 1fr; }
   .about-inner { grid-template-columns: 1fr; gap: 3rem; }
-  .about-brand-row { grid-template-columns: 1fr; align-items: flex-start; column-gap: 0; }
-  .about-partner-links { justify-content: flex-start; flex-wrap: wrap; gap: 1rem; }
+  .about-brand-row { display: block; }
+  .about-partner-links { justify-content: flex-start; flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem; }
   .about-logo-title img { width: clamp(160px, 20vw, 250px); }
   .about-community-link {
     max-width: 100%;
@@ -2244,8 +2241,8 @@ footer {
   }
   .about-manifeste { font-size: 0.95rem; padding-left: 1.3rem; }
   .about-manifeste::after { font-size: 2.5rem; top: -0.3rem; left: 1rem; }
-  .about-brand-row { grid-template-columns: 1fr; align-items: flex-start; column-gap: 0; }
-  .about-partner-links { justify-content: flex-start; flex-wrap: wrap; gap: 1rem; }
+  .about-brand-row { display: block; }
+  .about-partner-links { justify-content: flex-start; flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem; }
   .about-logo-title img { width: clamp(132px, 44vw, 190px); }
   .about-logo-title em { font-size: 1rem; }
   .about-community-link {
@@ -6287,20 +6284,8 @@ footer {
       <div>
         <p class="section-label">Ã€ propos</p>
         <div class="about-brand-row">
-         <h2 class="section-title about-logo-title" aria-label="ICHKA Studio"><img src="assets/images/Logo ichka fin.webp" alt="ICHKA"><em>Studio</em></h2>
-         <div class="about-partner-links"><a class="about-community-link" href="https://discord.gg/geniart" target="_blank" rel="noopener noreferrer" aria-label="ICHKA Studio est membre de la communautÃ© Geniart.fr sur Discord">
-            <img src="assets/images/geniart-logo.png" alt="Geniart.fr">
-            <span class="about-community-copy">
-              <span class="about-community-kicker">CommunautÃ© partenaire</span>
-              <span class="about-community-text">ICHKA Studio est membre de la communautÃ© Geniart.fr sur Discord.</span>
-            </span>
-          </a>
-          <a class="about-community-link about-community-link--text" href="https://www.skool.com/ia-labs/about?ref=8efb50b5de1c4fbea1493e626a7e77c7" target="_blank" rel="noopener noreferrer" aria-label="DÃ©couvrir IA Labs sur Skool">
-            <span class="about-community-copy">
-              <span class="about-community-kicker">IA Labs</span>
-              <span class="about-community-text">Retrouvez aussi la communautÃ© IA Labs sur Skool.</span>
-            </span>
-          </a></div></div>
+          <h2 class="section-title about-logo-title" aria-label="ICHKA Studio"><img src="assets/images/Logo ichka fin.webp" alt="ICHKA"><em>Studio</em></h2>
+        </div>
       </div>
     </div>
     <div class="about-inner">
@@ -6333,6 +6318,21 @@ footer {
       </div>
 
       <div class="about-right sr">
+        <div class="about-partner-links">
+          <a class="about-community-link" href="https://discord.gg/geniart" target="_blank" rel="noopener noreferrer" aria-label="ICHKA Studio est membre de la communautÃ© Geniart.fr sur Discord">
+            <img src="assets/images/geniart-logo.png" alt="Geniart.fr">
+            <span class="about-community-copy">
+              <span class="about-community-kicker">CommunautÃ© partenaire</span>
+              <span class="about-community-text">ICHKA Studio est membre de la communautÃ© Geniart.fr sur Discord.</span>
+            </span>
+          </a>
+          <a class="about-community-link about-community-link--text" href="https://www.skool.com/ia-labs/about?ref=8efb50b5de1c4fbea1493e626a7e77c7" target="_blank" rel="noopener noreferrer" aria-label="DÃ©couvrir IA Labs sur Skool">
+            <span class="about-community-copy">
+              <span class="about-community-kicker">IA Labs</span>
+              <span class="about-community-text">Retrouvez aussi la communautÃ© IA Labs sur Skool.</span>
+            </span>
+          </a>
+        </div>
         <div class="about-socials">
           <a rel="noopener noreferrer" href="https://twitter.com/IchkaStudio" target="_blank" class="about-social-link social-direct-link">X â€” @IchkaStudio</a>
           <a rel="noopener noreferrer" href="https://www.threads.net/@ichkastudio" target="_blank" class="about-social-link social-direct-link">Threads â€” @ichkastudio</a>
@@ -7029,6 +7029,7 @@ footer {
 
 </body>
 </html>
+
 
 
 
