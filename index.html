@@ -1319,6 +1319,9 @@ body::before {
   max-width: 92%;
 }
 .kb-group[open] .kb-group-title { color: var(--amber); }
+.kb-group-preview .kb-file:nth-child(n+5) {
+  display: none;
+}
 .kb-list {
   display: grid;
   grid-template-columns: 1fr;
@@ -6159,7 +6162,7 @@ footer {
           <a class="kb-file" href="fiches.html#CORE_fins-prompt-globales.md"><span class="kb-file-name">Modificateurs de fin de prompt</span><span class="kb-file-type">Core</span></a>
         </div>
       </details>
-      <details class="kb-group">
+      <details class="kb-group kb-group-preview" open>
         <summary><span class="kb-group-count">10 fiches</span><span class="kb-group-title">Sujet humain & personnage</span><span class="kb-group-desc">Expressions, corps, attitudes, cheveux, action, archétypes et détails sensibles.</span></summary>
         <div class="kb-list">
           <a class="kb-file" href="fiches.html#VOCAB_expressions.md"><span class="kb-file-name">Expressions humaines</span><span class="kb-file-type">Vocab</span></a>
@@ -7033,6 +7036,7 @@ footer {
 
 </body>
 </html>
+
 
 
 

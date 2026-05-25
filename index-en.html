@@ -1292,6 +1292,9 @@ body::before {
   max-width: 92%;
 }
 .kb-group[open] .kb-group-title { color: var(--amber); }
+.kb-group-preview .kb-file:nth-child(n+5) {
+  display: none;
+}
 .kb-list {
   display: grid;
   grid-template-columns: 1fr;
@@ -6132,7 +6135,7 @@ footer {
           <a class="kb-file" href="fiches.html?lang=en#CORE_fins-prompt-globales.md"><span class="kb-file-name">End-of-prompt quality modifiers</span><span class="kb-file-type">Core</span></a>
         </div>
       </details>
-      <details class="kb-group">
+      <details class="kb-group kb-group-preview" open>
         <summary><span class="kb-group-count">10 notes</span><span class="kb-group-title">Human subject & character</span><span class="kb-group-desc">Expressions, bodies, posture, hair, action, archetypes and delicate details.</span></summary>
         <div class="kb-list">
           <a class="kb-file" href="fiches.html?lang=en#VOCAB_expressions.md"><span class="kb-file-name">Human expressions</span><span class="kb-file-type">Vocab</span></a>
@@ -7014,6 +7017,7 @@ document.querySelectorAll('.lang-link, .footer-lang').forEach(function (link) {
 </script>
 </body>
 </html>
+
 
 
 
