@@ -1293,8 +1293,26 @@ body::before {
   color: var(--amber);
   font-family: var(--font-mono);
   font-size: 0.8rem;
+  transform-origin: center;
+  transition: transform 0.22s ease, border-color 0.22s ease, background 0.22s ease, color 0.22s ease;
 }
-.kb-group[open] summary::after { content: '×'; }
+.kb-group summary:hover::after {
+  transform: scale(1.12);
+  border-color: rgba(245,166,35,0.42);
+  background: rgba(245,166,35,0.08);
+}
+.kb-group[open] summary::after {
+  content: '×';
+  transform: rotate(90deg);
+  border-color: rgba(245,166,35,0.38);
+  background: rgba(245,166,35,0.06);
+}
+.kb-group[open] summary:hover::after { transform: rotate(90deg) scale(1.12); }
+.kb-group[open] .kb-list { animation: kbListReveal 0.22s ease both; }
+@keyframes kbListReveal {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 .kb-group-title {
   color: var(--white);
   font-family: var(--font-display);
@@ -1319,9 +1337,6 @@ body::before {
   max-width: 92%;
 }
 .kb-group[open] .kb-group-title { color: var(--amber); }
-.kb-group-preview .kb-file:nth-child(n+5) {
-  display: none;
-}
 .kb-list {
   display: grid;
   grid-template-columns: 1fr;
@@ -6153,7 +6168,7 @@ footer {
     </div>
 
     <div class="kb-groups sr sr-d2">
-      <details class="kb-group" open>
+      <details class="kb-group">
         <summary><span class="kb-group-count">4 fiches</span><span class="kb-group-title">Fiches essentielles</span><span class="kb-group-desc">Le socle ICHKA : tension visuelle, lumière, cadrage et finitions de prompt.</span></summary>
         <div class="kb-list">
           <a class="kb-file" href="fiches.html#CORE_antithese-visuelle.md"><span class="kb-file-name">ADN ICHKA — tension visuelle signature</span><span class="kb-file-type">Core</span></a>
@@ -6162,7 +6177,7 @@ footer {
           <a class="kb-file" href="fiches.html#CORE_fins-prompt-globales.md"><span class="kb-file-name">Modificateurs de fin de prompt</span><span class="kb-file-type">Core</span></a>
         </div>
       </details>
-      <details class="kb-group kb-group-preview" open>
+      <details class="kb-group">
         <summary><span class="kb-group-count">10 fiches</span><span class="kb-group-title">Sujet humain & personnage</span><span class="kb-group-desc">Expressions, corps, attitudes, cheveux, action, archétypes et détails sensibles.</span></summary>
         <div class="kb-list">
           <a class="kb-file" href="fiches.html#VOCAB_expressions.md"><span class="kb-file-name">Expressions humaines</span><span class="kb-file-type">Vocab</span></a>
@@ -6177,7 +6192,7 @@ footer {
           <a class="kb-file" href="fiches.html#VOCAB_verbes-visuels.md"><span class="kb-file-name">Verbes visuels efficaces</span><span class="kb-file-type">Vocab</span></a>
         </div>
       </details>
-      <details class="kb-group kb-group-preview" open>
+      <details class="kb-group">
         <summary><span class="kb-group-count">4 fiches</span><span class="kb-group-title">Décor, paysage & créatures</span><span class="kb-group-desc">Pour bâtir un monde autour du sujet : architecture, entités, atmosphère et reflets.</span></summary>
         <div class="kb-list">
           <a class="kb-file" href="fiches.html#COMP_structures-architecture.md"><span class="kb-file-name">Structures et architecture</span><span class="kb-file-type">Comp</span></a>
