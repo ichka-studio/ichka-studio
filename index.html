@@ -609,6 +609,104 @@ body::before {
 }
 .section-link:hover { opacity: 1; }
 
+/* ═══ À LA UNE ═══ */
+.featured {
+  padding-top: 4.6rem;
+  padding-bottom: 4.6rem;
+  background:
+    radial-gradient(circle at 18% 28%, rgba(245,166,35,0.055) 0%, transparent 25%),
+    radial-gradient(circle at 82% 60%, rgba(92,116,132,0.055) 0%, transparent 32%),
+    linear-gradient(180deg, #0f0c0b 0%, #0d0a09 100%);
+  border-top: 1px solid rgba(255,255,255,0.055);
+  border-bottom: 1px solid rgba(255,255,255,0.055);
+}
+.featured-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 0.82fr) minmax(320px, 1.18fr);
+  gap: clamp(1.4rem, 4vw, 4rem);
+  align-items: center;
+  max-width: 1180px;
+  border: 1px solid rgba(245,166,35,0.16);
+  background:
+    linear-gradient(135deg, rgba(245,166,35,0.06), rgba(255,255,255,0.018) 42%, rgba(92,116,132,0.04)),
+    rgba(8,8,8,0.28);
+  padding: clamp(1.15rem, 3vw, 2rem);
+}
+.featured-meta {
+  display: grid;
+  gap: 0.72rem;
+  align-content: start;
+}
+.featured-kicker {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--amber);
+}
+.featured-index {
+  display: inline-flex;
+  width: 4.3rem;
+  height: 4.3rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(245,166,35,0.24);
+  color: var(--amber);
+  font-family: var(--font-display);
+  font-size: 2.1rem;
+  line-height: 1;
+}
+.featured-note {
+  max-width: 360px;
+  margin: 0;
+  color: rgba(240,237,232,0.56);
+  font-size: 0.78rem;
+  line-height: 1.55;
+}
+.featured-title {
+  margin: 0 0 0.7rem;
+  max-width: 760px;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4.2vw, 3.55rem);
+  line-height: 0.95;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--white);
+}
+.featured-text {
+  max-width: 680px;
+  margin: 0 0 1.25rem;
+  color: var(--muted);
+  font-size: 0.94rem;
+  line-height: 1.72;
+}
+.featured-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  min-height: 44px;
+  border: 1px solid rgba(245,166,35,0.42);
+  background: rgba(245,166,35,0.08);
+  color: var(--amber);
+  padding: 0.76rem 1.05rem;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background 0.25s, color 0.25s, transform 0.25s, border-color 0.25s;
+}
+.featured-link:hover,
+.featured-link:focus {
+  background: var(--amber);
+  border-color: var(--amber);
+  color: var(--black);
+  transform: translateY(-2px);
+  outline: none;
+}
+.featured-link span { font-size: 0.8rem; }
+
 /* â•â•â• PORTFOLIO â•â•â• */
 .portfolio {
   background:
@@ -2080,6 +2178,10 @@ footer {
   .hero-scroll { display: none; }
   .section-jump { display: none; }
   .section { padding: 5rem 2rem; }
+  .featured { padding-top: 3.2rem; padding-bottom: 3.2rem; }
+  .featured-panel { grid-template-columns: 1fr; }
+  .featured-meta { gap: 0.55rem; }
+  .featured-index { width: 3.5rem; height: 3.5rem; font-size: 1.75rem; }
   .gen-grid { grid-template-columns: 1fr; }
   .about-inner { grid-template-columns: 1fr; gap: 3rem; }
   .about-brand-row { display: block; }
@@ -2189,6 +2291,24 @@ footer {
   }
   .section-head { flex-direction: column; align-items: flex-start; gap: 1rem; }
   .section-head p { max-width: 100% !important; text-align: left !important; }
+  .featured {
+    padding: 2.7rem 1rem;
+  }
+  .featured-panel {
+    padding: 1rem;
+  }
+  .featured-title {
+    font-size: 1.72rem;
+    line-height: 1;
+  }
+  .featured-text {
+    font-size: 0.84rem;
+    line-height: 1.58;
+  }
+  .featured-link {
+    width: 100%;
+    justify-content: center;
+  }
   .knowledge-intro {
     font-size: 0.8rem;
     line-height: 1.58;
@@ -2375,6 +2495,25 @@ footer {
       <span>© 2026 ICHKA Studio</span>
       <a href="index-en.html" class="lang-link">EN</a>
     </div>
+  </div>
+</section>
+
+
+<!-- ═══════════ À LA UNE ═══════════ -->
+<section class="section featured" id="featured">
+  <div class="section-inner">
+    <article class="featured-panel sr">
+      <div class="featured-meta">
+        <p class="featured-kicker">À la une</p>
+        <span class="featured-index">01</span>
+        <p class="featured-note">Ressource récente · méthode, archive et données créatives.</p>
+      </div>
+      <div class="featured-body">
+        <h2 class="featured-title">J’ai récupéré mes 18 700 prompts Midjourney en 10 secondes</h2>
+        <p class="featured-text">Un guide concret pour exporter son historique de prompts Midjourney, récupérer ses données, archiver son travail et construire une base exploitable.</p>
+        <a class="featured-link" href="https://github.com/ichka-studio/ichka-studio/blob/main/guide-export-prompts-midjourney.md" target="_blank" rel="noopener noreferrer">Lire le guide <span>↗</span></a>
+      </div>
+    </article>
   </div>
 </section>
 
