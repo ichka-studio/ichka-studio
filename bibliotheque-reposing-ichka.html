@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bibliothèque de reposing corporel — GPT Image 2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Barlow+Condensed:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0806;
+    --bg2:#12100c;
+    --panel:#161310;
+    --panel2:#1c1813;
+    --line:#2a241c;
+    --line2:#3a3024;
+    --amber:#d4943a;
+    --amber-soft:#e0a857;
+    --amber-dim:#8a6a3a;
+    --ink:#0a0806;
+    --txt:#cfc4b2;
+    --txt-dim:#8a8170;
+    --txt-faint:#5d564a;
+    --white:#f4efe6;
+    --green:#7fae5a;
+    --red:#c75c4a;
+    --risk-low:#6f9a4d;
+    --risk-mid:#cf9a3a;
+    --risk-high:#c0553f;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--txt);
+    font-family:'Barlow Condensed',sans-serif;
+    font-size:17px;
+    line-height:1.5;
+    letter-spacing:.2px;
+    -webkit-font-smoothing:antialiased;
+    background-image:
+      radial-gradient(ellipse 900px 500px at 15% -5%, rgba(212,148,58,.06), transparent 60%),
+      radial-gradient(ellipse 700px 400px at 95% 8%, rgba(212,148,58,.04), transparent 55%);
+    background-attachment:fixed;
+    padding-bottom:120px;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.025;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .wrap{max-width:1380px;margin:0 auto;padding:0 48px;position:relative;z-index:2}
+
+  /* side rails */
+  .rail{position:fixed;top:0;bottom:0;width:1px;background:linear-gradient(180deg,transparent,var(--line) 12%,var(--line) 88%,transparent);z-index:3}
+  .rail.l{left:30px}.rail.r{right:30px}
+  .rail span{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-90deg);
+    font-family:'Oswald';font-weight:600;font-size:11px;letter-spacing:8px;color:var(--line2);white-space:nowrap}
+  .back-home{position:fixed;top:22px;right:30px;z-index:10;border:1px solid var(--line2);background:rgba(10,8,6,.72);
+    color:var(--amber);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;
+    text-decoration:none;padding:10px 13px;border-radius:3px;transition:background .2s,border-color .2s,color .2s}
+  .back-home:hover{background:rgba(212,148,58,.12);border-color:var(--amber);color:var(--white)}
+
+  /* header */
+  header{padding:64px 0 28px}
+  .eyebrow{font-family:'Oswald';font-weight:500;font-size:12px;letter-spacing:6px;color:var(--amber);
+    text-transform:uppercase;display:flex;align-items:center;gap:14px;margin-bottom:18px}
+  .eyebrow::before{content:"";width:34px;height:1px;background:var(--amber)}
+  h1{font-family:'Oswald';font-weight:700;font-size:clamp(34px,5vw,62px);line-height:.98;
+    letter-spacing:.5px;color:var(--white);text-transform:uppercase;max-width:14ch}
+  h1 .acc{color:var(--amber)}
+  .sub{margin-top:18px;font-size:18px;color:var(--txt-dim);max-width:62ch;font-weight:300}
+  .sub b{color:var(--txt);font-weight:500}
+
+  /* warning band */
+  .warn{margin:28px 0 0;border:1px solid rgba(199,92,74,.4);background:linear-gradient(90deg,rgba(199,92,74,.12),rgba(199,92,74,.03));
+    border-radius:4px;padding:16px 22px;display:flex;gap:16px;align-items:flex-start}
+  .warn .ic{font-family:'Oswald';font-weight:700;color:var(--red);font-size:22px;line-height:1.1;flex:none}
+  .warn p{font-size:16.5px;color:#d9b3a8}
+  .warn b{color:#eecabf;font-weight:600}
+
+  /* counter row */
+  .meta{display:flex;align-items:baseline;gap:14px;margin:40px 0 8px}
+  .meta .num{font-family:'Oswald';font-weight:700;font-size:46px;color:var(--amber);line-height:1}
+  .meta .lab{font-family:'Oswald';font-weight:500;font-size:12px;letter-spacing:5px;color:var(--txt-faint);text-transform:uppercase;line-height:1.3}
+
+  /* section title */
+  .sec-t{font-family:'Oswald';font-weight:600;font-size:13px;letter-spacing:5px;color:var(--amber-dim);
+    text-transform:uppercase;margin:46px 0 16px;display:flex;align-items:center;gap:14px}
+  .sec-t::after{content:"";flex:1;height:1px;background:var(--line)}
+
+  /* clause switcher */
+  .clause-box{border:1px solid var(--line);border-radius:6px;background:linear-gradient(180deg,var(--panel),var(--bg2));overflow:hidden}
+  .tabs{display:flex;border-bottom:1px solid var(--line)}
+  .tab{flex:1;padding:15px 18px;background:transparent;border:none;cursor:pointer;
+    font-family:'Oswald';font-weight:500;font-size:13px;letter-spacing:2.5px;text-transform:uppercase;
+    color:var(--txt-faint);transition:.22s;border-right:1px solid var(--line);position:relative}
+  .tab:last-child{border-right:none}
+  .tab:hover{color:var(--txt);background:rgba(212,148,58,.04)}
+  .tab.on{color:var(--amber);background:rgba(212,148,58,.07)}
+  .tab.on::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--amber)}
+  .clause-body{padding:22px 24px;display:flex;gap:22px;align-items:flex-start}
+  .clause-en{flex:1}
+  .clause-en .cap{font-family:'Oswald';font-size:10px;letter-spacing:3px;color:var(--txt-faint);text-transform:uppercase;margin-bottom:7px}
+  .clause-en code{font-family:'JetBrains Mono';font-size:13.5px;line-height:1.65;color:var(--amber-soft);display:block}
+  .clause-fr{font-size:14.5px;color:var(--txt-dim);font-style:italic;font-weight:300;line-height:1.55;margin-top:10px}
+  .copy-clause{flex:none}
+
+  /* buttons */
+  .btn{font-family:'Oswald';font-weight:500;font-size:11px;letter-spacing:2px;text-transform:uppercase;
+    padding:9px 16px;border-radius:3px;border:1px solid var(--amber-dim);background:transparent;color:var(--amber);
+    cursor:pointer;transition:.18s;white-space:nowrap;display:inline-flex;align-items:center;gap:7px}
+  .btn:hover{background:var(--amber);color:var(--ink);border-color:var(--amber)}
+  .btn.copied{background:var(--green);border-color:var(--green);color:var(--ink)}
+  .btn svg{width:13px;height:13px}
+
+  /* filters */
+  .filters{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 6px}
+  .chip{font-family:'Oswald';font-weight:500;font-size:11.5px;letter-spacing:1.5px;text-transform:uppercase;
+    padding:8px 15px;border-radius:3px;border:1px solid var(--line2);background:var(--panel);color:var(--txt-dim);
+    cursor:pointer;transition:.18s}
+  .chip:hover{border-color:var(--amber-dim);color:var(--txt)}
+  .chip.on{background:var(--amber);border-color:var(--amber);color:var(--ink);font-weight:600}
+
+  .search{flex:1;min-width:220px;display:flex;align-items:center;gap:10px;
+    border:1px solid var(--line2);border-radius:3px;background:var(--panel);padding:0 14px}
+  .search svg{width:15px;height:15px;color:var(--txt-faint);flex:none}
+  .search input{flex:1;background:none;border:none;outline:none;color:var(--txt);
+    font-family:'Barlow Condensed';font-size:16px;padding:9px 0}
+  .search input::placeholder{color:var(--txt-faint)}
+
+  /* legend */
+  .legend{display:flex;flex-wrap:wrap;gap:20px;margin:18px 0 8px;font-size:13.5px;color:var(--txt-dim)}
+  .legend .grp{display:flex;align-items:center;gap:9px}
+  .legend .tags{display:flex;gap:5px}
+  .legend b{color:var(--txt);font-weight:600;font-family:'Oswald';letter-spacing:1px;font-size:12px;text-transform:uppercase}
+  .dot{width:11px;height:11px;border-radius:2px;display:inline-block}
+  .dot.lo{background:var(--risk-low)}.dot.mid{background:var(--risk-mid)}.dot.hi{background:var(--risk-high)}
+
+  /* table */
+  .tbl{border:1px solid var(--line);border-radius:6px;overflow:hidden;margin-top:10px}
+  .thead{display:grid;grid-template-columns:46px 1fr 132px 150px;gap:0;
+    background:var(--bg2);border-bottom:1px solid var(--line2)}
+  .thead div{font-family:'Oswald';font-weight:600;font-size:11px;letter-spacing:2.5px;text-transform:uppercase;
+    color:var(--amber-dim);padding:13px 16px}
+  .thead div:nth-child(3),.thead div:nth-child(4){text-align:center}
+
+  .fam-head{background:linear-gradient(90deg,rgba(212,148,58,.09),transparent);
+    border-bottom:1px solid var(--line);border-top:1px solid var(--line);padding:11px 16px;
+    display:flex;align-items:center;gap:12px;cursor:pointer;user-select:none}
+  .fam-head:first-child{border-top:none}
+  .fam-head .fk{font-family:'Oswald';font-weight:700;font-size:13px;color:var(--ink);background:var(--amber);
+    width:24px;height:24px;border-radius:3px;display:grid;place-items:center;flex:none}
+  .fam-head .fn{font-family:'Oswald';font-weight:600;font-size:14.5px;letter-spacing:2px;text-transform:uppercase;color:var(--white)}
+  .fam-head .fc{font-family:'Oswald';font-size:10.5px;letter-spacing:2px;color:var(--txt-faint);text-transform:uppercase;margin-left:auto}
+  .fam-head .tw{font-size:12px;color:var(--txt-faint);font-style:italic}
+  .fam-head .arr{color:var(--amber);font-size:15px;transition:.2s;flex:none}
+  .fam-head.collapsed .arr{transform:rotate(-90deg)}
+
+  .row{display:grid;grid-template-columns:46px 1fr 132px 150px;gap:0;
+    border-bottom:1px solid var(--line);transition:.15s;align-items:stretch}
+  .row:last-child{border-bottom:none}
+  .row:hover{background:var(--panel)}
+  .row.hide{display:none}
+  .cell{padding:15px 16px;display:flex;flex-direction:column;justify-content:center}
+  .c-num{font-family:'Oswald';font-weight:600;font-size:15px;color:var(--amber-dim);align-items:center}
+
+  .c-main{}
+  .r-name{font-family:'Oswald';font-weight:600;font-size:16px;letter-spacing:.5px;color:var(--white);text-transform:uppercase;margin-bottom:6px}
+  .r-en{font-family:'JetBrains Mono';font-size:12.5px;line-height:1.6;color:var(--amber-soft);
+    background:rgba(212,148,58,.05);border-left:2px solid var(--amber-dim);padding:9px 12px;border-radius:0 3px 3px 0}
+  .r-fr{font-size:14px;color:var(--txt-dim);font-style:italic;font-weight:300;line-height:1.5;margin-top:8px;display:none}
+  .r-fr.show{display:block}
+  .r-toggle{font-family:'Oswald';font-size:10.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--txt-faint);
+    background:none;border:none;cursor:pointer;padding:7px 0 0;margin-top:2px;transition:.15s;align-self:flex-start}
+  .r-toggle:hover{color:var(--amber)}
+  .lev{margin-top:9px;display:flex;flex-wrap:wrap;gap:5px}
+  .lev span{font-family:'Oswald';font-size:9.5px;letter-spacing:1px;text-transform:uppercase;color:var(--txt-faint);
+    border:1px solid var(--line2);border-radius:2px;padding:2px 7px}
+
+  .c-risk{align-items:center;gap:6px;justify-content:center}
+  .risk-tag{display:flex;align-items:center;gap:6px;font-family:'Oswald';font-size:10px;letter-spacing:1px;
+    text-transform:uppercase;color:var(--txt-dim);width:100%;max-width:96px}
+  .risk-tag .dot{flex:none}
+  .risk-tag .lbl{flex:1}
+
+  .c-act{align-items:center;justify-content:center;gap:8px}
+
+  /* intensity note */
+  .intensity{margin-top:8px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:13.5px;color:var(--txt-dim)}
+  .intensity .pill{font-family:'JetBrains Mono';font-size:12px;color:var(--amber-soft);
+    border:1px solid var(--line2);border-radius:3px;padding:3px 9px;cursor:pointer;transition:.15s;background:var(--panel)}
+  .intensity .pill:hover{border-color:var(--amber-dim)}
+  .intensity .pill.on{background:rgba(212,148,58,.12);border-color:var(--amber);color:var(--amber)}
+  .intensity .lab{font-family:'Oswald';font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--txt-faint)}
+
+  .empty{padding:48px;text-align:center;color:var(--txt-faint);font-size:16px;display:none}
+
+  /* toast */
+  .toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(120px);
+    background:var(--amber);color:var(--ink);font-family:'Oswald';font-weight:600;font-size:13px;letter-spacing:2px;
+    text-transform:uppercase;padding:13px 26px;border-radius:4px;z-index:50;transition:.3s cubic-bezier(.2,.9,.3,1);
+    box-shadow:0 12px 40px rgba(0,0,0,.5)}
+  .toast.show{transform:translateX(-50%) translateY(0)}
+
+  footer{margin-top:54px;padding-top:24px;border-top:1px solid var(--line);
+    font-family:'Oswald';font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--txt-faint);
+    display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+  footer .acc{color:var(--amber-dim)}
+
+  @media(max-width:920px){
+    .wrap{padding:0 26px}.rail{display:none}
+    .thead{display:none}
+    .row{grid-template-columns:1fr;gap:0}
+    .cell{padding:12px 16px}
+    .c-num{flex-direction:row;justify-content:flex-start;color:var(--amber);padding-bottom:0}
+    .c-num::before{content:"Recette ";font-family:'Oswald';font-size:11px;letter-spacing:2px;color:var(--txt-faint);text-transform:uppercase;margin-right:6px}
+    .c-risk{flex-direction:row;justify-content:flex-start;flex-wrap:wrap;gap:10px;padding-top:0}
+    .c-act{justify-content:flex-start;padding-top:6px}
+    .clause-body{flex-direction:column}
+    .tab{font-size:11px;letter-spacing:1px;padding:13px 8px}
+  }
+</style>
+</head>
+<body>
+<div class="rail l"><span>ICHKA · STUDIO</span></div>
+<div class="rail r"><span>REPOSING · GPT IMAGE 2</span></div>
+<a class="back-home" href="index.html#generators">Retour ICHKA Studio</a>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Base de connaissances · Mouvement</div>
+    <h1>Bibliothèque de <span class="acc">reposing</span> corporel</h1>
+    <p class="sub">Recettes prêtes à coller pour donner du mouvement à un corps figé — <b>édition d'image</b>, pas génération. Chaque recette agit uniquement sur la posture et les membres.</p>
+
+    <div class="warn">
+      <div class="ic">⚠</div>
+      <p><b>Pour GPT Image 2 uniquement — pas pour Midjourney.</b> Ces recettes utilisent du langage naturel, des verbes de transformation et des négations que MJ ne comprend pas. Collées dans Midjourney, elles partent en vrille. Elles s'appliquent à une image MJ <b>déjà générée</b>, retravaillée dans GPT Image 2.</p>
+    </div>
+  </header>
+
+  <!-- PASSE-PARTOUT -->
+  <div class="sec-t">Le passe-partout — commence par ça si tu hésites</div>
+  <div class="clause-box">
+    <div class="clause-body">
+      <div class="clause-en">
+        <div class="cap">Prompt universel de dynamisation</div>
+        <code id="universal">Keep the face, identity, clothing, hair, art style, framing, lighting and background identical. Change only the body and limbs. Add stronger body movement through asymmetry, torso twist, shifted weight, and diagonal limb placement.</code>
+        <div class="clause-fr">Conserve le visage, l'identité, les vêtements, les cheveux, le style, le cadrage, la lumière et le décor à l'identique. Modifie seulement le corps et les membres. Ajoute davantage de mouvement par l'asymétrie, la torsion du torse, le report de poids et le placement diagonal des membres.</div>
+      </div>
+      <div class="copy-clause">
+        <button class="btn" data-copy="universal">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copier
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CLAUSE SWITCHER -->
+  <div class="sec-t">Clause de conservation — choisis selon ce que tu autorises à bouger</div>
+  <div class="clause-box">
+    <div class="tabs">
+      <button class="tab on" data-clause="body">Corps seul</button>
+      <button class="tab" data-clause="head">Tête + corps</button>
+      <button class="tab" data-clause="cam">Caméra / perspective</button>
+    </div>
+    <div class="clause-body">
+      <div class="clause-en">
+        <div class="cap">Clause active — copiée automatiquement avec chaque recette</div>
+        <code id="clause-text">Keep the face, identity, clothing, hair, art style, framing, lighting and background identical. Change only the body and limbs:</code>
+        <div class="clause-fr" id="clause-fr">Conserve le visage, l'identité, les vêtements, les cheveux, le style, le cadrage, la lumière et le décor à l'identique. Modifie seulement le corps et les membres :</div>
+      </div>
+      <div class="copy-clause">
+        <button class="btn" data-copy="clause-text">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copier la clause
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- INTENSITY -->
+  <div class="intensity">
+    <span class="lab">Modulateur ajouté au copier :</span>
+    <span class="pill on" data-int="">aucun</span>
+    <span class="pill" data-int=" Make the movement subtle and gentle.">doux</span>
+    <span class="pill" data-int=" Make the movement strong and exaggerated, pushed to its peak.">poussé</span>
+  </div>
+
+  <div class="meta">
+    <span class="num">45</span>
+    <span class="lab">recettes de reposing<br>11 familles · 3 niveaux de risque</span>
+  </div>
+
+  <!-- FILTERS -->
+  <div class="filters">
+    <button class="chip on" data-fam="all">Toutes</button>
+    <button class="chip" data-fam="A">A · Vie statique</button>
+    <button class="chip" data-fam="B">B · Tête & regard</button>
+    <button class="chip" data-fam="C">C · Bras & mains</button>
+    <button class="chip" data-fam="D">D · Marche</button>
+    <button class="chip" data-fam="E">E · Rotation</button>
+    <button class="chip" data-fam="F">F · Esquive</button>
+    <button class="chip" data-fam="G">G · Frappe</button>
+    <button class="chip" data-fam="H">H · Lancer</button>
+    <button class="chip" data-fam="I">I · Saut</button>
+    <button class="chip" data-fam="J">J · Sol / félin</button>
+    <button class="chip" data-fam="K">K · Caméra</button>
+  </div>
+  <div class="filters">
+    <div class="search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+      <input type="text" id="q" placeholder="Rechercher une recette (torsion, course, bond…)">
+    </div>
+  </div>
+
+  <!-- LEGEND -->
+  <div class="legend">
+    <div class="grp"><b>Risque</b><span class="tags"><span class="dot lo"></span><span class="dot mid"></span><span class="dot hi"></span></span> faible → élevé</div>
+    <div class="grp"><b>ID</b> identité du visage</div>
+    <div class="grp"><b>Anat</b> mains, pieds, articulations</div>
+    <div class="grp"><b>Cadr</b> recalcul de cadrage / fond</div>
+  </div>
+
+  <!-- TABLE -->
+  <div class="tbl">
+    <div class="thead">
+      <div>N°</div><div>Recette</div><div>Risque</div><div>Action</div>
+    </div>
+    <div id="rows"></div>
+    <div class="empty" id="empty">Aucune recette ne correspond.</div>
+  </div>
+
+  <footer>
+    <span>ICHKA Studio · <span class="acc">Bibliothèque vivante & évolutive</span></span>
+    <span>Reposing corporel · GPT Image 2 · 2026</span>
+  </footer>
+</div>
+
+<div class="toast" id="toast">Copié</div>
+
+<script>
+// ---- CLAUSES ----
+const CLAUSES = {
+  body:{
+    en:"Keep the face, identity, clothing, hair, art style, framing, lighting and background identical. Change only the body and limbs:",
+    fr:"Conserve le visage, l'identité, les vêtements, les cheveux, le style, le cadrage, la lumière et le décor à l'identique. Modifie seulement le corps et les membres :"
+  },
+  head:{
+    en:"Keep the identity, clothing, hair, art style, framing, lighting and background identical. Change only the body, limbs and head orientation:",
+    fr:"Conserve l'identité, les vêtements, les cheveux, le style, le cadrage, la lumière et le décor à l'identique. Modifie seulement le corps, les membres et l'orientation de la tête :"
+  },
+  cam:{
+    en:"Keep the face, identity, clothing, hair, art style, subject and lighting identical. Change only the camera angle and perspective:",
+    fr:"Conserve le visage, l'identité, les vêtements, les cheveux, le style, le sujet et la lumière à l'identique. Modifie seulement l'angle de caméra et la perspective :"
+  }
+};
+let activeClause="body";
+let intensity="";
+
+// ---- DATA: 45 recipes ----
+// risk: [id, anat, cadr] each 1=low 2=mid 3=high
+const DATA=[
+ {f:"A",fn:"Vie statique",tw:"Le corps reste calme, on ajoute de la vie",items:[
+  {n:1,name:"Contrapposto léger",lev:["torsion","ligne d'action"],risk:[1,1,1],
+   en:"tilt the hips slightly and let the shoulders rotate gently in the opposite direction, creating a soft contrapposto.",
+   fr:"incline légèrement les hanches et laisse les épaules pivoter doucement en sens inverse, créant un contrapposto subtil."},
+  {n:2,name:"Déhanché",lev:["report de poids","ligne en S"],risk:[1,1,1],
+   en:"shift the body weight onto one leg so the hip pushes out to the side, bending the spine into a soft S-curve, the free leg relaxed.",
+   fr:"reporte le poids sur une jambe pour que la hanche ressorte sur le côté, courbant la colonne en un léger S, l'autre jambe détendue."},
+  {n:3,name:"Appui nonchalant",lev:["diagonale","asymétrie"],risk:[1,1,1],
+   en:"lean the body sideways against a surface, one shoulder dropped, weight tilted, the spine slightly oblique.",
+   fr:"penche le corps sur le côté appuyé contre une surface, une épaule abaissée, le poids basculé, la colonne légèrement oblique."},
+  {n:4,name:"Tension contenue",lev:["asymétrie"],risk:[1,2,1],
+   en:"clench the fists, draw the shoulders down and back, arch the lower back slightly, the whole body holding tension.",
+   fr:"serre les poings, abaisse et recule les épaules, cambre légèrement le bas du dos, tout le corps retenant sa tension."},
+  {n:5,name:"Poitrine soulevée",lev:["ligne d'action"],risk:[1,1,1],
+   en:"lift the chest and open the ribcage in a deep inhale, shoulders rolling slightly back, posture rising.",
+   fr:"soulève la poitrine et ouvre la cage thoracique dans une inspiration profonde, épaules roulant en arrière, posture qui s'élève."},
+  {n:6,name:"Pivot du buste",lev:["torsion"],risk:[1,1,1],
+   en:"rotate the upper torso a quarter turn while the hips stay facing forward, so the chest and shoulders face a different direction than the legs.",
+   fr:"tourne le haut du buste d'un quart de tour pendant que les hanches restent de face, pour que poitrine et épaules regardent ailleurs que les jambes."}
+ ]},
+ {f:"B",fn:"Tête & regard",tw:"Souvent via la clause Tête + corps",items:[
+  {n:7,name:"Inclinaison de tête",lev:["diagonale"],risk:[1,1,1],
+   en:"tilt the head to one side and slightly forward, adding a gentle diagonal to the neck and posture.",
+   fr:"incline la tête sur le côté et légèrement vers l'avant, ajoutant une douce diagonale au cou et à la posture."},
+  {n:8,name:"Regard par-dessus l'épaule",lev:["torsion","ligne d'action"],risk:[2,1,1],
+   en:"turn the upper body away from the viewer and twist the head back over the shoulder to look toward the camera, creating a strong spiral through the spine.",
+   fr:"tourne le haut du corps loin du spectateur et fais pivoter la tête par-dessus l'épaule vers la caméra, créant une forte spirale dans la colonne."},
+  {n:9,name:"Menton levé",lev:["ligne d'action"],risk:[1,1,1],
+   en:"raise the chin and lift the gaze upward, lengthening the neck, the whole posture rising with quiet authority.",
+   fr:"lève le menton et porte le regard vers le haut, allongeant le cou, toute la posture s'élevant avec une autorité tranquille."},
+  {n:10,name:"Tête baissée pensive",lev:["ligne en C"],risk:[1,1,1],
+   en:"lower the head and curl the shoulders slightly inward, the spine softening into a downward C-curve.",
+   fr:"baisse la tête et enroule légèrement les épaules vers l'intérieur, la colonne s'adoucissant en un C descendant."}
+ ]},
+ {f:"C",fn:"Bras & mains",tw:"Surveille les mains (anatomie)",items:[
+  {n:11,name:"Bras tendu vers le haut",lev:["asymétrie","report de poids"],risk:[1,2,1],
+   en:"extend one arm fully upward, palm open, the body stretching and the opposite hip dropping to balance the reach.",
+   fr:"tends un bras complètement vers le haut, paume ouverte, le corps s'étirant et la hanche opposée s'abaissant pour équilibrer."},
+  {n:12,name:"Main sur le cœur",lev:["asymétrie"],risk:[1,2,1],
+   en:"bring one hand to rest over the chest, the other arm hanging loose, shoulders softening inward.",
+   fr:"pose une main sur la poitrine, l'autre bras pendant librement, les épaules s'adoucissant vers l'intérieur."},
+  {n:13,name:"Bras ouverts",lev:["asymétrie"],risk:[1,2,1],
+   en:"open both arms wide and slightly forward, palms turned up, chest lifted in a welcoming gesture.",
+   fr:"ouvre les deux bras largement et légèrement vers l'avant, paumes vers le haut, poitrine soulevée dans un geste d'accueil."},
+  {n:14,name:"Main levée vers la tête",lev:["asymétrie","ligne d'action"],risk:[1,2,1],
+   en:"raise one hand toward the head, the elbow lifting and the torso curving softly toward that side.",
+   fr:"lève une main vers la tête, le coude se soulevant et le torse se courbant doucement de ce côté."},
+  {n:15,name:"Bras croisés tendus",lev:["asymétrie"],risk:[1,2,1],
+   en:"cross the arms firmly over the chest, shoulders squared and broad, weight settled evenly.",
+   fr:"croise fermement les bras sur la poitrine, épaules carrées et larges, poids posé également."}
+ ]},
+ {f:"D",fn:"Marche & déplacement",tw:"Risque moyen",items:[
+  {n:16,name:"Marche dynamique",lev:["torsion","report de poids","asymétrie"],risk:[2,2,1],
+   en:"repose into mid-stride, one leg forward bearing weight, the other pushing off behind, arms swinging in opposition, the torso counter-rotating against the hips.",
+   fr:"repose en pleine foulée, une jambe en avant portant le poids, l'autre poussant derrière, bras balançant en opposition, le torse contre-pivotant sur les hanches."},
+  {n:17,name:"Grande enjambée",lev:["report de poids","diagonale"],risk:[2,2,1],
+   en:"take a long determined step forward, weight thrown ahead, back leg fully extended, torso leaning into the motion, one fist clenched.",
+   fr:"fais un long pas décidé vers l'avant, poids projeté devant, jambe arrière complètement tendue, torse penché dans le mouvement, un poing serré."},
+  {n:18,name:"Course à pleine vitesse",lev:["report de poids","diagonale","apex"],risk:[2,3,2],
+   en:"repose into a full sprint, deep stride, body leaning forward off-balance, arms pumping hard, faint motion blur on the trailing limbs.",
+   fr:"repose en sprint complet, foulée ample, corps penché en avant en déséquilibre, bras pompant fort, léger flou sur les membres arrière."},
+  {n:19,name:"Arrêt brusque / dérapage",lev:["report de poids","asymétrie"],risk:[2,2,2],
+   en:"repose mid-skid, weight dropped low onto a braced front leg, torso recoiling backward, one hand reaching down for balance.",
+   fr:"repose en plein dérapage, poids descendu bas sur une jambe avant calée, torse reculant en arrière, une main tendue vers le sol pour l'équilibre."}
+ ]},
+ {f:"E",fn:"Rotation & volte",tw:"Risque moyen",items:[
+  {n:20,name:"Volte (torsion forte)",lev:["torsion","ligne d'action"],risk:[2,2,2],
+   en:"repose into a spinning turn, shoulders rotating sharply against the hips, arms swinging outward, the body wound into a spiral.",
+   fr:"repose en pleine volte, épaules pivotant brusquement contre les hanches, bras s'écartant, le corps enroulé en spirale."},
+  {n:21,name:"Pivot sur un pied",lev:["torsion","report de poids"],risk:[2,3,2],
+   en:"pivot on one foot, the other lifting off the ground, the torso twisting and arms extending to lead the rotation, weight balanced on the spinning leg.",
+   fr:"pivote sur un pied, l'autre se décollant du sol, le torse se vrillant et les bras s'étendant pour mener la rotation, poids en équilibre sur la jambe pivot."},
+  {n:22,name:"Demi-tour surpris",lev:["torsion","asymétrie"],risk:[2,2,1],
+   en:"repose turning back abruptly, upper body twisting hard toward the viewer ahead of the hips, one foot still planted in the old direction.",
+   fr:"repose en demi-tour brusque, haut du corps se vrillant fort vers le spectateur en avance sur les hanches, un pied encore planté dans l'ancienne direction."}
+ ]},
+ {f:"F",fn:"Esquive & déséquilibre",tw:"Risque moyen",items:[
+  {n:23,name:"Esquive latérale",lev:["diagonale","report de poids"],risk:[2,2,2],
+   en:"repose mid-dodge, body bent low and leaning hard to one side, weight shifted off-center, one arm thrown out for balance, the whole figure on a strong diagonal.",
+   fr:"repose en pleine esquive, corps penché bas et fortement incliné d'un côté, poids décentré, un bras projeté pour l'équilibre, toute la silhouette sur une forte diagonale."},
+  {n:24,name:"Bascule arrière",lev:["ligne d'action","report de poids"],risk:[2,2,2],
+   en:"repose leaning sharply backward, spine arching, arms rising forward as counterweight, weight tipping onto the heels.",
+   fr:"repose penché fortement en arrière, colonne se cambrant, bras montant vers l'avant en contrepoids, poids basculant sur les talons."},
+  {n:25,name:"Au bord de la chute",lev:["report de poids","asymétrie","apex"],risk:[2,3,2],
+   en:"repose off-balance, the body tipping forward past its center of gravity, one foot lifting, arms flailing slightly to recover, caught in the unstable instant.",
+   fr:"repose en déséquilibre, le corps basculant vers l'avant au-delà de son centre de gravité, un pied se soulevant, bras battant légèrement pour se rattraper, figé dans l'instant instable."}
+ ]},
+ {f:"G",fn:"Attaque / frappe",tw:"Risque élevé — surveille mains & visage",items:[
+  {n:26,name:"Coup porté horizontal",lev:["torsion","report de poids","raccourci","apex"],risk:[3,3,2],
+   en:"repose into a horizontal strike at its peak, torso twisting hard against the hips, weight driven onto the front foot, one arm thrust forward in foreshortening toward the viewer, the other pulled back as counterbalance.",
+   fr:"repose en plein coup horizontal à son apex, torse se vrillant fort contre les hanches, poids projeté sur la jambe avant, un bras lancé vers l'avant en raccourci vers le spectateur, l'autre tiré en arrière en contrepoids."},
+  {n:27,name:"Coup vertical descendant",lev:["ligne d'action","report de poids"],risk:[3,3,2],
+   en:"repose into a powerful downward strike, both arms swinging down from overhead, torso folding forward, knees bending, the whole body compressing into the impact.",
+   fr:"repose en puissant coup descendant, les deux bras s'abattant depuis le dessus de la tête, torse se pliant vers l'avant, genoux fléchissant, tout le corps se comprimant dans l'impact."},
+  {n:28,name:"Coup circulaire",lev:["torsion","report de poids","apex"],risk:[3,3,2],
+   en:"repose into a wide circular swing, the torso rotating fully, arms sweeping in a horizontal arc, weight rolling from back foot to front.",
+   fr:"repose en large coup circulaire, le torse pivotant complètement, bras balayant en arc horizontal, poids roulant de la jambe arrière à l'avant."},
+  {n:29,name:"Frappe ascendante",lev:["torsion","report de poids","ligne d'action"],risk:[3,3,2],
+   en:"repose into an upward strike, one arm driving up from low, knees pushing the body upward, torso twisting and uncoiling, weight exploding off the back leg.",
+   fr:"repose en frappe ascendante, un bras propulsé vers le haut depuis le bas, genoux poussant le corps vers le haut, torse se vrillant et se déroulant, poids explosant de la jambe arrière."},
+  {n:30,name:"Estoc en avant",lev:["raccourci","report de poids","diagonale"],risk:[3,3,2],
+   en:"repose into a forward lunge thrust, front leg deeply bent, back leg fully extended, both arms driving straight toward the viewer in strong foreshortening, body stretched into one long diagonal line.",
+   fr:"repose en fente d'estoc, jambe avant profondément fléchie, jambe arrière complètement tendue, les deux bras propulsés droit vers le spectateur en fort raccourci, corps étiré en une longue ligne diagonale."}
+ ]},
+ {f:"H",fn:"Lancer / projection",tw:"Risque élevé",items:[
+  {n:31,name:"Lancer (armé + détente)",lev:["torsion","report de poids","asymétrie"],risk:[3,3,2],
+   en:"repose into a throwing motion, throwing arm cocked far back, torso wound up and twisting open, weight loading on the back leg about to transfer forward, opposite arm pointing toward the target.",
+   fr:"repose en geste de lancer, bras lanceur armé loin en arrière, torse enroulé et se déroulant, poids chargé sur la jambe arrière prêt à se transférer, bras opposé pointant vers la cible."},
+  {n:32,name:"Projection",lev:["torsion","report de poids"],risk:[3,3,2],
+   en:"repose into a forceful throw, torso twisting violently, both arms hurling forward and across the body, weight spinning from one foot to the other.",
+   fr:"repose en projection puissante, torse se vrillant violemment, les deux bras projetant vers l'avant en travers du corps, poids tournant d'un pied à l'autre."},
+  {n:33,name:"Poussée des deux mains",lev:["raccourci","report de poids"],risk:[3,3,2],
+   en:"repose into a two-handed push forward, both arms thrust toward the viewer in foreshortening, palms out, torso leaning into the effort, back leg braced.",
+   fr:"repose en poussée à deux mains vers l'avant, les deux bras lancés vers le spectateur en raccourci, paumes ouvertes, torse penché dans l'effort, jambe arrière calée."}
+ ]},
+ {f:"I",fn:"Saut / chute / acrobatie",tw:"Risque élevé — anatomie en l'air",items:[
+  {n:34,name:"Bond héroïque",lev:["apex","ligne d'action","asymétrie"],risk:[3,3,2],
+   en:"repose suspended in a leap, body lifted off the ground, one leg tucked and one extended, arms spread, spine arched, frozen at the peak of the jump.",
+   fr:"repose suspendu dans un bond, corps décollé du sol, une jambe repliée et une tendue, bras écartés, colonne cambrée, figé à l'apex du saut."},
+  {n:35,name:"Saut recroquevillé",lev:["ligne en C","apex"],risk:[3,3,2],
+   en:"repose mid-air with knees pulled up toward the chest, body compact and curled into a tight C-curve, arms wrapping inward.",
+   fr:"repose en l'air, genoux ramenés vers la poitrine, corps compact enroulé en un C serré, bras enveloppant vers l'intérieur."},
+  {n:36,name:"Chute / suspension",lev:["apex","asymétrie"],risk:[3,3,2],
+   en:"repose falling, body loose and tilting, limbs trailing upward, the figure weightless and off-axis.",
+   fr:"repose en chute, corps relâché et basculant, membres traînant vers le haut, silhouette en apesanteur et désaxée."},
+  {n:37,name:"Salto arrière",lev:["ligne en C","apex","diagonale"],risk:[3,3,3],
+   en:"repose mid-backflip, body inverted and arched in a strong C-curve, legs sweeping overhead, arms reaching, the whole figure on a rotating diagonal.",
+   fr:"repose en plein salto arrière, corps inversé et cambré en un fort C, jambes balayant au-dessus de la tête, bras tendus, toute la silhouette sur une diagonale en rotation."},
+  {n:38,name:"Atterrissage / impact",lev:["ligne d'action","report de poids"],risk:[3,3,2],
+   en:"repose into a heavy landing, one knee down and one fist pressed to the ground, head lowered, shoulders coiled.",
+   fr:"repose en atterrissage lourd, un genou au sol et un poing pressé contre le sol, tête baissée, épaules ramassées."}
+ ]},
+ {f:"J",fn:"Postures au sol / félines",tw:"Risque moyen",items:[
+  {n:39,name:"Accroupi prêt à bondir",lev:["ligne d'action","report de poids"],risk:[2,2,1],
+   en:"repose crouched low, knees bent deep, one hand on the ground, shoulders coiled and weight loaded forward, ready to spring.",
+   fr:"repose accroupi bas, genoux profondément fléchis, une main au sol, épaules ramassées et poids chargé vers l'avant, prêt à bondir."},
+  {n:40,name:"Posture prédatrice",lev:["ligne d'action","asymétrie"],risk:[2,3,1],
+   en:"repose into a predatory stance, spine arched low, fingers spread on the ground, head lowered, the body tense and stalking.",
+   fr:"repose en posture prédatrice, colonne arquée vers le bas, doigts écartés au sol, tête baissée, corps tendu et aux aguets."},
+  {n:41,name:"Relevé du sol",lev:["torsion","report de poids"],risk:[2,3,2],
+   en:"repose mid-rise from the ground, one hand pushing off, one knee lifting, torso twisting upward, weight transferring as the body uncoils to stand.",
+   fr:"repose en plein relevé du sol, une main poussant, un genou se soulevant, torse se vrillant vers le haut, poids se transférant tandis que le corps se déroule pour se lever."}
+ ]},
+ {f:"K",fn:"Caméra & rendu dynamique",tw:"Utilise la clause Caméra / perspective",items:[
+  {n:42,name:"Raccourci agressif",lev:["raccourci"],risk:[1,2,3],
+   en:"re-render the perspective so the nearest limb is thrust dramatically toward the viewer in strong foreshortening, exaggerating depth and pushing the body into the camera.",
+   fr:"recalcule la perspective pour que le membre le plus proche soit projeté dramatiquement vers le spectateur en fort raccourci, exagérant la profondeur et poussant le corps vers la caméra."},
+  {n:43,name:"Angle hollandais",lev:["diagonale"],risk:[1,1,3],
+   en:"tilt the entire frame onto a diagonal Dutch angle so the horizon and the figure lean off-vertical, adding instability and energy.",
+   fr:"bascule tout le cadre sur un angle hollandais diagonal pour que l'horizon et la silhouette penchent hors de la verticale, ajoutant instabilité et énergie."},
+  {n:44,name:"Contre-plongée héroïque",lev:["raccourci"],risk:[2,2,3],
+   en:"re-render from a low angle looking up at the figure so it towers over the viewer, the body foreshortened and monumental.",
+   fr:"recalcule depuis un angle bas regardant la silhouette vers le haut pour qu'elle domine le spectateur, le corps en raccourci et monumental."},
+  {n:45,name:"Flou de mouvement directionnel",lev:["apex"],risk:[1,2,2],
+   en:"add directional motion blur to the moving limbs only, keeping the head and core sharp, to convey speed.",
+   fr:"ajoute un flou de mouvement directionnel aux seuls membres en mouvement, en gardant la tête et le centre nets, pour traduire la vitesse."}
+ ]}
+];
+
+const RISKLAB=["","faible","moyen","élevé"];
+const RISKCLS=["","lo","mid","hi"];
+
+function riskTag(label,val){
+  return `<span class="risk-tag"><span class="dot ${RISKCLS[val]}"></span><span class="lbl">${label}</span></span>`;
+}
+
+// build rows
+const rowsEl=document.getElementById('rows');
+let html="";
+DATA.forEach(fam=>{
+  html+=`<div class="fam-head" data-fam="${fam.f}">
+    <span class="fk">${fam.f}</span>
+    <span class="fn">${fam.fn}</span>
+    <span class="tw">${fam.tw}</span>
+    <span class="fc">${fam.items.length} recettes</span>
+    <span class="arr">▾</span>
+  </div>`;
+  fam.items.forEach(it=>{
+    const search=(it.name+" "+it.en+" "+it.fr+" "+it.lev.join(" ")).toLowerCase();
+    html+=`<div class="row" data-fam="${fam.f}" data-search="${search.replace(/"/g,'')}">
+      <div class="cell c-num">${it.n}</div>
+      <div class="cell c-main">
+        <div class="r-name">${it.name}</div>
+        <div class="r-en" data-en="${it.en.replace(/"/g,'&quot;')}">${it.en}</div>
+        <div class="r-fr">${it.fr}</div>
+        <button class="r-toggle">+ traduction FR</button>
+        <div class="lev">${it.lev.map(l=>`<span>${l}</span>`).join("")}</div>
+      </div>
+      <div class="cell c-risk">
+        ${riskTag("ID",it.risk[0])}
+        ${riskTag("Anat",it.risk[1])}
+        ${riskTag("Cadr",it.risk[2])}
+      </div>
+      <div class="cell c-act">
+        <button class="btn copy-recipe" data-en="${it.en.replace(/"/g,'&quot;')}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copier
+        </button>
+      </div>
+    </div>`;
+  });
+});
+rowsEl.innerHTML=html;
+
+// ---- TOAST ----
+const toast=document.getElementById('toast');
+let toastT;
+function showToast(msg){
+  toast.textContent=msg;toast.classList.add('show');
+  clearTimeout(toastT);toastT=setTimeout(()=>toast.classList.remove('show'),1600);
+}
+function doCopy(text,btn,msg){
+  navigator.clipboard.writeText(text).then(()=>{
+    showToast(msg||"Copié");
+    if(btn){const o=btn.innerHTML;btn.classList.add('copied');btn.textContent="✓ Copié";
+      setTimeout(()=>{btn.classList.remove('copied');btn.innerHTML=o;},1400);}
+  });
+}
+
+// ---- CLAUSE TABS ----
+document.querySelectorAll('.tab').forEach(t=>{
+  t.addEventListener('click',()=>{
+    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));
+    t.classList.add('on');
+    activeClause=t.dataset.clause;
+    document.getElementById('clause-text').textContent=CLAUSES[activeClause].en;
+    document.getElementById('clause-fr').textContent=CLAUSES[activeClause].fr;
+  });
+});
+
+// ---- INTENSITY ----
+document.querySelectorAll('.intensity .pill').forEach(p=>{
+  p.addEventListener('click',()=>{
+    document.querySelectorAll('.intensity .pill').forEach(x=>x.classList.remove('on'));
+    p.classList.add('on');
+    intensity=p.dataset.int||"";
+  });
+});
+
+// ---- COPY (assembled: clause + recipe + intensity) ----
+document.addEventListener('click',e=>{
+  const rc=e.target.closest('.copy-recipe');
+  if(rc){
+    const full=CLAUSES[activeClause].en+" "+rc.dataset.en+intensity;
+    doCopy(full,rc,"Prompt complet copié");
+    return;
+  }
+  const cb=e.target.closest('[data-copy]');
+  if(cb){
+    const el=document.getElementById(cb.dataset.copy);
+    doCopy(el.textContent,cb,"Copié");
+    return;
+  }
+  const tog=e.target.closest('.r-toggle');
+  if(tog){
+    const fr=tog.parentElement.querySelector('.r-fr');
+    fr.classList.toggle('show');
+    tog.textContent=fr.classList.contains('show')?"− masquer FR":"+ traduction FR";
+    return;
+  }
+  const fh=e.target.closest('.fam-head');
+  if(fh){
+    fh.classList.toggle('collapsed');
+    const fam=fh.dataset.fam;
+    document.querySelectorAll(`.row[data-fam="${fam}"]`).forEach(r=>{
+      r.style.display=fh.classList.contains('collapsed')?'none':'';
+    });
+  }
+});
+
+// ---- FILTER + SEARCH ----
+let curFam="all";
+function applyFilter(){
+  const q=document.getElementById('q').value.trim().toLowerCase();
+  let visible=0;
+  // when searching, ignore family collapse & family filter scope on matches
+  document.querySelectorAll('.row').forEach(r=>{
+    const okFam=(curFam==="all"||r.dataset.fam===curFam);
+    const okQ=(!q||r.dataset.search.includes(q));
+    const show=okFam&&okQ;
+    r.classList.toggle('hide',!show);
+    if(show)visible++;
+  });
+  // family headers: hide if filtered out or empty under search
+  document.querySelectorAll('.fam-head').forEach(fh=>{
+    const fam=fh.dataset.fam;
+    const okFam=(curFam==="all"||fam===curFam);
+    const anyVisible=[...document.querySelectorAll(`.row[data-fam="${fam}"]`)].some(r=>!r.classList.contains('hide'));
+    fh.style.display=(okFam&&anyVisible)?'':'none';
+    if(q)fh.classList.remove('collapsed'); // expand all while searching
+  });
+  document.getElementById('empty').style.display=visible?'none':'block';
+}
+document.querySelectorAll('.chip').forEach(c=>{
+  c.addEventListener('click',()=>{
+    document.querySelectorAll('.chip').forEach(x=>x.classList.remove('on'));
+    c.classList.add('on');
+    curFam=c.dataset.fam;
+    applyFilter();
+  });
+});
+document.getElementById('q').addEventListener('input',applyFilter);
+</script>
+</body>
+</html>
