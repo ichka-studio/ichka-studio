@@ -1519,6 +1519,71 @@ body::before {
   max-width: 92%;
 }
 .kb-group[open] .kb-group-title { color: var(--amber); }
+.kb-feature-card {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: minmax(0, 0.72fr) auto;
+  gap: clamp(1rem, 3vw, 2.2rem);
+  align-items: center;
+  min-height: 164px;
+  padding: clamp(1.1rem, 2.5vw, 1.55rem);
+  border: 1px solid rgba(245,166,35,0.22);
+  background:
+    linear-gradient(135deg, rgba(245,166,35,0.085), transparent 42%),
+    linear-gradient(180deg, rgba(22,22,24,0.98), rgba(12,12,14,0.98));
+  color: var(--muted);
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.25s, background 0.25s, transform 0.25s, color 0.25s;
+}
+.kb-feature-card:hover {
+  border-color: rgba(245,166,35,0.38);
+  background:
+    linear-gradient(135deg, rgba(245,166,35,0.12), transparent 46%),
+    linear-gradient(180deg, rgba(24,24,26,0.98), rgba(12,12,14,0.98));
+  color: var(--white);
+  transform: translateY(-2px);
+}
+.kb-feature-kicker {
+  display: block;
+  margin-bottom: 0.65rem;
+  color: var(--amber);
+  font-family: var(--font-mono);
+  font-size: 0.56rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+.kb-feature-title {
+  display: block;
+  margin-bottom: 0.52rem;
+  color: var(--white);
+  font-family: var(--font-display);
+  font-size: clamp(1.65rem, 2.6vw, 2.45rem);
+  line-height: 0.95;
+  letter-spacing: 0.045em;
+  text-transform: uppercase;
+}
+.kb-feature-desc {
+  display: block;
+  max-width: 760px;
+  font-size: 0.82rem;
+  line-height: 1.58;
+}
+.kb-feature-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0.75rem 1rem;
+  border: 1px solid rgba(245,166,35,0.34);
+  color: var(--amber);
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
 .kb-list {
   display: grid;
   grid-template-columns: 1fr;
@@ -1560,6 +1625,8 @@ body::before {
 @media (max-width: 720px) {
   .kb-groups { grid-template-columns: 1fr; }
   .kb-start-grid { grid-template-columns: 1fr; }
+  .kb-feature-card { grid-template-columns: 1fr; }
+  .kb-feature-action { justify-content: flex-start; width: fit-content; }
 }
 @media (min-width: 721px) and (max-width: 1100px) {
   .kb-groups { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -6361,15 +6428,6 @@ footer {
           <p class="gen-action go">Open GPT →</p>
         </div>
       </a>
-      <a rel="noopener" class="gen-card" href="bibliotheque-reposing-ichka.html">
-        <div class="gen-card-img locked" data-initials="RP"></div>
-        <span class="gen-badge free">Free</span>
-        <div class="gen-body">
-          <p class="gen-title">Body Reposing Library</p>
-          <p class="gen-desc">Ready-to-paste recipes for repositioning a frozen body in image editing: balance, arms, legs, movement and intent. French page.</p>
-          <p class="gen-action go">Open library →</p>
-        </div>
-      </a>
       <div class="gen-card soon">
         <div class="gen-card-img locked" data-initials="SN"></div>
         <span class="gen-badge soon">GPT soon</span>
@@ -6539,6 +6597,14 @@ footer {
           <a class="kb-file" href="fiches.html?lang=en#OUTIL_themes-liste.md"><span class="kb-file-name">Theme list to draw from</span><span class="kb-file-type">Tool</span></a>
         </div>
       </details>
+      <a class="kb-feature-card" href="bibliotheque-reposing-ichka.html">
+        <span>
+          <span class="kb-feature-kicker">Practical resource · GPT Image 2</span>
+          <span class="kb-feature-title">Body Reposing Library</span>
+          <span class="kb-feature-desc">Ready-to-paste recipes for repositioning a frozen body in image editing: balance, arms, legs, movement and intent, without changing the subject identity. French page.</span>
+        </span>
+        <span class="kb-feature-action">Open library →</span>
+      </a>
     </div>
   </div>
 </section>
