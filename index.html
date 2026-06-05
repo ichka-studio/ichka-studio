@@ -303,6 +303,25 @@ body::before {
   transition: transform 0.3s ease;
 }
 .hero-cta:hover .hero-cta-arrow { transform: translateX(3px); }
+.hero-cta-secondary {
+  margin-top: 0.82rem;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.54rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(245,166,35,0.28);
+  padding-bottom: 0.12rem;
+  transition: color 0.25s, border-color 0.25s, transform 0.25s;
+}
+.hero-cta-secondary:hover,
+.hero-cta-secondary:focus {
+  color: var(--amber);
+  border-color: var(--amber);
+  transform: translateY(-1px);
+  outline: none;
+}
 
 /* â•â•â• HERO SCROLL INDICATOR â•â•â• */
 .hero-scroll {
@@ -2464,6 +2483,11 @@ footer {
     padding-right: 1rem;
     letter-spacing: 0.15em;
   }
+  .hero-cta-secondary {
+    margin-top: 0.75rem;
+    font-size: 0.52rem;
+    text-align: center;
+  }
   .hero-bottom {
     padding-bottom: 1.2rem;
     justify-content: center;
@@ -2664,6 +2688,7 @@ footer {
       <div class="hero-cta-wrap fu fu4">
         <a href="#portfolio" class="hero-cta">Découvrir les images <span class="hero-cta-arrow">→</span></a>
       </div>
+      <a href="#knowledge" class="hero-cta-secondary fu fu4">Explorer les guides</a>
       <div class="hero-bottom-links fu fu3">
         <span class="hero-bottom-links-label">
           <span class="hero-bottom-links-label-text">Retrouver</span>
@@ -2793,7 +2818,7 @@ footer {
       <div>
         <p class="section-label">Portfolio</p>
         <h2 class="section-title">Portfolio visuel</h2>
-        <p class="section-intro">Explorez les images, utilisez des outils gratuits pour construire vos prompts IA, puis plongez dans les fiches Midjourney pour comprendre les méthodes derrière les créations.</p>
+        <p class="section-intro">Explorez les images par séries, univers ou coups de cœur, puis utilisez les outils et les guides pour comprendre les méthodes derrière les créations.</p>
       </div>
       <a rel="noopener noreferrer" href="https://twitter.com/IchkaStudio" target="_blank" class="section-link social-direct-link">Voir sur X ↗</a>
     </div>

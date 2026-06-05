@@ -276,6 +276,25 @@ body::before {
   transition: transform 0.3s ease;
 }
 .hero-cta:hover .hero-cta-arrow { transform: translateX(3px); }
+.hero-cta-secondary {
+  margin-top: 0.82rem;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.54rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(245,166,35,0.28);
+  padding-bottom: 0.12rem;
+  transition: color 0.25s, border-color 0.25s, transform 0.25s;
+}
+.hero-cta-secondary:hover,
+.hero-cta-secondary:focus {
+  color: var(--amber);
+  border-color: var(--amber);
+  transform: translateY(-1px);
+  outline: none;
+}
 
 /* â•â•â• HERO SCROLL INDICATOR â•â•â• */
 .hero-scroll {
@@ -2437,6 +2456,11 @@ footer {
     padding-right: 1rem;
     letter-spacing: 0.15em;
   }
+  .hero-cta-secondary {
+    margin-top: 0.75rem;
+    font-size: 0.52rem;
+    text-align: center;
+  }
   .hero-bottom {
     padding-bottom: 1.2rem;
     justify-content: center;
@@ -2637,6 +2661,7 @@ footer {
       <div class="hero-cta-wrap fu fu4">
         <a href="#portfolio" class="hero-cta">Explore the images <span class="hero-cta-arrow">→</span></a>
       </div>
+      <a href="#knowledge" class="hero-cta-secondary fu fu4">Explore the guides</a>
       <div class="hero-bottom-links fu fu3">
         <span class="hero-bottom-links-label">
           <span class="hero-bottom-links-label-text">Find</span>
@@ -2766,7 +2791,7 @@ footer {
       <div>
         <p class="section-label">Portfolio</p>
         <h2 class="section-title">Visual Portfolio</h2>
-        <p class="section-intro">Explore the images, use free tools to shape AI prompts, then browse the Midjourney notes to understand the methods behind the creations.</p>
+        <p class="section-intro">Explore the images by series, visual worlds or studio favorites, then use the tools and guides to understand the methods behind the creations.</p>
       </div>
       <a rel="noopener noreferrer" href="https://twitter.com/IchkaStudio" target="_blank" class="section-link social-direct-link">View on X ↗</a>
     </div>
