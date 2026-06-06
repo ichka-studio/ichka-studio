@@ -836,6 +836,51 @@ body::before {
   padding-bottom: 2rem;
   border-bottom: 1px solid rgba(255,255,255,0.055);
 }
+.portfolio-guide {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  margin: 1.5rem 0 0.25rem;
+  border: 1px solid rgba(245,166,35,0.12);
+  background: rgba(245,166,35,0.08);
+}
+.portfolio-guide-item {
+  padding: 1rem 1.05rem 1.05rem;
+  background: linear-gradient(145deg, rgba(255,255,255,0.025), rgba(255,255,255,0.006));
+}
+.portfolio-guide-kicker {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--amber);
+}
+.portfolio-guide-title {
+  margin: 0 0 0.38rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.05rem, 1.8vw, 1.55rem);
+  line-height: 0.95;
+  text-transform: uppercase;
+  color: var(--white);
+}
+.portfolio-guide-text {
+  margin: 0;
+  max-width: 34rem;
+  font-size: 0.78rem;
+  line-height: 1.7;
+  color: var(--muted);
+}
+@media (max-width: 960px) {
+  .portfolio-guide {
+    grid-template-columns: 1fr;
+    margin-top: 1.25rem;
+  }
+  .portfolio-guide-item {
+    padding: 0.95rem;
+  }
+}
 
 /* ─── DÉCORATIONS LATÉRALES ─── */
 .portf-deco {
@@ -2796,6 +2841,24 @@ footer {
         <p class="section-intro">Explore the images by series, visual worlds or studio favorites, then use the tools and guides to understand the methods behind the creations.</p>
       </div>
       <a rel="noopener noreferrer" href="https://twitter.com/IchkaStudio" target="_blank" class="section-link social-direct-link">View on X ↗</a>
+    </div>
+
+    <div class="portfolio-guide" aria-label="Portfolio paths">
+      <div class="portfolio-guide-item">
+        <span class="portfolio-guide-kicker">Quick entry</span>
+        <h3 class="portfolio-guide-title">Monthly Best Of</h3>
+        <p class="portfolio-guide-text">A short selection for recent images and the strongest visual directions.</p>
+      </div>
+      <div class="portfolio-guide-item">
+        <span class="portfolio-guide-kicker">Explore</span>
+        <h3 class="portfolio-guide-title">Strong Series</h3>
+        <p class="portfolio-guide-text">Open a category to follow a world, a character, an atmosphere or a graphic direction.</p>
+      </div>
+      <div class="portfolio-guide-item">
+        <span class="portfolio-guide-kicker">Go deeper</span>
+        <h3 class="portfolio-guide-title">Full Archive</h3>
+        <p class="portfolio-guide-text">Each block can expand so the whole series stays readable on the same page.</p>
+      </div>
     </div>
 
     <div class="portfolio-filters" id="portfolio-filters"></div>
