@@ -2553,6 +2553,26 @@ footer {
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 4px;
   }
+  .gen-grid {
+    gap: 1px;
+  }
+  .gen-card-img::after {
+    font-size: 2.55rem;
+  }
+  .gen-body {
+    padding: 1rem;
+  }
+  .gen-title {
+    font-size: 1.12rem;
+    line-height: 1;
+  }
+  .gen-desc {
+    font-size: 0.74rem;
+    line-height: 1.55;
+  }
+  .gen-action {
+    font-size: 0.55rem;
+  }
   .knowledge-intro {
     font-size: 0.8rem;
     line-height: 1.58;
@@ -2655,9 +2675,24 @@ footer {
   .etsy-strip { flex-direction: column; text-align: center; }
   .kb-count { font-size: 2.2rem; }
   .kb-groups { gap: 0.7rem; }
+  .kb-group {
+    min-height: 0;
+  }
   .kb-group summary {
     grid-template-columns: 1fr;
     gap: 0.35rem;
+    min-height: 0;
+    padding: 0.95rem;
+  }
+  .kb-group-title {
+    max-width: calc(100% - 38px);
+    font-size: 1.18rem;
+    line-height: 1;
+  }
+  .kb-group-desc {
+    max-width: 100%;
+    font-size: 0.72rem;
+    line-height: 1.5;
   }
   .kb-file {
     grid-template-columns: 1fr;
