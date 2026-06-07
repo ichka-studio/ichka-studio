@@ -1608,6 +1608,16 @@ body::before {
   letter-spacing: 0.18em;
   text-transform: uppercase;
   white-space: nowrap;
+  text-decoration: none;
+  transition: background 0.25s, border-color 0.25s, color 0.25s, transform 0.25s;
+}
+.kb-feature-action:hover,
+.kb-feature-action:focus {
+  background: var(--amber);
+  border-color: var(--amber);
+  color: var(--black);
+  outline: none;
+  transform: translateY(-1px);
 }
 .kb-group-desc {
   color: var(--muted);
@@ -6824,14 +6834,14 @@ footer {
           <a class="kb-file" href="fiches.html#OUTIL_themes-liste.md"><span class="kb-file-name">Liste de thèmes à piocher</span><span class="kb-file-type">Outil</span></a>
         </div>
       </details>
-      <a class="kb-feature-card" href="bibliotheque-reposing-ichka.html">
+      <div class="kb-feature-card">
         <span>
           <span class="kb-feature-kicker">Ressource pratique · GPT Image 2</span>
           <span class="kb-feature-title">Bibliothèque de reposing corporel</span>
           <span class="kb-feature-desc">Des recettes prêtes à coller pour repositionner un corps figé en édition d’image : appuis, bras, jambes, mouvement et intention, sans changer l’identité du sujet.</span>
         </span>
-        <span class="kb-feature-action">Ouvrir la bibliothèque →</span>
-      </a>
+        <a class="kb-feature-action" href="bibliotheque-reposing-ichka.html">Ouvrir la bibliothèque →</a>
+      </div>
     </div>
   </div>
 </section>

@@ -1581,6 +1581,16 @@ body::before {
   letter-spacing: 0.18em;
   text-transform: uppercase;
   white-space: nowrap;
+  text-decoration: none;
+  transition: background 0.25s, border-color 0.25s, color 0.25s, transform 0.25s;
+}
+.kb-feature-action:hover,
+.kb-feature-action:focus {
+  background: var(--amber);
+  border-color: var(--amber);
+  color: var(--black);
+  outline: none;
+  transform: translateY(-1px);
 }
 .kb-group-desc {
   color: var(--muted);
@@ -6797,14 +6807,14 @@ footer {
           <a class="kb-file" href="fiches.html?lang=en#OUTIL_themes-liste.md"><span class="kb-file-name">Theme list to draw from</span><span class="kb-file-type">Tool</span></a>
         </div>
       </details>
-      <a class="kb-feature-card" href="bibliotheque-reposing-ichka.html">
+      <div class="kb-feature-card">
         <span>
           <span class="kb-feature-kicker">Practical resource · GPT Image 2</span>
           <span class="kb-feature-title">Body Reposing Library</span>
           <span class="kb-feature-desc">Ready-to-paste recipes for repositioning a frozen body in image editing: balance, arms, legs, movement and intent, without changing the subject identity. French page.</span>
         </span>
-        <span class="kb-feature-action">Open library →</span>
-      </a>
+        <a class="kb-feature-action" href="bibliotheque-reposing-ichka.html">Open library →</a>
+      </div>
     </div>
   </div>
 </section>
