@@ -507,6 +507,14 @@ body::before {
   background-repeat: no-repeat;
 }
 .section-inner { max-width: 1600px; margin: 0 auto; }
+.smart-return-anchor,
+.section-head[id$="-return"] {
+  scroll-margin-top: clamp(1rem, 4vh, 3rem);
+}
+.smart-return-anchor {
+  display: block;
+  height: 0;
+}
 .section-head {
   display: flex; justify-content: space-between; align-items: flex-end;
   margin-bottom: 3.5rem;
@@ -2979,7 +2987,7 @@ footer {
   </div>
 
   <div class="section-inner">
-    <div class="section-head">
+    <div class="section-head" id="portfolio-return">
       <div>
         <p class="section-label">Portfolio</p>
         <h2 class="section-title">Portfolio visuel</h2>
@@ -6566,7 +6574,7 @@ footer {
   </div>
 
   <div class="section-inner">
-    <div class="section-head">
+    <div class="section-head" id="generators-return">
       <div>
         <p class="section-label">Outils IA</p>
         <h2 class="section-title">Outils IA gratuits</h2>
@@ -6719,7 +6727,7 @@ footer {
   </div>
 
   <div class="section-inner">
-    <div class="section-head sr">
+    <div class="section-head sr" id="knowledge-return">
       <div>
         <p class="section-label">Ressources</p>
         <h2 class="section-title">Base de connaissances</h2>
@@ -6887,7 +6895,7 @@ footer {
   </div>
 
   <div class="section-inner">
-    <div class="section-head sr">
+    <div class="section-head sr" id="about-return">
       <div>
         <p class="section-label">À propos</p>
         <div class="about-brand-row">
@@ -6947,6 +6955,7 @@ footer {
           <span class="about-social-link">Contact - ichka-studio@tutamail.com</span>
           <span class="about-social-link">Etsy — Boutique bientôt disponible</span>
         </div>
+        <span class="smart-return-anchor" id="contact-return" aria-hidden="true"></span>
         <div class="etsy-strip" id="contact">
           <p>
             <strong>Contact &amp; demandes</strong>
@@ -6955,6 +6964,7 @@ footer {
           <button type="button" class="btn-etsy copy-email-btn" data-copy-email="ichka-studio@tutamail.com" data-default-text="Copier l'adresse" data-copied-text="Adresse copi&eacute;e" data-status-target="#contact-copy-status-fr">Copier l'adresse</button>
           <span class="contact-copy-status" id="contact-copy-status-fr" aria-live="polite"></span>
         </div>
+        <span class="smart-return-anchor" id="shop-return" aria-hidden="true"></span>
         <div class="etsy-strip" id="shop">
           <p>
             <strong>Boutique en pr&eacute;paration</strong>

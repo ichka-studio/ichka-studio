@@ -480,6 +480,14 @@ body::before {
   background-repeat: no-repeat;
 }
 .section-inner { max-width: 1600px; margin: 0 auto; }
+.smart-return-anchor,
+.section-head[id$="-return"] {
+  scroll-margin-top: clamp(1rem, 4vh, 3rem);
+}
+.smart-return-anchor {
+  display: block;
+  height: 0;
+}
 .section-head {
   display: flex; justify-content: space-between; align-items: flex-end;
   margin-bottom: 3.5rem;
@@ -2952,7 +2960,7 @@ footer {
   </div>
 
   <div class="section-inner">
-    <div class="section-head">
+    <div class="section-head" id="portfolio-return">
       <div>
         <p class="section-label">Portfolio</p>
         <h2 class="section-title">Visual Portfolio</h2>
@@ -6539,7 +6547,7 @@ footer {
   </div>
 
   <div class="section-inner">
-    <div class="section-head">
+    <div class="section-head" id="generators-return">
       <div>
         <p class="section-label">AI Tools</p>
         <h2 class="section-title">Free AI Tools</h2>
@@ -6692,7 +6700,7 @@ footer {
   </div>
 
   <div class="section-inner">
-    <div class="section-head sr">
+    <div class="section-head sr" id="knowledge-return">
       <div>
         <p class="section-label">Resources</p>
         <h2 class="section-title">Knowledge base</h2>
@@ -6860,7 +6868,7 @@ footer {
   </div>
 
   <div class="section-inner">
-    <div class="section-head sr">
+    <div class="section-head sr" id="about-return">
       <div>
         <p class="section-label">About</p>
       <div class="about-brand-row">
@@ -6919,6 +6927,7 @@ footer {
           <span class="about-social-link">Contact - ichka-studio@tutamail.com</span>
           <span class="about-social-link">Etsy — Shop coming soon</span>
         </div>
+        <span class="smart-return-anchor" id="contact-return" aria-hidden="true"></span>
         <div class="etsy-strip" id="contact">
           <p>
             <strong>Contact & requests</strong>
@@ -6927,6 +6936,7 @@ footer {
           <button type="button" class="btn-etsy copy-email-btn" data-copy-email="ichka-studio@tutamail.com" data-default-text="Copy address" data-copied-text="Address copied" data-status-target="#contact-copy-status-en">Copy address</button>
           <span class="contact-copy-status" id="contact-copy-status-en" aria-live="polite"></span>
         </div>
+        <span class="smart-return-anchor" id="shop-return" aria-hidden="true"></span>
         <div class="etsy-strip" id="shop">
           <p>
             <strong>Shop in preparation</strong>
