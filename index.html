@@ -880,12 +880,20 @@ body::before {
   background: rgba(245,166,35,0.12);
 }
 .portfolio-guide-item {
+  display: block;
   padding: 0.85rem 1rem 0.9rem;
   background: linear-gradient(145deg, rgba(255,255,255,0.035), rgba(255,255,255,0.008));
+  color: inherit;
+  text-decoration: none;
   transition: background 0.25s ease, transform 0.25s ease;
 }
-.portfolio-guide-item:hover {
+.portfolio-guide-item:hover,
+.portfolio-guide-item:focus-visible {
   background: linear-gradient(145deg, rgba(245,166,35,0.08), rgba(255,255,255,0.012));
+  outline: none;
+}
+.portfolio-guide-item:focus-visible {
+  box-shadow: inset 0 0 0 1px rgba(245,166,35,0.45);
 }
 .portfolio-guide-kicker {
   display: block;
@@ -2997,23 +3005,24 @@ footer {
     </div>
 
     <div class="portfolio-guide" aria-label="Parcours portfolio">
-      <div class="portfolio-guide-item">
+      <a class="portfolio-guide-item" href="#featured">
         <span class="portfolio-guide-kicker">Entrée rapide</span>
         <h3 class="portfolio-guide-title">Best of du mois</h3>
         <p class="portfolio-guide-text">Une sélection courte pour voir les images récentes et les pistes visuelles les plus fortes.</p>
-      </div>
-      <div class="portfolio-guide-item">
+      </a>
+      <a class="portfolio-guide-item" href="#portfolio-series">
         <span class="portfolio-guide-kicker">Explorer</span>
         <h3 class="portfolio-guide-title">Séries fortes</h3>
         <p class="portfolio-guide-text">Ouvrez une catégorie pour suivre un univers, un personnage, une atmosphère ou une direction graphique.</p>
-      </div>
-      <div class="portfolio-guide-item">
+      </a>
+      <a class="portfolio-guide-item" href="#portfolio-series">
         <span class="portfolio-guide-kicker">Approfondir</span>
         <h3 class="portfolio-guide-title">Tout parcourir</h3>
         <p class="portfolio-guide-text">Dépliez chaque bloc pour parcourir toute la série sans quitter la page.</p>
-      </div>
+      </a>
     </div>
 
+    <span class="smart-return-anchor" id="portfolio-series" aria-hidden="true"></span>
     <div class="portfolio-filters" id="portfolio-filters"></div>
 
     <div class="portfolio-grid">
