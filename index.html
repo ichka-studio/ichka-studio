@@ -3015,7 +3015,7 @@ footer {
         <h3 class="portfolio-guide-title">Séries fortes</h3>
         <p class="portfolio-guide-text">Ouvrez une catégorie pour suivre un univers, un personnage, une atmosphère ou une direction graphique.</p>
       </a>
-      <a class="portfolio-guide-item" href="#portfolio-series">
+      <a class="portfolio-guide-item portfolio-guide-browse" href="#portfolio-series">
         <span class="portfolio-guide-kicker">Approfondir</span>
         <h3 class="portfolio-guide-title">Tout parcourir</h3>
         <p class="portfolio-guide-text">Dépliez chaque bloc pour parcourir toute la série sans quitter la page.</p>
@@ -7368,6 +7368,23 @@ footer {
   grid.style.display = 'none';
   document.getElementById('portfolio-filters').style.display = 'none';
   grid.parentNode.insertBefore(catContainer, grid);
+
+  var browsePortfolioLink = document.querySelector('.portfolio-guide-browse');
+  if (browsePortfolioLink) {
+    browsePortfolioLink.addEventListener('click', function (event) {
+      event.preventDefault();
+      var firstToggle = catContainer.querySelector('.cat-toggle');
+      if (!firstToggle) {
+        catContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        return;
+      }
+      if (firstToggle.getAttribute('aria-expanded') !== 'true') {
+        firstToggle.click();
+      } else {
+        firstToggle.closest('.cat-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  }
 
   // Resize → recalculer masonry des sections ouvertes
   var _timer;
