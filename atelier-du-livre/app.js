@@ -193,6 +193,293 @@ const pad2=n=>String(n).padStart(2,'0');
 const esc=s=>String(s??'').replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
 const escAttr=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const editAttrs=(key,label,locked=false)=>`data-edit="${key}" contenteditable="${locked?'false':'true'}" spellcheck="true" role="textbox" aria-label="${escAttr(label)}" data-placeholder="${escAttr(label)}"`;
+let currentLang='fr';
+const I18N_EN={
+  "ICHKA Studio":"ICHKA Studio",
+  "Atelier du livre":"Book Atelier",
+  "Composer un livre illustré, page par page.":"Compose an illustrated book, page by page.",
+  "Liste des pages":"Page list",
+  "Pages":"Pages",
+  "Page affichée":"Current page",
+  "Dans le livre":"In the book",
+  "Modèle":"Template",
+  "Nom de cette vue":"View name",
+  "Pages intérieures":"Interior pages",
+  "Appliquer":"Apply",
+  "Hors couverture. Exemple : 8, 32, 120 pages.":"Excluding cover. Example: 8, 32, 120 pages.",
+  "Page sélectionnée":"Selected page",
+  "Couverture double":"Full cover",
+  "Couverture recto":"Front cover",
+  "Début du livre":"Start of book",
+  "Fin du livre":"End of book",
+  "Couverture verso":"Back cover",
+  "Choisir un modèle pour cette page":"Choose a template for this page",
+  "Non disponible : la couverture a une mise en page fixe (image, titre, dos), les modèles ne s'y appliquent pas.":"Unavailable: the cover has a fixed layout (image, title, spine), so these templates do not apply.",
+  "Image + texte":"Image + text",
+  "Deux images":"Two images",
+  "Grande image":"Large image",
+  "Page texte":"Text page",
+  "Image seule":"Image only",
+  "Crédits":"Credits",
+  "Format du livre":"Book format",
+  "Carré":"Square",
+  "Poche":"Pocket",
+  "Grand":"Large",
+  "Paysage":"Landscape",
+  "Panoramique":"Panoramic",
+  "Dimensions personnalisées (mm)":"Custom dimensions (mm)",
+  "Largeur":"Width",
+  "Hauteur":"Height",
+  "Marges d'impression (mm)":"Print margins (mm)",
+  "Fond perdu":"Bleed",
+  "Zone sûre":"Safe zone",
+  "Fond perdu : marge coupée par l'imprimeur. Zone sûre : garder textes et logos à l'intérieur.":"Bleed: margin trimmed by the printer. Safe zone: keep text and logos inside.",
+  "Repères d'impression":"Print guides",
+  "Guides sur le livre":"Guides on book",
+  "Masquer":"Hide",
+  "Afficher":"Show",
+  "Les repères aident à composer. Ils ne sortent pas dans le PNG.":"Guides help you compose. They are not included in PNG export.",
+  "Images":"Images",
+  "Charger ou remplacer l'image":"Load or replace image",
+  "Charger ou remplacer l'image gauche":"Load or replace left image",
+  "Charger ou remplacer l'image droite":"Load or replace right image",
+  "Charger ou remplacer l'image double":"Load or replace double image",
+  "Charger ou remplacer la couverture":"Load or replace cover",
+  "Supprimer l'image":"Remove image",
+  "Image par-dessus":"Image overlay",
+  "Supprimer celle du dessus":"Remove overlay",
+  "Image à régler":"Image to adjust",
+  "Image gauche":"Left image",
+  "Image droite":"Right image",
+  "Couleur derrière l'image":"Color behind image",
+  "Force du fond":"Background strength",
+  "Teintes du livre":"Book colors",
+  "Les teintes de ton livre, pour accorder le fond au texte en un clic.":"Book colors, to match background and text in one click.",
+  "Côté de l'image":"Image side",
+  "Gauche":"Left",
+  "Droite":"Right",
+  "Image dans la page":"Image fit",
+  "Remplir":"Fill",
+  "Voir entière":"Fit whole",
+  "Taille de l'image":"Image size",
+  "Gauche / droite":"Left / right",
+  "Haut / bas":"Up / down",
+  "Pivot de l'image":"Image rotation",
+  "Retourner l'image (miroir)":"Flip image",
+  "Trait autour de l'image":"Image border",
+  "Sans":"None",
+  "Avec":"With",
+  "Séparation au milieu":"Center separation",
+  "Trait fin":"Thin line",
+  "Bande douce":"Soft band",
+  "Couleur du milieu":"Center color",
+  "Largeur au milieu":"Center width",
+  "Discrétion":"Subtlety",
+  "Recadrer au centre":"Recenter image",
+  "Filet":"Rule",
+  "Un trait fin, à poser où tu veux sur la page. Rien d'autre : les cadres et les motifs ont été retirés, ils vieillissaient mal et prenaient le pas sur l'image.":"A thin rule you can place anywhere on the page. Nothing else: frames and patterns were removed because they aged badly and overpowered the image.",
+  "Afficher le filet":"Show rule",
+  "Couleur":"Color",
+  "Sert aussi au trait autour des images.":"Also used for image borders.",
+  "Longueur":"Length",
+  "Épaisseur":"Thickness",
+  "Remettre au centre":"Reset to center",
+  "Appliquer à tout le livre":"Apply to whole book",
+  "Textes":"Texts",
+  "Réglages du texte : page active":"Text settings: active page",
+  "Mention du haut":"Top mention",
+  "Sous-titre":"Subtitle",
+  "Titre":"Title",
+  "Largeur du texte":"Text width",
+  "Texte gauche / droite":"Text left / right",
+  "Texte haut / bas":"Text up / down",
+  "Écart entre les textes":"Text spacing",
+  "Alignement du texte":"Text alignment",
+  "Centre":"Center",
+  "Recentrer le texte":"Recenter text",
+  "Verso et dos de la couverture":"Cover back and spine",
+  "Mention du haut, au verso":"Top mention on back",
+  "Titre au verso":"Back title",
+  "Texte au verso":"Back text",
+  "Texte sur le dos":"Spine text",
+  "Le verso, ou quatrième de couverture, est la page qu’on lit en retournant le livre. Le dos est la tranche visible quand le livre est rangé sur une étagère.":"The back cover is the page read when turning the book over. The spine is visible when the book sits on a shelf.",
+  "Paragraphe et papier":"Paragraph and paper",
+  "Le paragraphe est le bloc de texte long de la page. Les titres se règlent juste au-dessus, dans « Textes ».":"The paragraph is the long text block on the page. Titles are adjusted above, in “Texts”.",
+  "Paragraphe de la page":"Page paragraph",
+  "Marges du texte":"Text margins",
+  "Papier":"Paper",
+  "Enregistrer et exporter":"Save and export",
+  "La mise en page se choisit plus haut, dans « Choisir un modèle pour cette page ».":"Choose the layout above, in “Choose a template for this page”.",
+  "Format des fichiers":"File format",
+  "Recommandé par Cewe, accepté par Amazon. Six fois plus léger que le PNG, sans perte visible sur des photos.":"Recommended by Cewe, accepted by Amazon. Six times lighter than PNG, with no visible loss on photos.",
+  "Sans perte, mais environ six fois plus lourd. Repère : au-delà d’une cinquantaine de vues, le PNG risque de dépasser la limite d’Amazon. Le poids réel s’affiche après « Tout le livre ».":"Lossless, but around six times heavier. As a rule: beyond roughly fifty views, PNG may exceed Amazon’s limit. The actual weight appears after “Whole book”.",
+  "Enregistrer le projet":"Save project",
+  "Ouvrir un projet":"Open project",
+  "Remettre les images":"Reconnect images",
+  "Cette double page":"This spread",
+  "Tout le livre":"Whole book",
+  "La fiche technique":"Technical sheet",
+  "Tout effacer":"Clear everything",
+  "Un fichier avec toute ta composition : pages, textes, réglages, cadrages.":"A file with your whole composition: pages, texts, settings and framing.",
+  "Ton filet de sécurité — à refaire de temps en temps.":"Your safety copy — do it again from time to time.",
+  "Recharge une composition enregistrée.":"Reloads a saved composition.",
+  "Remplace le livre en cours.":"Replaces the current book.",
+  "Les images se remettent en place juste après, en une fois.":"Images can be reconnected just after, all at once.",
+  "Les images ne sont pas dans le fichier projet, elles restent sur ton disque.":"Images are not inside the project file; they stay on your drive.",
+  "Pour l'imprimeur, ou pour montrer une page.":"For the printer, or to show a page.",
+  "C'est ce qu'on dépose chez Cewe ou Amazon.":"This is what you upload to Cewe or Amazon.",
+  "Le texte des réglages de cette vue : format, marges, couleurs, polices, contenus.":"The settings text for this view: format, margins, colors, fonts and contents.",
+  "Pour garder une trace ou refaire la même page plus tard.":"To keep a record or recreate the same page later.",
+  "Remet le livre à zéro : pages, textes et images.":"Resets the book: pages, texts and images.",
+  "Irréversible — rien n'est enregistré ailleurs.":"Irreversible — nothing is saved elsewhere.",
+  "Aperçu et fichiers en RVB (sRGB), le profil attendu par Cewe comme par Amazon. Aucune conversion à faire.":"Preview and files are RGB (sRGB), the profile expected by Cewe and Amazon. No conversion needed.",
+  "Page précédente":"Previous page",
+  "Page suivante":"Next page",
+  "Ajouter une page":"Add page",
+  "Dupliquer cette page":"Duplicate page",
+  "Supprimer cette page":"Delete page",
+  "Masquer les outils":"Hide tools",
+  "Afficher les outils":"Show tools",
+  "Masquer les repères":"Hide guides",
+  "Afficher les repères":"Show guides",
+  "Voir le livre seul":"View book only",
+  "Retour à l'édition":"Back to editing",
+  "Fond perdu image qui dépasse pour éviter un bord blanc.":"Bleed: image overflow to avoid white edges.",
+  "Bord coupé limite finale du livre.":"Trim edge: final book limit.",
+  "Zone sûre textes, logo et détails importants dedans.":"Safe zone: keep texts, logo and important details inside.",
+  "Navigation des doubles-pages":"Spread navigation",
+  "Explication des repères d'impression":"Print guide explanation",
+  "Liste des doubles-pages":"Spread list",
+  "Changer de double-page":"Change spread",
+  "Double-page précédente":"Previous spread",
+  "Double-page suivante":"Next spread",
+  "Langue de l'interface":"Interface language",
+  "Nom d’auteur, collection, numéro de série...":"Author name, collection, series number...",
+  "Recueil d’illustrations, chapitre premier, note...":"Illustration collection, first chapter, note...",
+  "Le titre affiché en grand":"The title shown large",
+  "Phrase d’accroche, note, crédits courts...":"Hook line, note, short credits...",
+  "Résumé, intention, crédits courts, phrase forte...":"Summary, intent, short credits, strong line...",
+  "Visible seulement si le livre a assez de pages":"Visible only if the book has enough pages",
+  "Une légende, une présentation, quelques lignes...":"A caption, an introduction, a few lines...",
+  "Rendu...":"Rendering...",
+  "Export indispo ici":"Export unavailable here",
+  "Enregistré ✓":"Saved ✓",
+  "Copié ✓":"Copied ✓",
+  "Sélectionne puis Ctrl/Cmd+C":"Select then Ctrl/Cmd+C",
+  "Aucune correspondance":"No match",
+  "Télécharger les fichiers préparés":"Download prepared files",
+  "Enregistrer":"Save",
+  "Enregistrer le fichier":"Save file",
+  "Sur mobile : appui long sur l'image pour l'enregistrer.":"On mobile: long-press the image to save it.",
+  "Un fichier a été préparé pour chaque vue. Le bouton ci-dessus lance les téléchargements seulement quand tu le demandes.":"One file has been prepared for each view. The button above starts the downloads only when you ask.",
+  "Aucune image importée.":"No image imported.",
+  "Qualité trop basse":"Quality too low",
+  "À vérifier":"Check",
+  "Avancement":"Progress",
+  "Qualité":"Quality",
+  "Export":"Export",
+  "toutes les vues illustrées":"all views illustrated",
+  "résolution trop juste pour l'impression":"resolution too low for print",
+  "aucune image chargée":"no image loaded",
+  "prêt à imprimer":"ready to print",
+  "texte possible":"text possible",
+  "pas de texte sur le dos":"no spine text",
+  "aperçu 30 pages":"30-page preview",
+  "Près du pli":"Near fold",
+  "Pli couverture":"Cover spine",
+  "KDP papier":"KDP paper",
+  "bord coupé":"trim edge",
+  "zone sûre":"safe zone",
+  "pli du livre":"book fold"
+};
+const I18N_TEXT_BASES=new WeakMap();
+const I18N_ATTR_BASES=new WeakMap();
+const I18N_SKIP='script,style,noscript,#spread,#readerSpread,#filmstrip,.book-title,input,textarea,select,option';
+function translatePattern(base){
+  const t=String(base);
+  let m=t.match(/^Page affichée (\d+) \/ (\d+)(.*)$/);
+  if(m)return `Page shown ${m[1]} / ${m[2]}${m[3]}`;
+  m=t.match(/^Page (\d+) \/ (\d+)(.*)$/);
+  if(m)return `Page ${m[1]} / ${m[2]}${m[3]}`;
+  m=t.match(/^(\d+) image attendue$/);
+  if(m)return `${m[1]} image expected`;
+  m=t.match(/^(\d+) images attendues$/);
+  if(m)return `${m[1]} images expected`;
+  m=t.match(/^(\d+) fichier$/);
+  if(m)return `${m[1]} file`;
+  m=t.match(/^(\d+) fichiers$/);
+  if(m)return `${m[1]} files`;
+  m=t.match(/^(\d+) vue\(s\) sans image$/);
+  if(m)return `${m[1]} view(s) without image`;
+  m=t.match(/^(\d+) image\(s\) nette\(s\) pour l'impression$/);
+  if(m)return `${m[1]} image(s) sharp enough for print`;
+  m=t.match(/^(\d+) pages · dos (.+)$/);
+  if(m)return `${m[1]} pages · spine ${tr(m[2])}`;
+  m=t.match(/^(\d+) px de large · prêt à imprimer$/);
+  if(m)return `${m[1]} px wide · ready to print`;
+  return null;
+}
+function tr(base){
+  if(currentLang==='fr')return String(base);
+  return translatePattern(base)||I18N_EN[String(base)]||String(base);
+}
+function translateTextNode(node){
+  if(!node.nodeValue||!node.nodeValue.trim())return;
+  const parent=node.parentElement;
+  if(!parent||parent.closest(I18N_SKIP))return;
+  const base=I18N_TEXT_BASES.get(node)||node.nodeValue;
+  I18N_TEXT_BASES.set(node,base);
+  const left=base.match(/^\s*/)[0];
+  const right=base.match(/\s*$/)[0];
+  node.nodeValue=left+tr(base.trim())+right;
+}
+function translateAttributes(node){
+  if(!node||node.closest?.('#spread,#readerSpread,#filmstrip,.book-title'))return;
+  const attrs=['aria-label','title','placeholder','data-placeholder'];
+  let bases=I18N_ATTR_BASES.get(node);
+  if(!bases){bases={};I18N_ATTR_BASES.set(node,bases);}
+  attrs.forEach(attr=>{
+    if(!node.hasAttribute||!node.hasAttribute(attr))return;
+    if(!bases[attr])bases[attr]=node.getAttribute(attr);
+    node.setAttribute(attr,tr(bases[attr]));
+  });
+}
+function applyLanguage(root=document.body){
+  if(!root)return;
+  translateAttributes(root);
+  const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{
+    acceptNode(node){
+      const parent=node.parentElement;
+      if(!parent||parent.closest(I18N_SKIP))return NodeFilter.FILTER_REJECT;
+      return NodeFilter.FILTER_ACCEPT;
+    }
+  });
+  const nodes=[];
+  while(walker.nextNode())nodes.push(walker.currentNode);
+  nodes.forEach(translateTextNode);
+  root.querySelectorAll?.('*').forEach(translateAttributes);
+  const box=el('langSwitch');
+  if(box)[...box.querySelectorAll('button')].forEach(button=>{
+    const on=button.dataset.lang===currentLang;
+    button.classList.toggle('on',on);
+    button.setAttribute('aria-pressed',on?'true':'false');
+  });
+  document.documentElement.lang=currentLang;
+}
+function setInterfaceLanguage(lang){
+  currentLang=lang==='en'?'en':'fr';
+  applyLanguage();
+}
+function initLanguageSwitch(){
+  const box=el('langSwitch');
+  if(!box)return;
+  box.addEventListener('click',e=>{
+    const button=e.target.closest('button[data-lang]');
+    if(!button)return;
+    setInterfaceLanguage(button.dataset.lang);
+  });
+  setInterfaceLanguage('fr');
+}
 function isPageLocked(page){
   return !!(page&&page.locked);
 }
@@ -1433,6 +1720,7 @@ function refresh(){
   // qu'une fois tout le reste dessiné, sinon le livre garde la taille de la
   // vue précédente pendant un tour.
   sizeSpread();
+  applyLanguage();
 }
 window.addEventListener('resize',()=>{sizeStage();sizeSpread();});
 
@@ -1650,6 +1938,7 @@ function syncCleanPreview(){
   button.classList.toggle('on',cleanPreview);
   button.setAttribute('aria-pressed',cleanPreview?'true':'false');
   button.textContent=cleanPreview?'Afficher les outils':'Masquer les outils';
+  applyLanguage(button);
 }
 function syncUiShell(page=currentPage()){
   const wrap=el('appWrap');
@@ -2545,6 +2834,7 @@ onEl('exportFormat','click',e=>{
   setText('exportFormatNote',exportFormat==='png'
     ?'Sans perte, mais environ six fois plus lourd. Repère : au-delà d’une cinquantaine de vues, le PNG risque de dépasser la limite d’Amazon. Le poids réel s’affiche après « Tout le livre ».'
     :'Recommandé par Cewe, accepté par Amazon. Six fois plus léger que le PNG, sans perte visible sur des photos.');
+  applyLanguage(el('exportFormatNote'));
   syncExportFormatLabels();
 });
 onEl('stripPrev','click',()=>activatePage(activeIndex-1));
@@ -2676,7 +2966,7 @@ el('filmstrip').addEventListener('pointercancel',()=>{
 
 function flash(id,msg){
   const b=el(id),old=b.textContent;
-  b.textContent=msg;
+  b.textContent=tr(msg);
   setTimeout(()=>b.textContent=old,1500);
 }
 function recap(page,index){
@@ -3325,6 +3615,7 @@ function showExports(items,multiple){
     const item=items[0];
     out.innerHTML='<img src="'+item.url+'" alt="Aperçu de la vue">'+bilanExport(items)+'<a class="act" download="'+escAttr(item.name)+'" href="'+escAttr(item.url)+'">Enregistrer le fichier</a><p class="hint">Sur mobile : appui long sur l&#39;image pour l&#39;enregistrer.</p>';
   }
+  applyLanguage(out);
   out.scrollIntoView({behavior:'smooth',block:'nearest'});
 }
 async function exportActive(){
@@ -3332,7 +3623,7 @@ async function exportActive(){
   const old=btn.textContent;
   let failed=false;
   btn.disabled=true;
-  btn.textContent='Rendu...';
+  btn.textContent=tr('Rendu...');
   try{
     const cv=await captureSpread();
     const url=spreadToDataUrl(cv);
@@ -3341,7 +3632,7 @@ async function exportActive(){
   }catch(err){
     failed=true;
     console.error(err);
-    btn.textContent='Export indispo ici';
+    btn.textContent=tr('Export indispo ici');
     setTimeout(()=>btn.textContent=old,1600);
   }finally{
     btn.disabled=false;
@@ -3372,7 +3663,7 @@ async function exportAll(){
   }catch(err){
     failed=true;
     console.error(err);
-    btn.textContent='Export indispo ici';
+    btn.textContent=tr('Export indispo ici');
     setTimeout(()=>btn.textContent=old,1600);
   }finally{
     activeIndex=originalIndex;
@@ -3409,6 +3700,7 @@ window.addEventListener('beforeunload',()=>{
 syncPreviewDock();
 syncControls();
 updateFormatUI();
+initLanguageSwitch();
 
 document.addEventListener('click',e=>{
   const val=e.target.closest('.val');

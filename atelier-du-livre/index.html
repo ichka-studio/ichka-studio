@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ICHKA · Atelier du livre</title>
-<link rel="stylesheet" href="styles.css?v=20260909-01">
+<link rel="stylesheet" href="styles.css?v=20260909-02">
 </head>
 <body>
 <div class="wrap full-ui" id="appWrap">
@@ -15,6 +15,10 @@
       <p class="tagline">Composer un livre illustré, page par page.</p>
     </div>
     <div class="book-title" id="bookTitle" aria-label="Titre du livre"></div>
+    <div class="lang-switch" id="langSwitch" aria-label="Langue de l'interface">
+      <button type="button" class="on" data-lang="fr" aria-pressed="true">FR</button>
+      <button type="button" data-lang="en" aria-pressed="false">EN</button>
+    </div>
     <div class="dashboard" id="dashboard" aria-label="État du livre"></div>
   </header>
 
@@ -336,7 +340,7 @@
     <div id="readerSpread" class="spread reader-spread"></div>
   </div>
 </div>
-<script src="app.js?v=20260909-01"></script>
+<script src="app.js?v=20260909-02"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </body>
 </html>
