@@ -1,5 +1,5 @@
 const PAGE_TEMPLATE={
-  name:'Image + texte 01',kind:'Image + texte',surface:'interior',img:null,imgName:'',imgW:null,imgH:null,img2:null,img2Name:'',img2W:null,img2H:null,imgFit:'fill',imgZoom:100,imgX:0,imgY:0,imgInset:8,imgRule:false,imgRot:0,img2Fit:'fill',img2Zoom:100,img2X:0,img2Y:0,img2Inset:8,img2Rule:false,img2Rot:0,topImg:null,topImgName:'',topImgW:null,topImgH:null,topImgSlot:'img',topImgX:0,topImgY:0,topImgSize:36,topImgRot:0,topImgOpacity:100,topImgRule:false,panoSep:'band',panoColor:'#F7F3EA',panoWidth:18,panoOpacity:24,hue:'#2F3B2E',rule:'#8A6D23',ruleStyle:'none',ruleWeight:2,filetV:2,ruleLength:40,ruleX:50,ruleY:50,intensity:28,side:'left',kick:'SÉRIE 01',chapt:'chapitre premier',
+  name:'Image + texte 01',kind:'Image + texte',surface:'interior',img:null,imgName:'',imgW:null,imgH:null,img2:null,img2Name:'',img2W:null,img2H:null,imgShape:'none',imgShapeAmount:50,imgFrame:1,imgFrameLock:false,img2Shape:'none',img2ShapeAmount:50,img2Frame:1,img2FrameLock:false,imgFit:'fill',imgZoom:100,imgX:0,imgY:0,imgInset:8,imgRule:false,imgRot:0,img2Fit:'fill',img2Zoom:100,img2X:0,img2Y:0,img2Inset:8,img2Rule:false,img2Rot:0,topImg:null,topImgName:'',topImgW:null,topImgH:null,topImgSlot:'img',topImgX:0,topImgY:0,topImgSize:36,topImgRot:0,topImgOpacity:100,topImgRule:false,panoSep:'band',panoColor:'#F7F3EA',panoWidth:18,panoOpacity:24,hue:'#2F3B2E',rule:'#8A6D23',ruleStyle:'none',ruleWeight:2,filetV:2,ruleLength:40,ruleX:50,ruleY:50,intensity:28,side:'left',kick:'SÉRIE 01',chapt:'chapitre premier',
   serie:"Titre de cette page",tsize:34,intro:'Une courte légende ou un texte de présentation pour cette double page.',
   coverBackKick:'NOM DE L’AUTEUR',coverBackTitle:"Phrase d'accroche",coverBackText:'Un espace pour le résumé, une phrase forte, les crédits courts ou une trace graphique.',spineText:'Titre du livre',
   margin:20,paper:'#F7F3EA',layout:'galerie',textWidth:78,textX:0,textY:0,textGap:12,textAlign:'left',titleFont:'playfair',bodyFont:'inter',bodySize:11
@@ -95,9 +95,9 @@ function updateFormatUI(){
 const PRESETS={
   fullCover:{name:'Couverture double',kind:'Couverture double',surface:'cover-wrap',hue:'#2F3B2E',rule:'#C9A24B',ruleStyle:'none',ruleWeight:1,intensity:28,side:'left',kick:'NOM DE L’AUTEUR',coverBackKick:'NOM DE L’AUTEUR',chapt:"Recueil d'illustrations",serie:'Titre du livre',tsize:46,intro:"Un espace pour le résumé, une phrase forte, les crédits courts ou une trace graphique.",coverBackTitle:"Phrase d'accroche",coverBackText:"Un espace pour le résumé, une phrase forte, les crédits courts ou une trace graphique.",spineText:'Titre du livre',margin:18,paper:'#F7F3EA',layout:'coverwrap',textWidth:76,textX:0,textY:0,textAlign:'left',frontTextWidth:76,frontTextX:0,frontTextY:0,frontTextGap:12,frontTextAlign:'left',backTextWidth:76,backTextX:0,backTextY:0,backTextGap:12,backTextAlign:'left',bodySize:11},
   cover:{name:'Couverture recto',kind:'Couverture recto',surface:'cover-front',hue:'#2F3B2E',rule:'#C9A24B',ruleStyle:'none',ruleWeight:1,intensity:28,side:'left',kick:'NOM DE L’AUTEUR',chapt:"Recueil d'illustrations",serie:'Titre du livre',tsize:48,intro:"Monographie d'images, de silences et de couleurs.",margin:18,paper:'#F7F3EA',layout:'galerie',textWidth:76,textX:0,textY:0,textAlign:'left',bodySize:11},
-  insideFront:{name:'Début du livre',kind:'Début du livre',surface:'inside-front',hue:'#2F3B2E',rule:'#C9A24B',ruleStyle:'none',ruleWeight:2,intensity:28,side:'left',kick:'OUVERTURE',chapt:'première page',serie:'Entrer dans le livre',tsize:34,intro:"Un seuil, un silence, une promesse de regard.",margin:20,paper:'#FCFBF8',layout:'galerie',textGap:12,bodySize:11},
-  falseTitle:{name:'Petit titre',kind:'Petit titre',surface:'interior',hue:'#2F3B2E',rule:'#111111',ruleStyle:'none',ruleWeight:1,intensity:28,side:'left',kick:'',chapt:'',serie:'Titre du livre',tsize:34,intro:'',margin:20,paper:'#FCFBF8',layout:'galerie',textGap:12,bodySize:11},
-  preface:{name:'Page texte',kind:'Page texte',surface:'interior',hue:'#2F3B2E',rule:'#B96565',ruleStyle:'none',ruleWeight:1,intensity:28,side:'left',kick:'OUVERTURE',chapt:'avant les images',serie:'Entrer doucement',tsize:34,intro:"Une note d'ouverture pour poser le regard, le rythme et la matière du livre.",margin:20,paper:'#FCFBF8',layout:'galerie',textWidth:78,textX:0,textY:0,textGap:12,textAlign:'left',bodySize:11},
+  insideFront:{name:'Début du livre',kind:'Début du livre',surface:'inside-front',hue:'#2F3B2E',rule:'#C9A24B',ruleStyle:'none',ruleWeight:2,intensity:28,side:'left',kick:'OUVERTURE',chapt:'première page',serie:'Entrer dans le livre',tsize:34,intro:"Un seuil, un silence, une promesse de regard.",margin:20,paper:'#F7F3EA',layout:'galerie',textGap:12,bodySize:11},
+  falseTitle:{name:'Petit titre',kind:'Petit titre',surface:'interior',hue:'#2F3B2E',rule:'#111111',ruleStyle:'none',ruleWeight:1,intensity:28,side:'left',kick:'',chapt:'',serie:'Titre du livre',tsize:34,intro:'',margin:20,paper:'#F7F3EA',layout:'galerie',textGap:12,bodySize:11},
+  preface:{name:'Page texte',kind:'Page texte',surface:'interior',hue:'#2F3B2E',rule:'#B96565',ruleStyle:'none',ruleWeight:1,intensity:28,side:'left',kick:'OUVERTURE',chapt:'avant les images',serie:'Entrer doucement',tsize:34,intro:"Une note d'ouverture pour poser le regard, le rythme et la matière du livre.",margin:20,paper:'#F7F3EA',layout:'galerie',textWidth:78,textX:0,textY:0,textGap:12,textAlign:'left',bodySize:11},
   title:{name:'Titre simple',kind:'Titre simple',surface:'interior',hue:'#2F3B2E',rule:'#1F6F68',ruleStyle:'none',ruleWeight:1,intensity:28,side:'left',kick:'NOM DE L’AUTEUR',chapt:"Recueil d'illustrations",serie:'Titre du livre',tsize:34,intro:'Images, séries et fragments réunis dans une même coquille.',margin:20,paper:'#F7F3EA',layout:'galerie',textGap:12,bodySize:11},
   manifesto:{name:'Intention',kind:'Intention',surface:'interior',hue:'#2F3B2E',rule:'#7A9E7E',ruleStyle:'none',ruleWeight:2,intensity:28,side:'right',kick:'INTENTION',chapt:'coquille constante',serie:'Univers variables',tsize:34,intro:"Grille calme, images fortes, couleur unique par série. Le livre avance par respirations plutôt que par démonstration.",margin:20,paper:'#F7F3EA',layout:'galerie',textGap:12,bodySize:11},
   series:{name:'Image + texte',kind:'Image + texte',surface:'interior',hue:'#2F3B2E',rule:'#6A2C5A',ruleStyle:'none',ruleWeight:2,intensity:28,side:'left',kick:'SÉRIE 01',chapt:'chapitre premier',serie:"Titre de cette page",tsize:34,intro:'Une courte légende ou un texte de présentation pour cette double page.',margin:20,paper:'#F7F3EA',layout:'galerie',textWidth:78,textX:0,textY:0,textGap:12,textAlign:'left',bodySize:11},
@@ -105,9 +105,9 @@ const PRESETS={
   panorama:{name:'Grande image',kind:'Grande image',surface:'interior',hue:'#2F3B2E',rule:'#C9A24B',ruleStyle:'none',ruleWeight:1,panoSep:'band',panoColor:'#F7F3EA',panoWidth:18,panoOpacity:24,intensity:28,side:'left',kick:'',chapt:'',serie:'',tsize:34,intro:'',margin:20,paper:'#F7F3EA',layout:'panorama',textWidth:78,textX:0,textY:0,textGap:12,textAlign:'left',bodySize:11},
   plate:{name:'Image seule',kind:'Image seule',surface:'interior',hue:'#2F3B2E',rule:'#355C7D',ruleStyle:'none',ruleWeight:2,intensity:28,side:'left',kick:'IMAGE',chapt:'image seule',serie:'Titre de cette page',tsize:34,intro:'',margin:20,paper:'#F7F3EA',layout:'galerie',textGap:12,bodySize:11},
   breath:{name:'Pause',kind:'Pause',surface:'interior',hue:'#2F3B2E',rule:'#E8DCC4',ruleStyle:'none',ruleWeight:1,intensity:28,side:'left',kick:'',chapt:'',serie:'',tsize:34,intro:'',margin:20,paper:'#F7F3EA',layout:'galerie',textGap:12,bodySize:11},
-  colophon:{name:'Crédits',kind:'Crédits',surface:'interior',hue:'#2F3B2E',rule:'#111111',ruleStyle:'none',ruleWeight:1,intensity:28,side:'left',kick:'CRÉDITS',chapt:'fabrication',serie:"Phrase d'accroche",tsize:34,intro:'Direction artistique, images, essais couleur, papiers, crédits et notes de fabrication.',margin:20,paper:'#FCFBF8',layout:'galerie',textGap:12,bodySize:11},
+  colophon:{name:'Crédits',kind:'Crédits',surface:'interior',hue:'#2F3B2E',rule:'#111111',ruleStyle:'none',ruleWeight:1,intensity:28,side:'left',kick:'CRÉDITS',chapt:'fabrication',serie:"Phrase d'accroche",tsize:34,intro:'Direction artistique, images, essais couleur, papiers, crédits et notes de fabrication.',margin:20,paper:'#F7F3EA',layout:'galerie',textGap:12,bodySize:11},
   interior:{name:'Pages intérieures',kind:'Image + texte',surface:'interior',hue:'#2F3B2E',rule:'#6A2C5A',ruleStyle:'none',ruleWeight:2,intensity:28,side:'left',kick:'SÉRIE 01',chapt:'chapitre premier',serie:"Titre de cette page",tsize:34,intro:'Une courte légende ou un texte de présentation pour cette double page.',margin:20,paper:'#F7F3EA',layout:'galerie',textWidth:78,textX:0,textY:0,textGap:12,textAlign:'left',bodySize:11},
-  insideBack:{name:'Fin du livre',kind:'Fin du livre',surface:'inside-back',hue:'#2F3B2E',rule:'#B96565',ruleStyle:'none',ruleWeight:2,intensity:28,side:'right',kick:'FIN',chapt:'dernière page',serie:'Dernier regard',tsize:34,intro:"Notes finales, image retenue, respiration avant la sortie.",margin:20,paper:'#FCFBF8',layout:'galerie',textWidth:78,textX:0,textY:0,textGap:12,textAlign:'left',bodySize:11},
+  insideBack:{name:'Fin du livre',kind:'Fin du livre',surface:'inside-back',hue:'#2F3B2E',rule:'#B96565',ruleStyle:'none',ruleWeight:2,intensity:28,side:'right',kick:'FIN',chapt:'dernière page',serie:'Dernier regard',tsize:34,intro:"Notes finales, image retenue, respiration avant la sortie.",margin:20,paper:'#F7F3EA',layout:'galerie',textWidth:78,textX:0,textY:0,textGap:12,textAlign:'left',bodySize:11},
   backCover:{name:'Couverture verso',kind:'Couverture verso',surface:'cover-back',hue:'#2F3B2E',rule:'#C9A24B',ruleStyle:'none',ruleWeight:1,intensity:28,side:'right',kick:'NOM DE L’AUTEUR',chapt:'quatrième de couverture',serie:'Titre du livre',tsize:34,intro:"Un dernier espace pour le résumé, les crédits courts ou une trace graphique.",margin:18,paper:'#F7F3EA',layout:'galerie',textWidth:76,textX:0,textY:0,textAlign:'left',bodySize:11}
 };
 
@@ -177,10 +177,53 @@ const PROJET_VERSION=1;
 const CHAMPS_IMAGE=['img','img2','topImg'];
 const NOMS_IMAGE={img:'imgName',img2:'img2Name',topImg:'topImgName'};
 const IMAGE_FIELDS={
-  img:{url:'img',name:'imgName',w:'imgW',h:'imgH',fit:'imgFit',zoom:'imgZoom',x:'imgX',y:'imgY',inset:'imgInset',rule:'imgRule',rot:'imgRot',flip:'imgFlip'},
-  img2:{url:'img2',name:'img2Name',w:'img2W',h:'img2H',fit:'img2Fit',zoom:'img2Zoom',x:'img2X',y:'img2Y',inset:'img2Inset',rule:'img2Rule',rot:'img2Rot',flip:'img2Flip'}
+  img:{url:'img',name:'imgName',w:'imgW',h:'imgH',fit:'imgFit',zoom:'imgZoom',x:'imgX',y:'imgY',inset:'imgInset',rule:'imgRule',rot:'imgRot',flip:'imgFlip',shape:'imgShape',amount:'imgShapeAmount',frame:'imgFrame',framelock:'imgFrameLock'},
+  img2:{url:'img2',name:'img2Name',w:'img2W',h:'img2H',fit:'img2Fit',zoom:'img2Zoom',x:'img2X',y:'img2Y',inset:'img2Inset',rule:'img2Rule',rot:'img2Rot',flip:'img2Flip',shape:'img2Shape',amount:'img2ShapeAmount',frame:'img2Frame',framelock:'img2FrameLock'}
 };
 const BLANK_IMAGE_BG='#FCFBF8';
+// Teinte unique du papier (l'ancien choix crème/blanc a été retiré de l'interface).
+const PAPER_TINT='#F7F3EA';
+// Numéros de page (folios). Réglage du livre entier, pas de la page : on ne
+// numérote pas une double-page autrement que les autres.
+let folioPosition='both';   // 'none' | 'left' | 'right' | 'both'
+let folioFont='mono';
+// Position dans la page rognée, en % : folioX depuis le bord extérieur,
+// folioY depuis le bas. Bornes volontairement serrées (voir index.html) pour
+// que le numéro reste dans sa page et hors du fond perdu.
+let folioX=10;
+let folioY=8;
+let folioColor='#6E685F';
+const FOLIO_FONT_OPTIONS=[
+  ['mono','Chiffres techniques'],
+  ['cormorant','Cormorant Garamond'],
+  ['ebgaramond','EB Garamond'],
+  ['playfair','Playfair Display'],
+  ['bodoni','Bodoni Moda'],
+  ['cinzel','Cinzel'],
+  ['spectral','Spectral'],
+  ['jost','Jost'],
+  ['inter','Inter']
+];
+function folioFontCss(){
+  return folioFont==='mono'?'var(--mono)':(FONT_STACKS[folioFont]||'var(--mono)');
+}
+// Position du folio en % de la DOUBLE-PAGE dessinée (fond perdu compris), à
+// partir d'un réglage exprimé en % de la page rognée. Le bord rogné est à
+// BLEED_MM du bord dessiné, d'où l'addition.
+// Un livre imprimé ne pose pas de numéro sur une image à fond perdu : le folio
+// va sur la page de papier. « Deux images » et « Grande image » n'ont pas de
+// papier du tout, donc pas de numéro.
+function folioSideAllowed(page,cote){
+  if(page.layout==='dual'||page.layout==='panorama')return false;
+  return effectiveSide(page)!==cote;   // effectiveSide = côté de l'image
+}
+function folioOffsets(){
+  const largeurMm=TRIM_W_MM*2+BLEED_MM*2;
+  const hauteurMm=TRIM_H_MM+BLEED_MM*2;
+  const xMm=BLEED_MM+folioX/100*TRIM_W_MM;
+  const yMm=BLEED_MM+folioY/100*TRIM_H_MM;
+  return {x:+(xMm/largeurMm*100).toFixed(3),y:+(yMm/hauteurMm*100).toFixed(3)};
+}
 const DEFAULT_IMAGE_BG='#2F3B2E';
 const TEXT_ACCENT='#8A6D23';
 const TITLE_ACCENT='#2F3B2E';
@@ -214,7 +257,7 @@ const I18N_EN={
   "Fin du livre":"End of book",
   "Couverture verso":"Back cover",
   "Choisir un modèle pour cette page":"Choose a template for this page",
-  "Non disponible : la couverture a une mise en page fixe (image, titre, dos), les modèles ne s'y appliquent pas.":"Unavailable: the cover has a fixed layout (image, title, spine), so these templates do not apply.",
+  "Les couvertures ont une mise en page fixe : pas de modèle à choisir.":"Covers have a fixed layout: no template to choose.",
   "Image + texte":"Image + text",
   "Deux images":"Two images",
   "Grande image":"Large image",
@@ -255,6 +298,19 @@ const I18N_EN={
   "Force du fond":"Background strength",
   "Teintes du livre":"Book colors",
   "Les teintes de ton livre, pour accorder le fond au texte en un clic.":"Book colors, to match background and text in one click.",
+  "vert profond":"deep green",
+  "sauge":"sage",
+  "vert-de-gris":"verdigris",
+  "doré":"gold",
+  "vieil or":"old gold",
+  "brun chaud":"warm brown",
+  "bordeaux":"burgundy",
+  "bleu ardoise":"slate blue",
+  "gris chaud":"warm grey",
+  "gris foncé":"dark grey",
+  "noir doux":"soft black",
+  "crème":"cream",
+  "Couleur libre (pipette)":"Custom color (eyedropper)",
   "Côté de l'image":"Image side",
   "Gauche":"Left",
   "Droite":"Right",
@@ -276,9 +332,36 @@ const I18N_EN={
   "Largeur au milieu":"Center width",
   "Discrétion":"Subtlety",
   "Recadrer au centre":"Recenter image",
-  "Filet":"Rule",
-  "Un trait fin, à poser où tu veux sur la page. Rien d'autre : les cadres et les motifs ont été retirés, ils vieillissaient mal et prenaient le pas sur l'image.":"A thin rule you can place anywhere on the page. Nothing else: frames and patterns were removed because they aged badly and overpowered the image.",
-  "Afficher le filet":"Show rule",
+  "Détourage de l'image":"Image shape",
+  "Angles normaux":"Square corners",
+  "Angles ronds":"Round corners",
+  "Angles coupés":"Cut corners",
+  "Vieille lettre":"Old letter edge",
+  "Arche":"Arch",
+  "Ovale":"Oval",
+  "Intensité du détourage":"Shape strength",
+  "Figer le cadre":"Lock frame",
+  "Cadre figé":"Frame locked",
+  "Le cadre suit le zoom de l'image jusqu'au bord de la page. Une fois figé, le zoom ne déplace plus que l'image à l'intérieur.":"The frame follows the image zoom up to the page edge. Once locked, zooming only moves the image inside it.",
+  "Non disponible en « Remplir » : l'image doit déborder pour être massicotée. Choisis « Voir entière » juste au-dessus pour pouvoir la détourer.":"Not available in Fill mode: the image must bleed off to be trimmed. Choose Fit whole just above to shape it.",
+  "Numéros de page":"Page numbers",
+  "Réglage valable pour tout le livre. Le numéro se pose sur la page de papier, jamais sur une image à fond perdu ni sur une couverture — comme dans un livre imprimé.":"Applies to the whole book. The number sits on the paper page, never on a full-bleed image or a cover — like a printed book.",
+  "Où les placer":"Where to place them",
+  "Aucun":"None",
+  "Les deux":"Both",
+  "Police des numéros":"Number font",
+  "Écart au bord":"Distance from edge",
+  "Hauteur depuis le bas":"Height from bottom",
+  "Avec deux numéros, ils se placent en miroir : chacun à la même distance de son bord extérieur.":"With two numbers, they mirror each other: each the same distance from its outer edge.",
+  "Couleur des numéros":"Number color",
+  "Chiffres techniques":"Technical figures",
+  "Tout replier":"Collapse all",
+  "Tout déplier":"Expand all",
+  "Non disponible : ce modèle remplit la double page d'images, aucun texte n'y est affiché.":"Not available: this layout fills the spread with images, no text is shown on it.",
+  "Trait décoratif":"Decorative rule",
+  "Un trait fin, à poser où tu veux sur la page. Sa couleur sert aussi au trait autour des images.":"A thin rule you can place anywhere on the page. Its color is also used for the border around images.",
+  "Afficher le trait":"Show rule",
+  "Couleur du trait":"Rule color",
   "Couleur":"Color",
   "Sert aussi au trait autour des images.":"Also used for image borders.",
   "Longueur":"Length",
@@ -301,6 +384,8 @@ const I18N_EN={
   "Mention du haut, au verso":"Top mention on back",
   "Titre au verso":"Back title",
   "Texte au verso":"Back text",
+  "Titre sur le dos":"Title on spine",
+  "Auteur sur le dos":"Author on spine",
   "Texte sur le dos":"Spine text",
   "Le verso, ou quatrième de couverture, est la page qu’on lit en retournant le livre. Le dos est la tranche visible quand le livre est rangé sur une étagère.":"The back cover is the page read when turning the book over. The spine is visible when the book sits on a shelf.",
   "Paragraphe et papier":"Paragraph and paper",
@@ -624,6 +709,119 @@ function imageOffsetX(page,slot='img'){
 function imageOffsetY(page,slot='img'){
   return clamp(page[imageField(slot,'y')],-100,100);
 }
+// Détourage artistique. Deux techniques seulement, les seules que l'export
+// respecte : border-radius pour les formes nettes, et un voile en dégradé pour
+// les fondus. clip-path et mask-image sont ignorés par html2canvas — ils
+// donneraient une belle forme à l'écran et un rectangle chez l'imprimeur.
+const IMAGE_SHAPES=['none','round','bevel','deckle','arch','oval'];
+// Anciennes valeurs : les fondus ont été retirés, « soft » est devenu « round ».
+const IMAGE_SHAPES_ANCIENS={soft:'round',fade:'none',fadeDown:'none'};
+function imageShape(page,slot='img'){
+  let v=page[imageField(slot,'shape')];
+  if(IMAGE_SHAPES_ANCIENS[v])v=IMAGE_SHAPES_ANCIENS[v];
+  return IMAGE_SHAPES.includes(v)?v:'none';
+}
+// Rapport largeur/hauteur de l'image chargée : sert à faire coller la fenêtre
+// à l'image elle-même, et à garder des angles ronds réellement ronds.
+function imageAspect(page,slot='img'){
+  const w=+page[imageField(slot,'w')];
+  const h=+page[imageField(slot,'h')];
+  return (w>0&&h>0)?w/h:0;
+}
+// En « Voir entière », l'image est plus petite que la page : sans cela, la
+// découpe s'appliquerait au cadre de la page et raterait l'image.
+// Taille du cadre de détourage, en fraction de l'ajustement naturel à la page.
+// Tant qu'il n'est pas figé, il suit le zoom de l'image : on dézoome, le cadre
+// rétrécit avec elle ; on zoome, il grandit jusqu'au bord de la page et s'y
+// arrête (au-delà, c'est l'image qui grandit dans un cadre plein format).
+// Une fois figé, le cadre ne bouge plus : le zoom ne déplace que l'image
+// dedans, comme un recadrage.
+function imageFrameLocked(page,slot='img'){
+  return !!page[imageField(slot,'framelock')];
+}
+function imageFrameScale(page,slot='img'){
+  if(imageFrameLocked(page,slot)){
+    const v=+page[imageField(slot,'frame')];
+    return Number.isFinite(v)?Math.min(1,Math.max(0.05,v)):1;
+  }
+  return Math.min(1,Math.max(0.05,imageZoom(page,slot)/100));
+}
+function imageHugs(page,slot='img'){
+  return shapeAvailable(page,slot)&&imageShape(page,slot)!=='none'&&imageAspect(page,slot)>0;
+}
+function imageShapeAmount(page,slot='img'){
+  const v=page[imageField(slot,'amount')];
+  return clamp(Number.isFinite(+v)?+v:50,0,100);
+}
+// Le détourage n'a pas de sens sur une image à fond perdu : elle doit déborder
+// pour être massicotée, on ne va pas lui arrondir les coins.
+function shapeAvailable(page,slot='img'){
+  return imageFit(page,slot)!=='fill';
+}
+// Vagues du bord « vieille lettre ». Faites d'éléments ronds et non d'un fond
+// répété : html2canvas ne sait pas répéter un fond, la découpe ne sortirait pas
+// à l'impression. Les pourcentages sont appariés par le rapport d'image pour
+// que les demi-disques restent ronds quelle que soit la forme de la page.
+function imageCarveMarkup(page,slot='img'){
+  const forme=shapeAvailable(page,slot)?imageShape(page,slot):'none';
+  if(forme!=='deckle')return '';
+  const t=imageShapeAmount(page,slot)/100;
+  const A=imageAspect(page,slot)||1;
+  const periode=3+t*7;                       // en % de la largeur
+  const n=Math.max(4,Math.round(100/periode));
+  const px=100/n;                            // pas horizontal, % de largeur
+  const r=px*0.46;                           // rayon, % de largeur
+  const rh=r*A;                              // même rayon, % de hauteur
+  const m=Math.max(4,Math.round(100/(px*A)));
+  const py=100/m;                            // pas vertical, % de hauteur
+  const rond=(styleSup)=>`<i style="width:${(2*r).toFixed(3)}%;height:${(2*rh).toFixed(3)}%;${styleSup}"></i>`;
+  let html='';
+  for(let i=0;i<n;i++){
+    const x=(px*(i+0.5)-r).toFixed(3);
+    html+=rond(`left:${x}%;top:${(-rh).toFixed(3)}%`);
+    html+=rond(`left:${x}%;top:calc(100% - ${rh.toFixed(3)}%)`);
+  }
+  for(let j=0;j<m;j++){
+    const y=(py*(j+0.5)-rh).toFixed(3);
+    html+=rond(`top:${y}%;left:${(-r).toFixed(3)}%`);
+    html+=rond(`top:${y}%;left:calc(100% - ${r.toFixed(3)}%)`);
+  }
+  return html;
+}
+function imageShapeCss(page,slot='img'){
+  const forme=shapeAvailable(page,slot)?imageShape(page,slot):'none';
+  const t=imageShapeAmount(page,slot)/100;
+  const A=imageAspect(page,slot)||1;      // largeur / hauteur de la fenêtre
+  const fond=rgba(page.hue,1);
+  const vide='rgba(0,0,0,0)';
+  let radius='0';
+  let carve='none';
+  if(forme==='round'){
+    // Rayons appariés : en pourcentage, CSS applique X à la largeur et Y à la
+    // hauteur. Sans cette correction par le rapport d'image, les angles
+    // seraient ovales au lieu d'être ronds.
+    const rx=2+t*22;
+    const ry=Math.min(50,rx*A);
+    radius=`${rx.toFixed(2)}% / ${ry.toFixed(2)}%`;
+  }else if(forme==='oval'){
+    radius='50%';
+  }else if(forme==='arch'){
+    const ry=Math.min(50,25+t*25);
+    radius=`50% 50% 0 0 / ${ry.toFixed(1)}% ${ry.toFixed(1)}% 0 0`;
+  }else if(forme==='bevel'){
+    // Angles coupés : quatre triangles de la couleur du fond, peints par des
+    // dégradés à arrêt net. Bord franc, pas de fondu.
+    // L'arrêt se mesure le long de la ligne du dégradé (la diagonale), pas le
+    // long du côté : sans cette conversion la coupe est bien trop profonde.
+    const c=3+t*17;                       // profondeur voulue, en % du petit côté
+    const p=(c*Math.min(A,1)/(A+1)).toFixed(3);
+    carve=[135,225,315,45].map(a=>`linear-gradient(${a}deg, ${fond} 0 ${p}%, ${vide} ${p}%)`).join(',');
+  }
+  // « Vieille lettre » n'est pas traité ici : html2canvas ne répète aucun fond
+  // (vérifié : ni en %, ni en px, ni repeating-gradient). Les vagues sont donc
+  // faites de vrais éléments ronds, voir imageCarveMarkup().
+  return `--imgaspect:${A.toFixed(4)};--imgradius:${radius};--imgcarve:${carve};--imgcarvecolor:${fond};`;
+}
 function imageInset(page,slot='img'){
   return clamp(page[imageField(slot,'inset')],0,40);
 }
@@ -684,7 +882,14 @@ function imageVars(page,slot='img'){
   const fit=imageFit(page,slot);
   const objectFit=fit==='fill'?'cover':'contain';
   const inset=fit==='inset'?imageInset(page,slot)+'%':'0%';
-  return `--underbg:${imageBackground(page,slot)};--imgfit:${objectFit};--imgscale:${(imageZoom(page,slot)/100).toFixed(2)};--imgx:${imageOffsetX(page,slot)}%;--imgy:${imageOffsetY(page,slot)}%;--imgrot:${imageRotation(page,slot)}deg;--imgflip:${imageFlipped(page,slot)?-1:1};--imginset:${inset};--imgborder:${imageRule(page,slot)?liseretWeight(page):0}px;`;
+  // Quand le cadre épouse l'image, il porte déjà une partie du zoom : l'image
+  // ne doit appliquer que le reste, sinon le zoom serait compté deux fois.
+  const cadre=imageHugs(page,slot)?imageFrameScale(page,slot):1;
+  // Jamais en dessous de 1 quand le cadre est figé : sinon l'image devient plus
+  // petite que son cadre et le fond apparaît à l'intérieur de la découpe.
+  const brut=(imageZoom(page,slot)/100)/cadre;
+  const echelle=(imageHugs(page,slot)&&imageFrameLocked(page,slot))?Math.max(1,brut):brut;
+  return `${imageShapeCss(page,slot)}--imgwin:${cadre.toFixed(4)};--underbg:${imageBackground(page,slot)};--imgfit:${objectFit};--imgscale:${echelle.toFixed(3)};--imgx:${imageOffsetX(page,slot)}%;--imgy:${imageOffsetY(page,slot)}%;--imgrot:${imageRotation(page,slot)}deg;--imgflip:${imageFlipped(page,slot)?-1:1};--imginset:${inset};--imgborder:${imageRule(page,slot)?liseretWeight(page):0}px;`;
 }
 function imageBackground(page,slot='img'){
   return imageUrl(page,slot)?rgba(page.hue,page.intensity/100):(page.paper||BLANK_IMAGE_BG);
@@ -947,10 +1152,12 @@ function makePage(overrides={}){
   if(!Object.prototype.hasOwnProperty.call(overrides,'surface'))page.surface=surfaceForKind(page.kind);
   const preservesBlankColor=Object.prototype.hasOwnProperty.call(overrides,'img')||Object.prototype.hasOwnProperty.call(overrides,'img2');
   if(!preservesBlankColor&&!page.img&&!page.img2){
-    page.paper=BLANK_IMAGE_BG;
     page.hue=BLANK_IMAGE_BG;
     page.intensity=100;
   }
+  // Le papier n'est plus réglable : une seule teinte pour tout le livre. On la
+  // réimpose ici pour que les anciens projets s'alignent aussi à l'ouverture.
+  page.paper=PAPER_TINT;
   applySurfaceRules(page);
   return page;
 }
@@ -980,10 +1187,36 @@ function pageRange(index,page=pages[index]){
   if(page.surface==='cover-back')return 'couverture verso';
   return `p. ${start}-${start+1}`;
 }
-function paperFolio(index,page){
-  const start=interiorPageStart(index);
-  if(isMixedCover(page))return pad2(start);
-  return effectiveSide(page)==='left'?pad2(start+1):pad2(start);
+// Les folios sont posés au niveau de la double-page, pas dans une page : ils
+// doivent pouvoir apparaître des deux côtés quelle que soit la mise en page
+// (image + texte, deux images, grande image).
+function folioMarks(page,index){
+  if(folioPosition==='none')return '';
+  if(isFullCover(page)||isSingleCover(page))return '';
+  const debut=interiorPageStart(index);
+  let gauche='',droite='';
+  if(isMixedCover(page)){
+    // Une seule page intérieure dans la vue : à droite au début du livre,
+    // à gauche à la fin.
+    if(page.surface==='inside-front')droite=pad2(debut);
+    else gauche=pad2(debut);
+  }else{
+    gauche=pad2(debut);
+    droite=pad2(debut+1);
+  }
+  if(!folioSideAllowed(page,'left'))gauche='';
+  if(!folioSideAllowed(page,'right'))droite='';
+  if(!gauche&&!droite)return '';
+  const {x,y}=folioOffsets();
+  const police=folioFontCss();
+  const veut=cote=>folioPosition==='both'||folioPosition===cote;
+  const style=`bottom:${y}%;font-family:${police};color:${folioColor}`;
+  let html='';
+  // Chacun se mesure depuis SON bord extérieur : c'est ce qui les rend
+  // symétriques l'un de l'autre sans réglage séparé.
+  if(gauche&&veut('left'))html+=`<span class="folio folio-left" style="left:${x}%;${style}">${gauche}</span>`;
+  if(droite&&veut('right'))html+=`<span class="folio folio-right" style="right:${x}%;${style}">${droite}</span>`;
+  return html;
 }
 function mmPct(value,total){
   return (value/total*100).toFixed(3)+'%';
@@ -1118,8 +1351,9 @@ function imageLayer(page,slot='img',withShade=true){
   }
   const src=imageUrl(page,slot);
   if(!src)return '';
-  return `<span class="image-window">
+  return `<span class="image-window${imageHugs(page,slot)?' hug':''}">
       <img class="image-layer" src="${escAttr(src)}" alt="">
+      <span class="image-carve">${imageCarveMarkup(page,slot)}</span>
       ${withShade?'<span class="darken"></span>':''}
     </span>`;
 }
@@ -1345,7 +1579,6 @@ function galerie(page,index){
           ${textLine(page,'intro','p','intro','Paragraphe')}
         </div>
       </div>
-      <div class="folio">${paperFolio(index,page)}</div>
     </div>`;
   return imgpage+paper;
 }
@@ -1383,7 +1616,10 @@ function fullCover(page){
           </div>
         </div>
       </div>
-      <div class="cover-spine-zone ${spineOk?'':'too-small'}"><span style="${textStyleVars(page,'spineText')}" ${editAttrs('spineText','Texte sur le dos')}>${esc(spine)}</span></div>
+      <div class="cover-spine-zone ${spineOk?'':'too-small'}">
+        ${isTextHidden(page,'spineText')?'':`<span class="spine-title" style="${textStyleVars(page,'serie')}" ${editAttrs('spineText','Titre sur le dos')}>${esc(spine)}</span>`}
+        ${isTextHidden(page,'kick')?'':`<span class="spine-author" style="${textStyleVars(page,'kick')}" ${editAttrs('kick','Auteur sur le dos')}>${esc(page.kick||'')}</span>`}
+      </div>
       <div class="cover-zone cover-front-zone">
         ${ruleOrnament(page)}
         <div class="cover-copy copy-block ${copyClass(page,'front')}" data-text-area="front" style="${copyVars(page,'front')}">
@@ -1490,7 +1726,7 @@ function spreadCore(page,index){
 }
 function spreadMarkup(page,index,{zones=true,guides=true}={}){
   const lockBadge=guides&&isPageLocked(page)?'<div class="page-locked-badge" data-html2canvas-ignore="true">🔒 Page verrouillée</div>':'';
-  return spreadCore(page,index)+(zones?printZoneMap(page):'')+(guides?printGuides(page):'')+lockBadge;
+  return spreadCore(page,index)+folioMarks(page,index)+(zones?printZoneMap(page):'')+(guides?printGuides(page):'')+lockBadge;
 }
 // Hauteur d'affichage commune à toutes les vues. Le livre est le même d'une page
 // à l'autre : il doit garder la même hauteur à l'écran, seule sa largeur change
@@ -1597,12 +1833,11 @@ function thumbMarkup(page,index){
       : page.layout==='dual'
         ? `<span class="thumb-page ${thumbImageClass(page,'img')}" style="${imageStyle(page,'img')}"></span><span class="thumb-page ${thumbImageClass(page,'img2')}" style="${imageStyle(page,'img2')}"></span>`
         : `<span class="thumb-page ${imgClass}" style="${imageStyle(page)}"></span><span class="thumb-page thumb-paper ${ruleClass(page)}" style="background-color:${page.paper}"></span>`;
-  return `<button class="thumb${isActive?' on':''}" type="button" draggable="true" data-index="${index}" aria-current="${isActive?'page':'false'}" aria-label="Page ${index+1} de la liste, ${escAttr(label)}" title="${escAttr(pageRange(index,page)+' · '+page.kind+' · '+label)}">
+  return `<button class="thumb${isActive?' on':''}" type="button" draggable="true" data-index="${index}" aria-current="${isActive?'page':'false'}" aria-label="Page ${index+1} de la liste, ${escAttr(label)}" title="${escAttr(pad2(index+1)+' / '+pad2(pages.length)+' · '+pageRange(index,page)+' · '+page.kind+' · '+label)}">
       <span class="thumb-spread-wrap"><span class="thumb-spread${full?' cover-full':''}${single?' single':''}${page.layout==='panorama'?' panorama sep-'+panoSep(page):''}${!full&&!single&&page.layout!=='panorama'&&side==='right'?' imgright':''}" style="--underbg:${imageBackground(page,'img')};${thumbRuleVars(page)}${panoVars(page)}">
         ${pagesHtml}
       </span></span>
       <span class="thumb-lock${page.locked?' on':''}" data-lock="${index}" role="button" tabindex="0" aria-pressed="${page.locked?'true':'false'}" title="${page.locked?'Page verrouillée — cliquer pour déverrouiller':'Verrouiller cette page'}">${page.locked?'🔒':'🔓'}</span>
-      <span class="thumb-label">${pad2(index+1)} / ${pad2(pages.length)} · ${esc(pageRange(index,page))}</span>
       <span class="thumb-name">${esc(label)}</span>
     </button>`;
 }
@@ -1612,9 +1847,24 @@ function renderRail(){
   el('spreadPos').textContent=`${activeIndex+1} / ${pages.length}`;
   el('spreadPages').textContent=pageRange(activeIndex);
   el('spreadType').textContent=currentPage().kind;
-  el('prevPage').disabled=activeIndex===0;
-  el('nextPage').disabled=activeIndex===pages.length-1;
   el('delPage').disabled=pages.length===1;
+  montrerVignetteActive();
+}
+// La pellicule n'a plus de barre de défilement : il faut donc amener nous-mêmes
+// la vignette active dans la zone visible, sinon sur un livre long on ne voit
+// plus où on est. On ne touche qu'au défilement de la pellicule (pas de
+// scrollIntoView, qui ferait aussi bouger la page entière).
+function montrerVignetteActive(){
+  const strip=el('filmstrip');
+  const actif=strip&&strip.children[activeIndex];
+  if(!strip||!actif)return;
+  // On compare des rectangles écran : offsetLeft serait relatif au premier
+  // ancêtre positionné, qui n'est pas la pellicule.
+  const marge=8;
+  const zone=strip.getBoundingClientRect();
+  const v=actif.getBoundingClientRect();
+  if(v.left<zone.left)strip.scrollLeft-=(zone.left-v.left)+marge;
+  else if(v.right>zone.right)strip.scrollLeft+=(v.right-zone.right)+marge;
 }
 function totalInteriorPages(){
   return pages.reduce((sum,page)=>sum+interiorPageCount(page),0);
@@ -1637,15 +1887,44 @@ function bookStats(){
   });
   return {illustrees,vues:pages.length,placees,aRevoir};
 }
+function coverPageForTitle(){
+  return pages.find(p=>p.surface==='cover-wrap')||pages.find(p=>p.surface==='cover-front')||null;
+}
+// Champs jumelés de la couverture double : on écrit toujours les deux pour
+// qu'ils ne puissent jamais diverger.
+//   - la mention d'auteur est commune au recto et au verso ;
+//   - le texte du dos est le titre du livre.
+const COVER_TWIN={kick:'coverBackKick',coverBackKick:'kick',serie:'spineText',spineText:'serie'};
+function syncCoverTwin(page,key,value){
+  if(!page||!isFullCover(page))return null;
+  const twin=COVER_TWIN[key];
+  if(!twin)return null;
+  page[twin]=value;
+  return twin;
+}
+// Recopie une valeur dans la ligne déjà affichée, sans reconstruire la page :
+// un refresh() pendant la frappe détruirait le curseur et la sélection.
+function paintTextLine(key,value,skipNode){
+  document.querySelectorAll(`#spread [data-edit="${key}"]`).forEach(node=>{
+    if(node===skipNode)return;
+    if(node.innerText.replace(/ /g,' ').trim()===String(value).trim())return;
+    node.textContent=value;
+  });
+}
 function renderBookTitle(){
   const box=el('bookTitle');
   if(!box)return;
-  const couverture=pages.find(p=>p.surface==='cover-wrap')||pages.find(p=>p.surface==='cover-front');
-  const titre=couverture&&!isTextHidden(couverture,'serie')?String(couverture.serie||'').trim():'';
-  if(!titre){box.innerHTML='';return;}
-  const sousTitre=couverture&&!isTextHidden(couverture,'chapt')?String(couverture.chapt||'').trim():'';
-  box.innerHTML=`<span class="book-title-main" style="font-family:${TITLE_FONTS[titleFontKey(couverture)]}">${esc(titre)}</span>`+
-    (sousTitre?`<span class="book-title-sub" style="font-family:${TITLE_FONTS[titleFontKey(couverture)]}">${esc(sousTitre)}</span>`:'');
+  // Pendant la frappe dans l'en-tête, on ne réécrit pas la zone : sinon le
+  // curseur repartirait au début à chaque lettre.
+  if(box.contains(document.activeElement))return;
+  const couverture=coverPageForTitle();
+  if(!couverture){box.innerHTML='';return;}
+  const police=TITLE_FONTS[titleFontKey(couverture)];
+  const verrou=isPageLocked(couverture);
+  const titre=isTextHidden(couverture,'serie')?'':String(couverture.serie||'').trim();
+  const sousTitre=isTextHidden(couverture,'chapt')?'':String(couverture.chapt||'').trim();
+  const champ=(cls,key,valeur,repere)=>`<span class="${cls}" data-book-edit="${key}" contenteditable="${verrou?'false':'true'}" spellcheck="true" role="textbox" data-placeholder="${escAttr(repere)}" style="font-family:${police}">${esc(valeur)}</span>`;
+  box.innerHTML=champ('book-title-main','serie',titre,'Titre du livre')+champ('book-title-sub','chapt',sousTitre,'Sous-titre');
 }
 function renderDashboard(){
   const box=el('dashboard');
@@ -1679,6 +1958,23 @@ function canUseSecondImage(page){
 function visibleImageSlot(page=currentPage()){
   if(!canUseSecondImage(page)&&activeImageSlot==='img2')activeImageSlot='img';
   return activeImageSlot;
+}
+// Le dos reprend la couleur et la police du titre et de la mention d'auteur de
+// la couverture, mais pas leur taille : une tranche fait quelques millimètres,
+// un titre de couverture y déborderait largement. On plafonne donc après la
+// mise en page, quand la largeur réelle du dos est connue.
+const SPINE_TEXT_RATIO=0.62;
+function fitSpineText(){
+  document.querySelectorAll('.cover-spine-zone').forEach(zone=>{
+    const large=zone.clientWidth;
+    if(!large)return;
+    const plafond=large*SPINE_TEXT_RATIO;
+    zone.querySelectorAll('span').forEach(span=>{
+      span.style.removeProperty('font-size');
+      const voulu=parseFloat(getComputedStyle(span).fontSize)||0;
+      if(voulu>plafond)span.style.fontSize=plafond.toFixed(2)+'px';
+    });
+  });
 }
 function fitTextTools(){
   const spread=el('spread');
@@ -1715,6 +2011,7 @@ function refresh(){
   updateTextToolbars();
   renderReader();
   fitTextTools();
+  fitSpineText();
   sizeStage();
   // Dernier mot sur la taille du livre : la place disponible n'est connue
   // qu'une fois tout le reste dessiné, sinon le livre garde la taille de la
@@ -1729,30 +2026,83 @@ function setSegment(box,value){
   if(!node)return;
   [...node.children].forEach(button=>button.classList.toggle('on',button.dataset.v===value));
 }
-function setPaperButton(value){
-  [...el('paper').children].forEach(button=>button.classList.toggle('on',button.dataset.c.toLowerCase()===value.toLowerCase()));
+function setFolioColorButton(value){
+  const box=el('folioColors');
+  if(!box)return;
+  const courant=String(value||'').toLowerCase();
+  let connu=false;
+  box.querySelectorAll('button[data-c]').forEach(b=>{
+    const on=b.dataset.c.toLowerCase()===courant;
+    b.classList.toggle('on',on);
+    if(on)connu=true;
+  });
+  const pick=el('folioColor');
+  if(pick){
+    if(courant)pick.value=courant;
+    const cell=pick.closest('.pick');
+    if(cell)cell.classList.toggle('on',!connu&&!!courant);
+  }
 }
 function setRuleButton(value){
-  [...el('rules').children].forEach(button=>button.classList.toggle('on',button.dataset.c.toLowerCase()===value.toLowerCase()));
+  const box=el('rules');
+  if(!box)return;
+  const courant=String(value||'').toLowerCase();
+  let connu=false;
+  box.querySelectorAll('button[data-c]').forEach(b=>{
+    const on=b.dataset.c.toLowerCase()===courant;
+    b.classList.toggle('on',on);
+    if(on)connu=true;
+  });
+  // La pipette s'allume quand la couleur ne correspond à aucune teinte.
+  const pick=el('rule');
+  if(pick){
+    if(courant)pick.value=courant;
+    const cell=pick.closest('.pick');
+    if(cell)cell.classList.toggle('on',!connu&&!!courant);
+  }
 }
 // Le filet se pose sur la page de papier : le modèle « Deux images » n'en a pas.
 function decorPossible(page=currentPage()){
   return page.layout!=='dual';
 }
+// « Deux images » et « Grande image » remplissent la double page d'images :
+// aucune ligne de texte n'y est rendue, les réglages de texte n'auraient donc
+// aucun effet. Même convention de grisage que pour le trait.
+function syncTexteDisponible(page=currentPage()){
+  const sansTexte=(page.layout==='dual'||page.layout==='panorama')&&!isFullCover(page)&&!isSingleCover(page);
+  ['kick','chapt','serie','intro','tw','tx','ty','tg','m','resetTextBlock'].forEach(id=>{
+    const n=el(id);
+    if(n)n.disabled=sansTexte;
+  });
+  const align=el('textAlign');
+  if(align)align.querySelectorAll('button').forEach(b=>{b.disabled=sansTexte;});
+  const note=el('textNote');
+  if(note){
+    note.hidden=!sansTexte;
+    note.textContent=sansTexte?"Non disponible : ce modèle remplit la double page d'images, aucun texte n'y est affiché.":'';
+  }
+}
 function syncDecorDisponible(){
   const possible=decorPossible();
   ['filetOn','rw','rl','rx','ry','resetRule','ruleToAll'].forEach(id=>{const n=el(id);if(n)n.disabled=!possible;});
+  // Seules les pastilles sont grisées : la pipette reste active car cette
+  // couleur sert aussi au trait autour des images, disponible sur « Deux images ».
   const box=el('rules');
-  if(box)[...box.children].forEach(b=>{b.disabled=!possible;});
+  if(box)box.querySelectorAll('button[data-c]').forEach(b=>{b.disabled=!possible;});
   const note=el('decorNote');
   if(note){
     note.hidden=possible;
-    note.textContent=possible?'':"Non disponible : « Deux images » remplit la double page d'images bord à bord, il n'y a pas de page de papier où poser un filet.";
+    note.textContent=possible?'':"Non disponible : « Deux images » remplit la double page d'images bord à bord, il n'y a pas de page de papier où poser un trait.";
   }
 }
 function setRuleStyleButton(value){
+  const actif=value==='line';
   const b=el('filetOn');
-  if(b){b.classList.toggle('on',value==='line');b.setAttribute('aria-pressed',value==='line'?'true':'false');}
+  if(b){b.classList.toggle('on',actif);b.setAttribute('aria-pressed',actif?'true':'false');}
+  // Tant que le trait n'est pas affiché, ses réglages ne servent à rien : on
+  // les replie pour ne laisser que le bouton et la couleur.
+  const section=document.querySelector('.section-decor');
+  if(section)section.classList.toggle('rule-off',!actif);
 }
 function surfacePresetForPage(page){
   if(page.surface==='cover-wrap')return 'fullCover';
@@ -1870,10 +2220,63 @@ function syncControls(){
     field.disabled=hidden;
     field.closest('.field')?.classList.toggle('field-removed',hidden);
   });
-  setVal('coverBackKick',page.coverBackKick||page.kick||'');
+  // « Mention du haut, au verso » et « Texte sur le dos » n'ont plus de champ
+  // dans le panneau : ils sont jumelés au recto (voir COVER_TWIN) et se
+  // modifient directement sur la page.
   el('coverBackTitle').value=page.coverBackTitle||page.chapt||'';
   el('coverBackText').value=page.coverBackText||page.intro||'';
-  el('spineText').value=page.spineText||page.serie||'';
+  // Détourage : les boutons suivent l'image en cours, et tout est grisé quand
+  // l'image est à fond perdu (elle doit déborder, pas être découpée).
+  const dispoForme=shapeAvailable(page,slot);
+  const formeActive=imageShape(page,slot);
+  const boiteForme=el('imgShape');
+  if(boiteForme)boiteForme.querySelectorAll('button[data-v]').forEach(b=>{
+    b.classList.toggle('on',dispoForme&&b.dataset.v===formeActive);
+    b.disabled=!dispoForme;
+  });
+  const curseurForme=el('ishape');
+  if(curseurForme){
+    const valeur=imageShapeAmount(page,slot);
+    curseurForme.value=valeur;
+    curseurForme.disabled=!dispoForme||formeActive==='none'||formeActive==='oval';
+    el('ishapeV').textContent=valeur+' %';
+  }
+  // Dos : dire clairement pourquoi le texte y est possible ou non. Le seuil de
+  // 79 pages n'est pas une estimation, c'est la règle d'Amazon KDP.
+  const noteDos=el('spineNote');
+  if(noteDos){
+    const interieures=Math.max(2,totalInteriorPages());
+    const epaisseur=coverMetrics(interieures).spine;
+    noteDos.textContent=interieures>=79
+      ? `Dos de ${epaisseur.toFixed(1).replace('.',',')} mm : le titre et la mention d'auteur y sont repris automatiquement, en haut et en bas.`
+      : `Pas de texte sur le dos : Amazon KDP l'interdit sous 79 pages, et le livre en compte ${interieures} (dos de ${epaisseur.toFixed(1).replace('.',',')} mm). Le nombre de pages se règle dans « Pages ».`;
+  }
+  const verrou=el('frameLock');
+  if(verrou){
+    const fige=imageFrameLocked(page,slot);
+    const actif=dispoForme&&formeActive!=='none';
+    verrou.classList.toggle('on',fige);
+    verrou.setAttribute('aria-pressed',fige?'true':'false');
+    verrou.textContent=fige?'Cadre figé':'Figer le cadre';
+    verrou.disabled=!actif;
+    applyLanguage(verrou);
+    const aide=el('frameHint');
+    if(aide)aide.hidden=!actif;
+  }
+  const noteForme=el('shapeNote');
+  if(noteForme){
+    noteForme.hidden=dispoForme;
+    noteForme.textContent=dispoForme?'':"Non disponible en « Remplir » : l'image doit déborder pour être massicotée. Choisis « Voir entière » juste au-dessus pour pouvoir la détourer.";
+  }
+  setSegment('folioPosition',folioPosition);
+  const selFolio=el('folioFont');
+  if(selFolio){
+    if(!selFolio.options.length)selFolio.innerHTML=fontOptions(FOLIO_FONT_OPTIONS,folioFont);
+    selFolio.value=folioFont;
+  }
+  if(el('folioX')){el('folioX').value=folioX;el('folioXV').textContent=folioX+' %';}
+  if(el('folioY')){el('folioY').value=folioY;el('folioYV').textContent=folioY+' %';}
+  setFolioColorButton(folioColor);
   setSegment('side',effectiveSide(page));
   setSegment('imageSlot',slot);
   setSegment('imgFit',imageFit(page,slot));
@@ -1885,10 +2288,10 @@ function syncControls(){
   setControlLock('side',isFullCover(page)||isMixedCover(page)||isSingleCover(page)||page.layout==='dual'||page.layout==='panorama');
   setControlLock('panoSep',page.layout!=='panorama'||isFullCover(page)||isSingleCover(page));
   setInputLock(['panoColor','panoWidth','panoOpacity'],page.layout!=='panorama'||panoSep(page)==='none'||isFullCover(page)||isSingleCover(page));
-  setPaperButton(page.paper);
   setRuleButton(page.rule);
   setRuleStyleButton(page.ruleStyle);
   syncDecorDisponible();
+  syncTexteDisponible(page);
   setPresetButton(surfacePresetForPage(page),templatePresetForPage(page));
   renderImageQuality(page);
   renderPrintReadout();
@@ -2174,11 +2577,29 @@ onEl('hueSwatches','click',e=>{
   syncHueSwatches();
   refresh();
 });
+onEl('huePick','input',e=>{
+  if(isPageLocked(currentPage())){syncHueSwatches();return;}
+  currentPage().hue=e.target.value;
+  el('hue').value=e.target.value;
+  syncHueSwatches();
+  refresh();
+});
 function syncHueSwatches(){
   const box=el('hueSwatches');
   if(!box)return;
   const current=String(currentPage().hue||'').toLowerCase();
-  [...box.children].forEach(b=>b.classList.toggle('on',b.dataset.c.toLowerCase()===current));
+  let known=false;
+  box.querySelectorAll('button[data-c]').forEach(b=>{
+    const on=b.dataset.c.toLowerCase()===current;
+    b.classList.toggle('on',on);
+    if(on)known=true;
+  });
+  const pick=el('huePick');
+  if(pick){
+    if(current)pick.value=current;
+    const cell=pick.closest('.pick');
+    if(cell)cell.classList.toggle('on',!known&&!!current);
+  }
 }
 el('rule').addEventListener('input',e=>{currentPage().rule=e.target.value;setRuleButton(e.target.value);refresh();});
 el('rw').addEventListener('input',e=>{currentPage().ruleWeight=+e.target.value;el('rwV').textContent=e.target.value+' px';refresh();});
@@ -2205,7 +2626,13 @@ el('tx').addEventListener('input',e=>updateActiveTextAreaSetting('X',+e.target.v
 el('ty').addEventListener('input',e=>updateActiveTextAreaSetting('Y',+e.target.value,'tyV'));
 el('tg').addEventListener('input',e=>updateActiveTextAreaSetting('Gap',+e.target.value,'tgV'));
 el('m').addEventListener('input',e=>{currentPage().margin=+e.target.value;el('mV').textContent=e.target.value+' mm';refresh();});
-['kick','chapt','serie','intro','coverBackKick','coverBackTitle','coverBackText','spineText'].forEach(id=>onEl(id,'input',e=>{currentPage()[id]=e.target.value;refresh();}));
+['kick','chapt','serie','intro','coverBackKick','coverBackTitle','coverBackText','spineText'].forEach(id=>onEl(id,'input',e=>{
+  const page=currentPage();
+  page[id]=e.target.value;
+  const twin=syncCoverTwin(page,id,page[id]);
+  if(twin&&el(twin))el(twin).value=page[twin];
+  refresh();
+}));
 el('pageName').addEventListener('input',e=>{
   const page=currentPage();
   page.name=e.target.value;
@@ -2260,6 +2687,79 @@ el('formatPresets').addEventListener('click',e=>{
 });
 el('applyFormat').addEventListener('click',applyCustomFormat);
 el('applyMargins').addEventListener('click',applyCustomMargins);
+// Numéros de page : réglages du livre entier.
+onEl('folioPosition','click',e=>{
+  const b=e.target.closest('button');
+  if(!b)return;
+  folioPosition=b.dataset.v;
+  setSegment('folioPosition',folioPosition);
+  refresh();
+});
+onEl('folioFont','change',e=>{
+  folioFont=e.target.value;
+  refresh();
+});
+onEl('imgShape','click',e=>{
+  const b=e.target.closest('button[data-v]');
+  if(!b||b.disabled)return;
+  setImageSetting(currentPage(),visibleImageSlot(),'shape',b.dataset.v);
+  syncControls();
+  refresh();
+});
+onEl('frameLock','click',()=>{
+  const page=currentPage();
+  const slot=visibleImageSlot();
+  if(imageFrameLocked(page,slot)){
+    // En libérant, on remet le zoom au niveau du cadre : sinon le cadre
+    // sauterait brutalement à la taille dictée par le zoom en cours.
+    const taille=imageFrameScale(page,slot);
+    setImageSetting(page,slot,'framelock',false);
+    setImageSetting(page,slot,'zoom',Math.round(taille*100));
+  }else{
+    // On fige à la taille qu'a le cadre en cet instant.
+    setImageSetting(page,slot,'frame',imageFrameScale(page,slot));
+    setImageSetting(page,slot,'framelock',true);
+  }
+  syncControls();
+  refresh();
+});
+onEl('ishape','input',e=>{
+  setImageSetting(currentPage(),visibleImageSlot(),'amount',+e.target.value);
+  el('ishapeV').textContent=e.target.value+' %';
+  refresh();
+});
+onEl('folioX','input',e=>{
+  folioX=+e.target.value;
+  el('folioXV').textContent=folioX+' %';
+  refresh();
+});
+onEl('folioY','input',e=>{
+  folioY=+e.target.value;
+  el('folioYV').textContent=folioY+' %';
+  refresh();
+});
+onEl('folioColors','click',e=>{
+  const b=e.target.closest('button[data-c]');
+  if(!b)return;
+  folioColor=b.dataset.c;
+  setFolioColorButton(folioColor);
+  refresh();
+});
+onEl('folioColor','input',e=>{
+  folioColor=e.target.value;
+  setFolioColorButton(folioColor);
+  refresh();
+});
+// La molette parcourt la liste des polices, comme sur les boîtes de texte.
+onEl('folioFont','wheel',e=>{
+  e.preventDefault();
+  const ordre=FOLIO_FONT_OPTIONS.map(o=>o[0]);
+  const pos=Math.max(0,ordre.indexOf(folioFont));
+  const suivant=(pos+(e.deltaY<0?-1:1)+ordre.length)%ordre.length;
+  folioFont=ordre[suivant];
+  e.target.value=folioFont;
+  refresh();
+});
 el('printGuides').addEventListener('click',e=>{
   const b=e.target.closest('button');
   if(!b)return;
@@ -2503,7 +3003,14 @@ el('spread').addEventListener('pointerdown',e=>{
 window.addEventListener('pointermove',updateTextRangeFromPointer);
 window.addEventListener('pointerup',finishTextRangeDrag);
 window.addEventListener('pointercancel',finishTextRangeDrag);
+// Une sélection de texte à la souris se termine presque toujours hors de la
+// ligne (on dépasse le dernier mot). Le clic est alors attribué à l'image
+// située dessous : sans ce drapeau, on changeait d'image active et on
+// reconstruisait la page, ce qui effaçait la sélection et faisait disparaître
+// la boîte d'outils au moment précis où l'utilisateur allait taper.
+let textDragFromEditable=false;
 el('spread').addEventListener('mousedown',e=>{
+  textDragFromEditable=!!e.target.closest('[data-edit]');
   if(e.target.closest('.object-tools'))return;
   setActiveTextFromTarget(e.target);
 },true);
@@ -2575,6 +3082,7 @@ el('spread').addEventListener('click',e=>{
   }
   if(e.target.closest('.object-tools,.copy-block,select,button,input,textarea,label'))return;
   if(e.target.closest('[data-edit]'))return;
+  if(textDragFromEditable)return;
   const imageBox=e.target.closest('[data-img-slot]');
   if(imageBox){
     activeImageSlot=imageBox.dataset.imgSlot==='img2'?'img2':'img';
@@ -2724,11 +3232,24 @@ el('spread').addEventListener('input',e=>{
   const editable=e.target.closest('[data-edit]');
   if(!editable)return;
   const key=editable.dataset.edit;
+  const page=currentPage();
   activeTextKey=normalizeTextKey(key);
-  activeTextArea=currentTextArea(currentPage(),copyAreaFromElement(editable));
+  activeTextArea=currentTextArea(page,copyAreaFromElement(editable));
   const value=editable.innerText.replace(/\u00a0/g,' ').replace(/\r/g,'');
-  currentPage()[key]=key==='intro'?value:value.replace(/\n+/g,' ').trim();
-  if(el(key))el(key).value=currentPage()[key];
+  page[key]=key==='intro'?value:value.replace(/\n+/g,' ').trim();
+  if(el(key))el(key).value=page[key];
+  // La même clé peut être affichée à plusieurs endroits (la mention d'auteur
+  // apparaît au recto et sur le dos) : on répercute sur toutes ses lignes.
+  paintTextLine(key,page[key],editable);
+  // Mention d'auteur : les deux faces de la couverture double suivent.
+  const twin=syncCoverTwin(page,key,page[key]);
+  if(twin){
+    if(el(twin))el(twin).value=page[twin];
+    paintTextLine(twin,page[twin],editable);
+  }
+  // Titre et sous-titre : l'en-t\u00eate suit la page en direct (y compris quand
+  // c'est le dos qui a \u00e9t\u00e9 modifi\u00e9, puisqu'il est jumel\u00e9 au titre).
+  if([key,twin].some(k=>k==='serie'||k==='chapt'))renderBookTitle();
   updateTextToolbars();
 });
 el('spread').addEventListener('blur',e=>{
@@ -2742,13 +3263,98 @@ el('spread').addEventListener('blur',e=>{
   if(suite)return;
   refresh();
 },true);
-el('paper').addEventListener('click',e=>{
-  const b=e.target.closest('button');
-  if(!b)return;
-  currentPage().paper=b.dataset.c;
-  setPaperButton(b.dataset.c);
+// Titre du livre modifiable directement dans l'en-tête. Les deux sens sont
+// liés : ce qu'on tape ici va dans la couverture, et l'inverse est assuré par
+// renderBookTitle() appelé pendant la frappe dans la page.
+onEl('bookTitle','input',e=>{
+  const node=e.target.closest&&e.target.closest('[data-book-edit]');
+  if(!node)return;
+  const couverture=coverPageForTitle();
+  if(!couverture||isPageLocked(couverture))return;
+  const key=node.dataset.bookEdit;
+  const value=node.innerText.replace(/ /g,' ').replace(/\r/g,'').replace(/\n+/g,' ').trim();
+  couverture[key]=value;
+  if(couverture.textHidden)couverture.textHidden[key]=false;
+  const twin=syncCoverTwin(couverture,key,value);
+  if(couverture===currentPage()){
+    if(el(key))el(key).value=value;
+    paintTextLine(key,value,node);
+    if(twin){
+      if(el(twin))el(twin).value=couverture[twin];
+      paintTextLine(twin,couverture[twin],node);
+    }
+  }
+});
+onEl('bookTitle','keydown',e=>{
+  const node=e.target.closest&&e.target.closest('[data-book-edit]');
+  if(!node||e.key!=='Enter')return;
+  e.preventDefault();
+  node.blur();
+});
+onEl('bookTitle','paste',e=>{
+  const node=e.target.closest&&e.target.closest('[data-book-edit]');
+  if(!node)return;
+  e.preventDefault();
+  document.execCommand('insertText',false,e.clipboardData.getData('text/plain').replace(/\s+/g,' ').trim());
+});
+onEl('bookTitle','focusout',e=>{
+  if(!(e.target.closest&&e.target.closest('[data-book-edit]')))return;
   refresh();
 });
+// Sections repliables. Pas de stockage navigateur : « Format du livre » et
+// « Repères d'impression » démarrent repliées (on les règle une fois), tout le
+// reste est déplié, et on repart de ces valeurs à chaque rechargement.
+function groupesPanneau(){
+  return [...document.querySelectorAll('.panel .group')];
+}
+function setGroupeReplie(groupe,replie){
+  groupe.classList.toggle('folded',replie);
+  const titre=groupe.querySelector('h2');
+  if(titre)titre.setAttribute('aria-expanded',replie?'false':'true');
+}
+function majBoutonReplier(){
+  const b=el('foldAll');
+  if(!b)return;
+  b.textContent=groupesPanneau().every(g=>g.classList.contains('folded'))?'Tout déplier':'Tout replier';
+  applyLanguage(b);
+}
+function titreDeGroupe(cible){
+  const titre=cible&&cible.closest?cible.closest('h2'):null;
+  if(!titre)return null;
+  const groupe=titre.closest('.group');
+  return groupe&&titre.parentElement===groupe?titre:null;
+}
+function basculerGroupe(titre){
+  const groupe=titre.parentElement;
+  setGroupeReplie(groupe,!groupe.classList.contains('folded'));
+  majBoutonReplier();
+}
+(function initReplis(){
+  const panneau=document.querySelector('.panel');
+  if(!panneau)return;
+  groupesPanneau().forEach(g=>{
+    const titre=g.querySelector('h2');
+    if(titre){titre.setAttribute('role','button');titre.setAttribute('tabindex','0');}
+    setGroupeReplie(g,g.classList.contains('section-format')||g.classList.contains('section-print'));
+  });
+  panneau.addEventListener('click',e=>{
+    const titre=titreDeGroupe(e.target);
+    if(titre)basculerGroupe(titre);
+  });
+  panneau.addEventListener('keydown',e=>{
+    if(e.key!=='Enter'&&e.key!==' ')return;
+    const titre=titreDeGroupe(e.target);
+    if(!titre)return;
+    e.preventDefault();
+    basculerGroupe(titre);
+  });
+  onEl('foldAll','click',()=>{
+    const tout=groupesPanneau().every(g=>g.classList.contains('folded'));
+    groupesPanneau().forEach(g=>setGroupeReplie(g,!tout));
+    majBoutonReplier();
+  });
+  majBoutonReplier();
+})();
 el('rules').addEventListener('click',e=>{
   const b=e.target.closest('button');
   if(!b)return;
@@ -2824,8 +3430,8 @@ stage.addEventListener('drop',e=>{
   e.preventDefault();
 });
 
-el('prevPage').addEventListener('click',()=>activatePage(activeIndex-1));
-el('nextPage').addEventListener('click',()=>activatePage(activeIndex+1));
+// Les flèches ‹ › de la barre d'actions ont été retirées : elles appelaient
+// exactement la même chose que les flèches rondes de la pellicule, juste à côté.
 onEl('exportFormat','click',e=>{
   const b=e.target.closest('button');
   if(!b)return;
@@ -3122,11 +3728,107 @@ function loadCanvasImage(src){
     img.src=src;
   });
 }
+// Chemin à coins arrondis, chaque coin ayant un rayon horizontal et vertical
+// distincts — c'est ainsi que fonctionne border-radius, et c'est nécessaire
+// pour reproduire l'arche (haut arrondi, bas droit).
+function cheminCoinsArrondis(ctx,b,tl,tr,br,bl){
+  const {x,y,w,h}=b;
+  ctx.beginPath();
+  ctx.moveTo(x+tl.x,y);
+  ctx.lineTo(x+w-tr.x,y);
+  if(tr.x||tr.y)ctx.ellipse(x+w-tr.x,y+tr.y,tr.x,tr.y,0,-Math.PI/2,0);
+  ctx.lineTo(x+w,y+h-br.y);
+  if(br.x||br.y)ctx.ellipse(x+w-br.x,y+h-br.y,br.x,br.y,0,0,Math.PI/2);
+  ctx.lineTo(x+bl.x,y+h);
+  if(bl.x||bl.y)ctx.ellipse(x+bl.x,y+h-bl.y,bl.x,bl.y,0,Math.PI/2,Math.PI);
+  ctx.lineTo(x,y+tl.y);
+  if(tl.x||tl.y)ctx.ellipse(x+tl.x,y+tl.y,tl.x,tl.y,0,Math.PI,Math.PI*1.5);
+  ctx.closePath();
+}
+// Rendu de secours du détourage : mêmes formules que imageShapeCss() côté écran.
+function tracerFormeImage(ctx,page,box,slot='img'){
+  const forme=shapeAvailable(page,slot)?imageShape(page,slot):'none';
+  if(forme==='none')return false;
+  const t=imageShapeAmount(page,slot)/100;
+  if(forme==='oval'){
+    ctx.beginPath();
+    ctx.ellipse(box.x+box.w/2,box.y+box.h/2,box.w/2,box.h/2,0,0,Math.PI*2);
+    return true;
+  }
+  if(forme==='round'){
+    // Rayon circulaire : on prend le plus petit des deux, comme à l'écran où
+    // les pourcentages sont appariés par le rapport d'image.
+    const r0=Math.min(box.w*(2+t*22)/100,box.h/2);
+    const r={x:r0,y:r0};
+    cheminCoinsArrondis(ctx,box,r,r,r,r);
+    return true;
+  }
+  if(forme==='arch'){
+    const r={x:box.w*.5,y:Math.min(box.h/2,box.h*(25+t*25)/100)};
+    cheminCoinsArrondis(ctx,box,r,r,{x:0,y:0},{x:0,y:0});
+    return true;
+  }
+  if(forme==='bevel'){
+    const c=Math.min(box.w,box.h)*(3+t*17)/100;
+    ctx.beginPath();
+    ctx.moveTo(box.x+c,box.y);
+    ctx.lineTo(box.x+box.w-c,box.y);
+    ctx.lineTo(box.x+box.w,box.y+c);
+    ctx.lineTo(box.x+box.w,box.y+box.h-c);
+    ctx.lineTo(box.x+box.w-c,box.y+box.h);
+    ctx.lineTo(box.x+c,box.y+box.h);
+    ctx.lineTo(box.x,box.y+box.h-c);
+    ctx.lineTo(box.x,box.y+c);
+    ctx.closePath();
+    return true;
+  }
+  if(forme==='deckle'){
+    // Vagues creusées dans les quatre bords : on longe le contour en retirant
+    // un demi-disque à chaque pas.
+    // Mêmes valeurs qu'à l'écran (voir imageCarveMarkup) : période en % de la
+    // largeur, rayon = 0,46 × le pas, pas vertical égal au pas horizontal.
+    const periode=3+t*7;
+    const nx=Math.max(4,Math.round(100/periode));
+    const sx=box.w/nx;
+    const prof=sx*0.46;
+    const ny=Math.max(4,Math.round(box.h/sx));
+    const sy=box.h/ny;
+    // anticlockwise=true dans les quatre cas : en canvas l'angle croît dans le
+    // sens horaire, et il faut que chaque demi-disque creuse VERS L'INTÉRIEUR
+    // de l'image, pas vers l'extérieur.
+    ctx.beginPath();
+    ctx.moveTo(box.x,box.y);
+    for(let i=0;i<nx;i++)ctx.arc(box.x+sx*(i+.5),box.y,prof,Math.PI,0,true);
+    ctx.lineTo(box.x+box.w,box.y);
+    for(let i=0;i<ny;i++)ctx.arc(box.x+box.w,box.y+sy*(i+.5),prof,-Math.PI/2,Math.PI/2,true);
+    ctx.lineTo(box.x+box.w,box.y+box.h);
+    for(let i=nx-1;i>=0;i--)ctx.arc(box.x+sx*(i+.5),box.y+box.h,prof,0,Math.PI,true);
+    ctx.lineTo(box.x,box.y+box.h);
+    for(let i=ny-1;i>=0;i--)ctx.arc(box.x,box.y+sy*(i+.5),prof,Math.PI/2,-Math.PI/2,true);
+    ctx.closePath();
+    return true;
+  }
+  return false;
+}
+// Boîte sur laquelle porte la découpe. Quand une forme est active, elle épouse
+// l'image réellement dessinée et non le cadre de la page — pendant exact du
+// « hug » côté écran.
+function imageShapeBox(page,img,x,y,w,h,slot='img'){
+  const box=imageCanvasBox(page,x,y,w,h,slot);
+  const A=imageAspect(page,slot);
+  if(!img||!imageHugs(page,slot)||!(A>0))return box;
+  let bw=box.w, bh=box.w/A;
+  if(bh>box.h){bh=box.h;bw=box.h*A;}
+  const cadre=imageFrameScale(page,slot);   // même facteur qu'à l'écran
+  bw*=cadre; bh*=cadre;
+  return {x:box.x+(box.w-bw)/2,y:box.y+(box.h-bh)/2,w:bw,h:bh};
+}
 function drawImagePanel(ctx,page,img,x,y,w,h,fallback,slot='img'){
   ctx.save();
   ctx.beginPath();
   ctx.rect(x,y,w,h);
   ctx.clip();
+  const box=imageShapeBox(page,img,x,y,w,h,slot);
   if(!img){
     ctx.fillStyle=page.paper||BLANK_IMAGE_BG;
     ctx.fillRect(x,y,w,h);
@@ -3137,18 +3839,23 @@ function drawImagePanel(ctx,page,img,x,y,w,h,fallback,slot='img'){
     ctx.fillStyle=page.hue;
     ctx.fillRect(x,y,w,h);
     ctx.globalAlpha=1;
+    // Le fond de page reste entier ; seule la fenêtre d'image est découpée,
+    // exactement comme .image-window et son border-radius à l'écran.
+    ctx.save();
+    if(tracerFormeImage(ctx,page,box,slot))ctx.clip();
     drawPlacedImage(ctx,page,img,x,y,w,h,slot);
     const grd=ctx.createLinearGradient(x,y+h*.55,x,y+h);
     grd.addColorStop(0,'rgba(0,0,0,0)');
     grd.addColorStop(1,'rgba(0,0,0,.28)');
     ctx.fillStyle=grd;
     ctx.fillRect(x,y,w,h);
+    ctx.restore();
   }
   if(imageRule(page,slot)){
-    const box=imageCanvasBox(page,x,y,w,h,slot);
     ctx.strokeStyle=page.rule;
     ctx.lineWidth=liseretWeight(page);
-    ctx.strokeRect(box.x,box.y,box.w,box.h);
+    if(tracerFormeImage(ctx,page,box,slot))ctx.stroke();
+    else ctx.strokeRect(box.x,box.y,box.w,box.h);
   }
   ctx.restore();
 }
@@ -3224,12 +3931,9 @@ function drawPaperPage(ctx,page,index,x,y,w,h){
     drawWrappedText(ctx,page.intro,copyX,ruleBottom+16+gap,copyW,textSize(page,'intro')*textLeading(page,'intro'),4,align);
   }
 
-  ctx.fillStyle='#6E685F';
-  ctx.font=`8px ${canvasBodyFont(page)}`;
-  const folioDehors=effectiveSide(page)==='right';
-  ctx.textAlign=folioDehors?'left':'right';
-  ctx.fillText(paperFolio(index,page),folioDehors?x+pad:x+w-pad,y+h-pad*.65);
-  ctx.textAlign='left';
+  // Le folio n'est plus dessiné ici : il est posé au niveau de la double-page
+  // par drawFolios(), pour pouvoir apparaître à gauche, à droite ou des deux
+  // côtés selon le réglage du livre.
 }
 function drawEditorialTile(ctx,page,img,x,y,w,h,fallback){
   drawImagePanel(ctx,page,img,x,y,w,h,fallback);
@@ -3409,15 +4113,24 @@ function drawFullCoverCanvas(ctx,page,img,topImg,x,y,w,h){
     ctx.font=`700 ${textSize(page,'serie')}px ${canvasTitleFont(page)}`;
     drawWrappedText(ctx,page.serie,copyX,textYPos,copyW,textSize(page,'serie')*textLeading(page,'serie'),3,align);
   }
-  if(m.pageCount>=79&&spineW>8&&!isTextHidden(page,'spineText')){
-    ctx.save();
-    ctx.translate(spineX+spineW/2,top+panelH/2);
-    ctx.rotate(-Math.PI/2);
-    ctx.fillStyle=textColorInput(page,'spineText');
-    ctx.font=`${textSize(page,'spineText')}px ${canvasTitleFont(page)}`;
-    ctx.textAlign='center';
-    ctx.fillText(page.spineText||page.serie,0,3);
-    ctx.restore();
+  // Dos : titre dans le premier tiers, auteur dans le dernier — mêmes repères
+  // qu'à l'écran (1/6 et 5/6 de la hauteur).
+  if(m.pageCount>=79&&spineW>8){
+    // Même plafond de taille qu'à l'écran (voir fitSpineText).
+    const plafond=spineW*SPINE_TEXT_RATIO;
+    const surLeDos=(texte,cle,style,fraction,police)=>{
+      if(!texte||isTextHidden(page,cle))return;
+      ctx.save();
+      ctx.translate(spineX+spineW/2,top+panelH*fraction);
+      ctx.rotate(-Math.PI/2);
+      ctx.fillStyle=textColorInput(page,style);
+      ctx.font=`${Math.min(textSize(page,style),plafond)}px ${police}`;
+      ctx.textAlign='center';
+      ctx.fillText(texte,0,3);
+      ctx.restore();
+    };
+    surLeDos(page.spineText||page.serie,'spineText','serie',1/6,canvasTitleFont(page));
+    surLeDos(page.kick,'kick','kick',5/6,canvasBodyFont(page));
   }
   ctx.restore();
 }
@@ -3451,6 +4164,7 @@ async function captureSpreadNative(scale=2){
     drawTopImageCanvas(ctx,page,topImg,0,0,w,h,'img');
     drawPanoramaDecorCanvas(ctx,page,0,0,w,h);
     drawPanoramaSeparation(ctx,page,0,0,w,h);
+    drawFolios(ctx,page,activeIndex,w,h);
     return canvas;
   }else if(page.layout==='dual'){
     drawImagePanel(ctx,page,img,0,0,pageW,h,'#241A3D');
@@ -3472,7 +4186,38 @@ async function captureSpreadNative(scale=2){
     drawEditorialRight(ctx,page,img,activeIndex,pageW,0,pageW,h);
   }
   drawGutter(ctx,w,h);
+  drawFolios(ctx,page,activeIndex,w,h);
   return canvas;
+}
+// Rendu de secours des folios : doit suivre exactement les mêmes règles que
+// folioMarks() côté écran (position, police, pages numérotées).
+function drawFolios(ctx,page,index,w,h){
+  if(folioPosition==='none')return;
+  if(isFullCover(page)||isSingleCover(page))return;
+  const debut=interiorPageStart(index);
+  let gauche='',droite='';
+  if(isMixedCover(page)){
+    if(page.surface==='inside-front')droite=pad2(debut);
+    else gauche=pad2(debut);
+  }else{
+    gauche=pad2(debut);
+    droite=pad2(debut+1);
+  }
+  if(!folioSideAllowed(page,'left'))gauche='';
+  if(!folioSideAllowed(page,'right'))droite='';
+  if(!gauche&&!droite)return;
+  const {x,y}=folioOffsets();               // exactement le calcul de l'écran
+  const dx=x/100*w;
+  const dy=y/100*h;
+  const pile=folioFont==='mono'?'ui-monospace, Menlo, monospace':(FONT_STACKS[folioFont]||'ui-monospace, Menlo, monospace');
+  ctx.save();
+  ctx.fillStyle=folioColor;
+  ctx.font=`8px ${pile}`;
+  ctx.textBaseline='alphabetic';
+  const veut=cote=>folioPosition==='both'||folioPosition===cote;
+  if(gauche&&veut('left')){ctx.textAlign='left';ctx.fillText(gauche,dx,h-dy);}
+  if(droite&&veut('right')){ctx.textAlign='right';ctx.fillText(droite,w-dx,h-dy);}
+  ctx.restore();
 }
 const EXPORT_DPI=300;
 // Largeur réelle de la vue, en millimètres, fond perdu compris.
@@ -3721,15 +4466,25 @@ document.addEventListener('click',e=>{
   val.after(inp);
   inp.focus();
   inp.select();
+  // finish() est déclenché par Entrée ET par le blur que provoque le retrait du
+  // champ : sans ce verrou, on retirait deux fois le même nœud (NotFoundError).
+  // On retire aussi le champ AVANT de déclencher le rendu, car celui-ci
+  // reconstruit le panneau et détacherait le nœud sous nos pieds.
+  let termine=false;
   const finish=()=>{
+    if(termine)return;
+    termine=true;
     const v=Math.max(+range.min,Math.min(+range.max,parseFloat(inp.value)||0));
     range.value=v;
-    range.dispatchEvent(new Event('input',{bubbles:true}));
     inp.remove();
     val.hidden=false;
+    range.dispatchEvent(new Event('input',{bubbles:true}));
   };
   inp.addEventListener('blur',finish);
-  inp.addEventListener('keydown',ev=>{if(ev.key==='Enter'){ev.preventDefault();finish();}if(ev.key==='Escape'){inp.remove();val.hidden=false;}});
+  inp.addEventListener('keydown',ev=>{
+    if(ev.key==='Enter'){ev.preventDefault();finish();}
+    if(ev.key==='Escape'){termine=true;inp.remove();val.hidden=false;}
+  });
 });
 
 /* ---- Enregistrer et rouvrir un projet ----
@@ -3749,7 +4504,7 @@ function serialiserProjet(){
     version:PROJET_VERSION,
     enregistre:new Date().toISOString(),
     livre:{trimW:TRIM_W_MM,trimH:TRIM_H_MM,bleed:BLEED_MM,safe:KDP_SAFE_OUT_MM},
-    reglages:{previewDock,uiMode,showPrintGuides,exportFormat},
+    reglages:{previewDock,uiMode,showPrintGuides,exportFormat,folioPosition,folioFont,folioX,folioY,folioColor},
     // Les adresses d'images sont temporaires : on garde la clé, vidée, pour que
     // la page rechargée conserve ses couleurs de fond au lieu de repasser au blanc.
     pages:pages.map(page=>{
@@ -3822,6 +4577,11 @@ function appliquerProjet(data){
   if(reglages.uiMode==='simple'||reglages.uiMode==='advanced')uiMode=reglages.uiMode;
   if(typeof reglages.showPrintGuides==='boolean')showPrintGuides=reglages.showPrintGuides;
   if(reglages.exportFormat==='png'||reglages.exportFormat==='jpeg')exportFormat=reglages.exportFormat;
+  if(['none','left','right','both'].includes(reglages.folioPosition))folioPosition=reglages.folioPosition;
+  if(FOLIO_FONT_OPTIONS.some(o=>o[0]===reglages.folioFont))folioFont=reglages.folioFont;
+  if(Number.isFinite(+reglages.folioX))folioX=Math.min(46,Math.max(4,+reglages.folioX));
+  if(Number.isFinite(+reglages.folioY))folioY=Math.min(97,Math.max(3,+reglages.folioY));
+  if(/^#[0-9a-f]{6}$/i.test(String(reglages.folioColor||'')))folioColor=reglages.folioColor;
   pages=nouvelles.map(page=>makePage(page));
   activeIndex=0;
   activeImageSlot='img';

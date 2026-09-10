@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ICHKA · Atelier du livre</title>
-<link rel="stylesheet" href="styles.css?v=20260909-02">
+<link rel="stylesheet" href="styles.css?v=20260910-47">
 </head>
 <body>
 <div class="wrap full-ui" id="appWrap">
@@ -24,14 +24,19 @@
 
   <div class="rail">
     <div class="rail-head">
-      <div>
+      <div class="rail-title">
         <h2>Liste des pages</h2>
         <p id="pageStatus">Page affichée 1 / 1</p>
       </div>
+      <div class="filmstrip-row">
+        <div id="filmstrip" class="filmstrip" aria-label="Liste des doubles-pages"></div>
+        <div class="strip-nav" aria-label="Changer de double-page">
+          <button class="strip-arrow" id="stripPrev" type="button" aria-label="Double-page précédente" title="Double-page précédente"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.5 4.5 8 12l7.5 7.5"/></svg></button>
+          <button class="strip-arrow" id="stripNext" type="button" aria-label="Double-page suivante" title="Double-page suivante"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 4.5 16 12l-7.5 7.5"/></svg></button>
+        </div>
+      </div>
       <div class="rail-tools">
         <div class="rail-actions" aria-label="Navigation des doubles-pages">
-          <button class="iconbtn" id="prevPage" type="button" title="Page précédente" aria-label="Page précédente">‹</button>
-          <button class="iconbtn" id="nextPage" type="button" title="Page suivante" aria-label="Page suivante">›</button>
           <button class="act" id="addPage" type="button">Ajouter une page</button>
           <button class="act" id="dupPage" type="button">Dupliquer cette page</button>
           <button class="act danger" id="delPage" type="button">Supprimer cette page</button>
@@ -46,13 +51,6 @@
         </div>
       </div>
     </div>
-    <div class="filmstrip-row">
-      <div id="filmstrip" class="filmstrip" aria-label="Liste des doubles-pages"></div>
-      <div class="strip-nav" aria-label="Changer de double-page">
-        <button class="strip-arrow" id="stripPrev" type="button" aria-label="Double-page précédente" title="Double-page précédente"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.5 4.5 8 12l7.5 7.5"/></svg></button>
-        <button class="strip-arrow" id="stripNext" type="button" aria-label="Double-page suivante" title="Double-page suivante"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 4.5 16 12l-7.5 7.5"/></svg></button>
-      </div>
-    </div>
   </div>
 
   <div class="workspace" id="workspace">
@@ -61,13 +59,10 @@
     </div>
 
     <div class="panel">
+      <div class="panel-tools"><button class="act" id="foldAll" type="button">Tout replier</button></div>
       <div class="group section-pages" data-section="01">
         <h2>Pages</h2>
-        <div class="meta">
-          <div><span>Page affichée</span><strong id="spreadPos">1 / 1</strong></div>
-          <div><span>Dans le livre</span><strong id="spreadPages">p. 1-2</strong></div>
-          <div><span>Modèle</span><strong id="spreadType">Image + texte</strong></div>
-        </div>
+        <p class="meta-line"><span>Page</span><strong id="spreadPos">1 / 1</strong><i>·</i><strong id="spreadPages">p. 1-2</strong><i>·</i><strong id="spreadType">Image + texte</strong></p>
         <div class="field"><label>Nom de cette vue</label><input type="text" id="pageName" value="Ouverture série 01"></div>
         <div class="field"><label>Pages intérieures <span class="val" id="bookPagesV">2 pages</span></label>
           <div class="row page-count-row">
@@ -76,7 +71,7 @@
             <button class="page-count-btn" id="pagesUp" type="button" aria-label="Plus de pages">&plus;</button>
             <button class="act" id="buildBook" type="button">Appliquer</button>
           </div>
-          <p class="hint">Hors couverture. Exemple : 8, 32, 120 pages.</p>
+          <p class="hint">Hors couverture. Ex. : 8, 32, 120 pages.</p>
         </div>
         <input type="hidden" id="pageKind" value="Image + texte">
         <div class="page-section-divider">Page sélectionnée</div>
@@ -91,7 +86,7 @@
           </div>
         </div>
         <div class="field"><label>Choisir un modèle pour cette page</label>
-          <p class="hint" id="presetsInnerNote" hidden>Non disponible : la couverture a une mise en page fixe (image, titre, dos), les modèles ne s'y appliquent pas.</p>
+          <p class="hint" id="presetsInnerNote" hidden>Les couvertures ont une mise en page fixe : pas de modèle à choisir.</p>
           <div class="preset-grid" id="presetsInner">
             <button type="button" data-preset="series">Image + texte</button>
             <button type="button" data-preset="dual">Deux images</button>
@@ -103,7 +98,205 @@
         </div>
       </div>
 
-      <div class="group section-format" data-section="02">
+      <div class="group section-text" data-section="02">
+        <h2>Textes</h2>
+        <p class="hint" id="textBlockName">Réglages du texte : page active</p>
+        <p class="hint" id="textNote" hidden></p>
+        <div class="field row">
+          <div style="flex:1"><label>Mention du haut</label><input type="text" id="kick" value="NOM DE L’AUTEUR" placeholder="Nom d’auteur, collection, numéro de série..."></div>
+          <div style="flex:1"><label>Sous-titre</label><input type="text" id="chapt" value="chapitre premier" placeholder="Recueil d’illustrations, chapitre premier, note..."></div>
+        </div>
+        <div class="field"><label>Titre</label><input type="text" id="serie" value="Titre de cette page" placeholder="Le titre affiché en grand"></div>
+        <div class="field cover-hide"><label>Paragraphe de la page</label><textarea id="intro" placeholder="Une légende, une présentation, quelques lignes...">Une courte légende ou un texte de présentation pour cette double page.</textarea></div>
+        <div class="field row">
+          <div style="flex:1"><label>Texte gauche / droite <span class="val" id="txV">0</span></label><input type="range" id="tx" min="-320" max="320" value="0"></div>
+          <div style="flex:1"><label>Texte haut / bas <span class="val" id="tyV">0</span></label><input type="range" id="ty" min="-420" max="420" value="0"></div>
+        </div>
+        <div class="field row">
+          <div style="flex:1"><label>Écart entre les textes <span class="val" id="tgV">12</span></label><input type="range" id="tg" min="-10" max="48" value="12"></div>
+          <div style="flex:1"><label>Marges du texte <span class="val" id="mV">20 mm</span></label><input type="range" id="m" min="12" max="32" value="20"></div>
+        </div>
+        <div class="field row advanced-field">
+          <div style="flex:1"><label>Largeur du texte <span class="val" id="twV">78 %</span></label><input type="range" id="tw" min="20" max="100" value="78"></div>
+          <div style="flex:1"><label>Alignement du texte</label>
+            <div class="seg" id="textAlign"><button data-v="left" class="on" type="button">Gauche</button><button data-v="center" type="button">Centre</button><button data-v="right" type="button">Droite</button></div>
+          </div>
+        </div>
+        <div class="field advanced-field"><button class="act" id="resetTextBlock" type="button">Recentrer le texte</button></div>
+        <p class="subhead cover-only">Quatrième de couverture</p>
+        <div class="field cover-only"><label>Titre au verso</label><input type="text" id="coverBackTitle" value="Achevé d'imaginer" placeholder="Phrase d’accroche, note, crédits courts..."></div>
+        <div class="field cover-only"><label>Texte au verso</label><textarea id="coverBackText" placeholder="Résumé, intention, crédits courts, phrase forte...">Un espace pour le résumé, une phrase forte, les crédits courts ou une trace graphique.</textarea></div>
+        <p class="hint cover-only" id="spineNote"></p>
+        <p class="hint cover-only">Le verso est la page qu’on lit en retournant le livre. La mention du haut y reprend celle du recto, et le dos reprend le titre : ils se règlent plus haut.</p>
+      </div>
+
+      <div class="group section-image" data-section="03">
+        <h2>Images</h2>
+        <div class="field image-files">
+          <label class="filebtn"><span id="fileText">Charger ou remplacer l'image</span>
+            <input type="file" id="file" accept="image/*">
+          </label>
+          <label class="filebtn" id="file2Wrap" hidden>Charger ou remplacer l'image droite
+            <input type="file" id="file2" accept="image/*">
+          </label>
+          <button class="act danger" id="clearImage" type="button">Supprimer l'image</button>
+          <label class="filebtn">Image par-dessus
+            <input type="file" id="topFile" accept="image/*">
+          </label>
+          <button class="act danger" id="clearTopImage" type="button">Supprimer celle du dessus</button>
+        </div>
+        <div class="field dual-only"><label>Image à régler</label>
+          <div class="seg" id="imageSlot"><button data-v="img" class="on" type="button">Image gauche</button><button data-v="img2" type="button">Image droite</button></div>
+        </div>
+        <div class="quality-list" id="imageQuality"></div>
+        <div class="field row">
+          <div style="flex:1"><label>Couleur derrière l'image</label><input type="color" id="hue" value="#2F3B2E"></div>
+          <div style="flex:2"><label>Force du fond <span class="val" id="intV">28</span></label><input type="range" id="int" min="0" max="100" value="28"></div>
+        </div>
+        <div class="field"><label>Teintes du livre</label>
+          <div class="sw sw-fill" id="hueSwatches">
+            <button type="button" data-c="#2F3B2E" style="background:#2F3B2E" title="vert profond"></button>
+            <button type="button" data-c="#5A6650" style="background:#5A6650" title="sauge"></button>
+            <button type="button" data-c="#4E5B5A" style="background:#4E5B5A" title="vert-de-gris"></button>
+            <button type="button" data-c="#8A6D23" style="background:#8A6D23" title="doré"></button>
+            <button type="button" data-c="#B79A5B" style="background:#B79A5B" title="vieil or"></button>
+            <button type="button" data-c="#7C4A32" style="background:#7C4A32" title="brun chaud"></button>
+            <button type="button" data-c="#9B3D2E" style="background:#9B3D2E" title="terracotta"></button>
+            <button type="button" data-c="#6B2D3C" style="background:#6B2D3C" title="bordeaux"></button>
+            <button type="button" data-c="#3C4A5A" style="background:#3C4A5A" title="bleu ardoise"></button>
+            <button type="button" data-c="#6E685F" style="background:#6E685F" title="gris chaud"></button>
+            <button type="button" data-c="#4A453D" style="background:#4A453D" title="gris foncé"></button>
+            <button type="button" data-c="#1A1714" style="background:#1A1714" title="noir doux"></button>
+            <button type="button" data-c="#F7F3EA" style="background:#F7F3EA" title="crème"></button>
+            <label class="pick" title="Couleur libre (pipette)"><input type="color" id="huePick" value="#2F3B2E" aria-label="Couleur libre (pipette)"></label>
+          </div>
+          <p class="hint">Les teintes de ton livre, pour accorder le fond au texte en un clic.</p>
+        </div>
+        <div class="field"><label>Côté de l'image</label>
+          <div class="seg" id="side"><button data-v="left" class="on">Gauche</button><button data-v="right">Droite</button></div>
+        </div>
+        <div class="field"><label>Image dans la page</label>
+          <div class="seg" id="imgFit">
+            <button data-v="fill" class="on" type="button">Remplir</button>
+            <button data-v="contain" type="button">Voir entière</button>
+          </div>
+        </div>
+        <div class="field"><label>Détourage de l'image</label>
+          <p class="hint" id="shapeNote" hidden></p>
+          <div class="preset-grid" id="imgShape">
+            <button type="button" data-v="none">Angles normaux</button>
+            <button type="button" data-v="round">Angles ronds</button>
+            <button type="button" data-v="bevel">Angles coupés</button>
+            <button type="button" data-v="deckle">Vieille lettre</button>
+            <button type="button" data-v="arch">Arche</button>
+            <button type="button" data-v="oval">Ovale</button>
+          </div>
+        </div>
+        <div class="field row" id="shapeAmountField">
+          <div style="flex:1"><label>Intensité du détourage <span class="val" id="ishapeV">50 %</span></label><input type="range" id="ishape" min="0" max="100" value="50"></div>
+          <div style="flex:0 0 auto"><button class="act" id="frameLock" type="button" aria-pressed="false">Figer le cadre</button></div>
+        </div>
+        <p class="hint" id="frameHint">Le cadre suit le zoom de l'image jusqu'au bord de la page. Une fois figé, le zoom ne déplace plus que l'image à l'intérieur.</p>
+        <div class="field"><label>Taille de l'image <span class="val" id="izV">100 %</span></label><input type="range" id="iz" min="20" max="260" value="100"></div>
+        <div class="field row">
+          <div style="flex:1"><label>Gauche / droite <span class="val" id="ixV">0</span></label><input type="range" id="ix" min="-100" max="100" value="0"></div>
+          <div style="flex:1"><label>Haut / bas <span class="val" id="iyV">0</span></label><input type="range" id="iy" min="-100" max="100" value="0"></div>
+        </div>
+        <div class="field"><label>Pivot de l'image <span class="val" id="irV">0°</span></label><input type="range" id="ir" min="-180" max="180" value="0"></div>
+        <div class="field"><button class="act" id="flipImage" type="button" aria-pressed="false">Retourner l'image (miroir)</button></div>
+        <div class="field image-frame-field"><label>Trait autour de l'image</label>
+          <div class="seg" id="imgRule"><button data-v="no" class="on" type="button">Sans</button><button data-v="yes" type="button">Avec</button></div>
+        </div>
+        <div class="field pano-only"><label>Séparation au milieu</label>
+          <div class="seg" id="panoSep"><button data-v="none" type="button">Sans</button><button data-v="line" type="button">Trait fin</button><button data-v="band" class="on" type="button">Bande douce</button></div>
+        </div>
+        <div class="field row pano-only">
+          <div style="flex:1"><label>Couleur du milieu</label><input type="color" id="panoColor" value="#F7F3EA"></div>
+          <div style="flex:2"><label>Largeur au milieu <span class="val" id="panoWidthV">18 px</span></label><input type="range" id="panoWidth" min="1" max="80" value="18"></div>
+        </div>
+        <div class="field pano-only"><label>Discrétion <span class="val" id="panoOpacityV">24 %</span></label><input type="range" id="panoOpacity" min="4" max="70" value="24"></div>
+        <div class="field"><button class="act" id="resetImage" type="button">Recadrer au centre</button></div>
+      </div>
+
+      <div class="group section-folio" data-section="04">
+        <h2>Numéros de page</h2>
+        <p class="hint">Réglage valable pour tout le livre. Le numéro se pose sur la page de papier, jamais sur une image à fond perdu ni sur une couverture — comme dans un livre imprimé.</p>
+        <div class="field"><label>Où les placer</label>
+          <div class="seg" id="folioPosition">
+            <button data-v="none" type="button">Aucun</button>
+            <button data-v="left" type="button">Gauche</button>
+            <button data-v="right" type="button">Droite</button>
+            <button data-v="both" class="on" type="button">Les deux</button>
+          </div>
+        </div>
+        <div class="field"><label>Police des numéros</label>
+          <select id="folioFont"></select>
+        </div>
+        <div class="field row">
+          <div style="flex:1"><label>Écart au bord <span class="val" id="folioXV">10 %</span></label><input type="range" id="folioX" min="4" max="46" value="10"></div>
+          <div style="flex:1"><label>Hauteur depuis le bas <span class="val" id="folioYV">8 %</span></label><input type="range" id="folioY" min="3" max="97" value="8"></div>
+        </div>
+        <p class="hint">Avec deux numéros, ils se placent en miroir : chacun à la même distance de son bord extérieur.</p>
+        <div class="field"><label>Couleur des numéros</label>
+          <div class="sw sw-fill" id="folioColors">
+            <button type="button" data-c="#2F3B2E" style="background:#2F3B2E" title="vert profond"></button>
+            <button type="button" data-c="#5A6650" style="background:#5A6650" title="sauge"></button>
+            <button type="button" data-c="#4E5B5A" style="background:#4E5B5A" title="vert-de-gris"></button>
+            <button type="button" data-c="#8A6D23" style="background:#8A6D23" title="doré"></button>
+            <button type="button" data-c="#B79A5B" style="background:#B79A5B" title="vieil or"></button>
+            <button type="button" data-c="#7C4A32" style="background:#7C4A32" title="brun chaud"></button>
+            <button type="button" data-c="#9B3D2E" style="background:#9B3D2E" title="terracotta"></button>
+            <button type="button" data-c="#6B2D3C" style="background:#6B2D3C" title="bordeaux"></button>
+            <button type="button" data-c="#3C4A5A" style="background:#3C4A5A" title="bleu ardoise"></button>
+            <button type="button" data-c="#6E685F" style="background:#6E685F" title="gris chaud"></button>
+            <button type="button" data-c="#4A453D" style="background:#4A453D" title="gris foncé"></button>
+            <button type="button" data-c="#1A1714" style="background:#1A1714" title="noir doux"></button>
+            <button type="button" data-c="#F7F3EA" style="background:#F7F3EA" title="crème"></button>
+            <label class="pick" title="Couleur libre (pipette)"><input type="color" id="folioColor" value="#6E685F" aria-label="Couleur libre (pipette)"></label>
+          </div>
+        </div>
+      </div>
+
+      <div class="group section-decor" data-section="05">
+        <h2>Trait décoratif</h2>
+        <p class="hint">Un trait fin, à poser où tu veux sur la page. Sa couleur sert aussi au trait autour des images.</p>
+        <p class="hint" id="decorNote" hidden></p>
+        <div class="field rule-head">
+          <button class="act" id="filetOn" type="button" aria-pressed="false">Afficher le trait</button>
+          <div class="sw sw-fill" id="rules">
+            <button type="button" data-c="#2F3B2E" style="background:#2F3B2E" title="vert profond"></button>
+            <button type="button" data-c="#5A6650" style="background:#5A6650" title="sauge"></button>
+            <button type="button" data-c="#4E5B5A" style="background:#4E5B5A" title="vert-de-gris"></button>
+            <button type="button" data-c="#8A6D23" style="background:#8A6D23" title="doré"></button>
+            <button type="button" data-c="#B79A5B" style="background:#B79A5B" title="vieil or"></button>
+            <button type="button" data-c="#7C4A32" style="background:#7C4A32" title="brun chaud"></button>
+            <button type="button" data-c="#9B3D2E" style="background:#9B3D2E" title="terracotta"></button>
+            <button type="button" data-c="#6B2D3C" style="background:#6B2D3C" title="bordeaux"></button>
+            <button type="button" data-c="#3C4A5A" style="background:#3C4A5A" title="bleu ardoise"></button>
+            <button type="button" data-c="#6E685F" style="background:#6E685F" title="gris chaud"></button>
+            <button type="button" data-c="#4A453D" style="background:#4A453D" title="gris foncé"></button>
+            <button type="button" data-c="#1A1714" style="background:#1A1714" title="noir doux"></button>
+            <button type="button" data-c="#F7F3EA" style="background:#F7F3EA" title="crème"></button>
+            <label class="pick" title="Couleur libre (pipette)"><input type="color" id="rule" value="#8A6D23" aria-label="Couleur libre (pipette)"></label>
+          </div>
+        </div>
+        <div class="rule-settings">
+          <div class="field row">
+            <div style="flex:1"><label>Longueur <span class="val" id="rlV">40 %</span></label><input type="range" id="rl" min="3" max="100" value="40"></div>
+            <div style="flex:1"><label>Épaisseur <span class="val" id="rwV">2 px</span></label><input type="range" id="rw" min="1" max="14" value="2"></div>
+          </div>
+          <div class="field row">
+            <div style="flex:1"><label>Gauche / droite <span class="val" id="rxV">50 %</span></label><input type="range" id="rx" min="0" max="100" value="50"></div>
+            <div style="flex:1"><label>Haut / bas <span class="val" id="ryV">50 %</span></label><input type="range" id="ry" min="0" max="100" value="50"></div>
+          </div>
+          <div class="field row">
+            <div style="flex:1"><button class="act" id="resetRule" type="button">Remettre au centre</button></div>
+            <div style="flex:1"><button class="act" id="ruleToAll" type="button">Appliquer à tout le livre</button></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="group section-format" data-section="06">
         <h2>Format du livre</h2>
         <div class="field">
           <div class="preset-grid format-grid" id="formatPresets">
@@ -138,147 +331,13 @@
         </div>
       </div>
 
-      <div class="group section-print" data-section="03">
+      <div class="group section-print" data-section="07">
         <h2>Repères d'impression</h2>
         <div class="field"><label>Guides sur le livre</label>
           <div class="seg" id="printGuides"><button data-v="off" type="button">Masquer</button><button data-v="on" class="on" type="button">Afficher</button></div>
         </div>
         <div class="print-readout" id="printReadout"></div>
         <p class="hint">Les repères aident à composer. Ils ne sortent pas dans le PNG.</p>
-      </div>
-
-      <div class="group section-image" data-section="04">
-        <h2>Images</h2>
-        <div class="field image-files">
-          <label class="filebtn"><span id="fileText">Charger ou remplacer l'image</span>
-            <input type="file" id="file" accept="image/*">
-          </label>
-          <label class="filebtn" id="file2Wrap" hidden>Charger ou remplacer l'image droite
-            <input type="file" id="file2" accept="image/*">
-          </label>
-          <button class="act danger" id="clearImage" type="button">Supprimer l'image</button>
-          <label class="filebtn">Image par-dessus
-            <input type="file" id="topFile" accept="image/*">
-          </label>
-          <button class="act danger" id="clearTopImage" type="button">Supprimer celle du dessus</button>
-        </div>
-        <div class="field dual-only"><label>Image à régler</label>
-          <div class="seg" id="imageSlot"><button data-v="img" class="on" type="button">Image gauche</button><button data-v="img2" type="button">Image droite</button></div>
-        </div>
-        <div class="quality-list" id="imageQuality"></div>
-        <div class="field row">
-          <div style="flex:1"><label>Couleur derrière l'image</label><input type="color" id="hue" value="#2F3B2E"></div>
-          <div style="flex:2"><label>Force du fond <span class="val" id="intV">28</span></label><input type="range" id="int" min="0" max="100" value="28"></div>
-        </div>
-        <div class="field"><label>Teintes du livre</label>
-          <div class="sw" id="hueSwatches">
-            <button type="button" data-c="#2F3B2E" style="background:#2F3B2E" title="vert profond (titres)"></button>
-            <button type="button" data-c="#8A6D23" style="background:#8A6D23" title="doré (marque)"></button>
-            <button type="button" data-c="#6E685F" style="background:#6E685F" title="gris chaud"></button>
-            <button type="button" data-c="#4A453D" style="background:#4A453D" title="gris foncé"></button>
-            <button type="button" data-c="#1A1714" style="background:#1A1714" title="noir doux"></button>
-            <button type="button" data-c="#F7F3EA" style="background:#F7F3EA" title="crème"></button>
-          </div>
-          <p class="hint">Les teintes de ton livre, pour accorder le fond au texte en un clic.</p>
-        </div>
-        <div class="field"><label>Côté de l'image</label>
-          <div class="seg" id="side"><button data-v="left" class="on">Gauche</button><button data-v="right">Droite</button></div>
-        </div>
-        <div class="field"><label>Image dans la page</label>
-          <div class="seg" id="imgFit">
-            <button data-v="fill" class="on" type="button">Remplir</button>
-            <button data-v="contain" type="button">Voir entière</button>
-          </div>
-        </div>
-        <div class="field"><label>Taille de l'image <span class="val" id="izV">100 %</span></label><input type="range" id="iz" min="20" max="260" value="100"></div>
-        <div class="field row">
-          <div style="flex:1"><label>Gauche / droite <span class="val" id="ixV">0</span></label><input type="range" id="ix" min="-100" max="100" value="0"></div>
-          <div style="flex:1"><label>Haut / bas <span class="val" id="iyV">0</span></label><input type="range" id="iy" min="-100" max="100" value="0"></div>
-        </div>
-        <div class="field"><label>Pivot de l'image <span class="val" id="irV">0°</span></label><input type="range" id="ir" min="-180" max="180" value="0"></div>
-        <div class="field"><button class="act" id="flipImage" type="button" aria-pressed="false">Retourner l'image (miroir)</button></div>
-        <div class="field image-frame-field"><label>Trait autour de l'image</label>
-          <div class="seg" id="imgRule"><button data-v="no" class="on" type="button">Sans</button><button data-v="yes" type="button">Avec</button></div>
-        </div>
-        <div class="field pano-only"><label>Séparation au milieu</label>
-          <div class="seg" id="panoSep"><button data-v="none" type="button">Sans</button><button data-v="line" type="button">Trait fin</button><button data-v="band" class="on" type="button">Bande douce</button></div>
-        </div>
-        <div class="field row pano-only">
-          <div style="flex:1"><label>Couleur du milieu</label><input type="color" id="panoColor" value="#F7F3EA"></div>
-          <div style="flex:2"><label>Largeur au milieu <span class="val" id="panoWidthV">18 px</span></label><input type="range" id="panoWidth" min="1" max="80" value="18"></div>
-        </div>
-        <div class="field pano-only"><label>Discrétion <span class="val" id="panoOpacityV">24 %</span></label><input type="range" id="panoOpacity" min="4" max="70" value="24"></div>
-        <div class="field"><button class="act" id="resetImage" type="button">Recadrer au centre</button></div>
-      </div>
-
-      <div class="group section-decor" data-section="05">
-        <h2>Filet</h2>
-        <p class="hint">Un trait fin, à poser où tu veux sur la page. Rien d'autre : les cadres et les motifs ont été retirés, ils vieillissaient mal et prenaient le pas sur l'image.</p>
-        <p class="hint" id="decorNote" hidden></p>
-        <div class="field"><button class="act" id="filetOn" type="button" aria-pressed="false">Afficher le filet</button></div>
-        <div class="field"><label>Couleur</label>
-          <div class="row" style="align-items:flex-end">
-            <div style="flex:0 0 auto"><input type="color" id="rule" value="#8A6D23"></div>
-            <div style="flex:1">
-              <div class="sw" id="rules">
-              <button data-c="#8A6D23" style="background:#8A6D23" title="laiton"></button>
-              <button data-c="#2F3B2E" style="background:#2F3B2E" title="vert profond"></button>
-              <button data-c="#6E685F" style="background:#6E685F" title="gris chaud"></button>
-              <button data-c="#4A453D" style="background:#4A453D" title="brun gris"></button>
-              <button data-c="#1A1714" style="background:#1A1714" title="noir doux"></button>
-              <button data-c="#F7F3EA" style="background:#F7F3EA" title="papier"></button>
-              </div>
-            </div>
-          </div>
-          <p class="hint">Sert aussi au trait autour des images.</p>
-        </div>
-        <div class="field"><label>Longueur <span class="val" id="rlV">40 %</span></label><input type="range" id="rl" min="3" max="100" value="40"></div>
-        <div class="field"><label>Épaisseur <span class="val" id="rwV">2 px</span></label><input type="range" id="rw" min="1" max="14" value="2"></div>
-        <div class="field row">
-          <div style="flex:1"><label>Gauche / droite <span class="val" id="rxV">50 %</span></label><input type="range" id="rx" min="0" max="100" value="50"></div>
-          <div style="flex:1"><label>Haut / bas <span class="val" id="ryV">50 %</span></label><input type="range" id="ry" min="0" max="100" value="50"></div>
-        </div>
-        <div class="field row">
-          <div style="flex:1"><button class="act" id="resetRule" type="button">Remettre au centre</button></div>
-          <div style="flex:1"><button class="act" id="ruleToAll" type="button">Appliquer à tout le livre</button></div>
-        </div>
-      </div>
-
-      <div class="group section-text" data-section="06">
-        <h2>Textes</h2>
-        <p class="hint" id="textBlockName">Réglages du texte : page active</p>
-        <div class="field"><label>Mention du haut</label><input type="text" id="kick" value="NOM DE L’AUTEUR" placeholder="Nom d’auteur, collection, numéro de série..."></div>
-        <div class="field"><label>Sous-titre</label><input type="text" id="chapt" value="chapitre premier" placeholder="Recueil d’illustrations, chapitre premier, note..."></div>
-        <div class="field"><label>Titre</label><input type="text" id="serie" value="Titre de cette page" placeholder="Le titre affiché en grand"></div>
-        <div class="field advanced-field"><label>Largeur du texte <span class="val" id="twV">78 %</span></label><input type="range" id="tw" min="20" max="100" value="78"></div>
-        <div class="field row">
-          <div style="flex:1"><label>Texte gauche / droite <span class="val" id="txV">0</span></label><input type="range" id="tx" min="-320" max="320" value="0"></div>
-          <div style="flex:1"><label>Texte haut / bas <span class="val" id="tyV">0</span></label><input type="range" id="ty" min="-420" max="420" value="0"></div>
-        </div>
-        <div class="field"><label>Écart entre les textes <span class="val" id="tgV">12</span></label><input type="range" id="tg" min="-10" max="48" value="12"></div>
-        <div class="field advanced-field"><label>Alignement du texte</label>
-          <div class="seg" id="textAlign"><button data-v="left" class="on" type="button">Gauche</button><button data-v="center" type="button">Centre</button><button data-v="right" type="button">Droite</button></div>
-        </div>
-        <div class="field advanced-field"><button class="act" id="resetTextBlock" type="button">Recentrer le texte</button></div>
-        <p class="subhead cover-only">Verso et dos de la couverture</p>
-        <div class="field cover-only"><label>Mention du haut, au verso</label><input type="text" id="coverBackKick" value="NOM DE L’AUTEUR" placeholder="Nom d’auteur, crédits, collection..."></div>
-        <div class="field cover-only"><label>Titre au verso</label><input type="text" id="coverBackTitle" value="Achevé d'imaginer" placeholder="Phrase d’accroche, note, crédits courts..."></div>
-        <div class="field cover-only"><label>Texte au verso</label><textarea id="coverBackText" placeholder="Résumé, intention, crédits courts, phrase forte...">Un espace pour le résumé, une phrase forte, les crédits courts ou une trace graphique.</textarea></div>
-        <div class="field cover-only"><label>Texte sur le dos</label><input type="text" id="spineText" value="Titre du livre" placeholder="Visible seulement si le livre a assez de pages"></div>
-        <p class="hint cover-only">Le verso, ou quatrième de couverture, est la page qu’on lit en retournant le livre. Le dos est la tranche visible quand le livre est rangé sur une étagère.</p>
-      </div>
-
-      <div class="group section-copy" data-section="07">
-        <h2>Paragraphe et papier</h2>
-        <p class="hint">Le paragraphe est le bloc de texte long de la page. Les titres se règlent juste au-dessus, dans « Textes ».</p>
-        <div class="field"><label>Paragraphe de la page</label><textarea id="intro" placeholder="Une légende, une présentation, quelques lignes...">Une courte légende ou un texte de présentation pour cette double page.</textarea></div>
-        <div class="field"><label>Marges du texte <span class="val" id="mV">20 mm</span></label><input type="range" id="m" min="12" max="32" value="20"></div>
-        <div class="field"><label>Papier</label>
-          <div class="sw" id="paper">
-            <button data-c="#F7F3EA" class="on" style="background:#F7F3EA" title="crème"></button>
-            <button data-c="#FCFBF8" style="background:#FCFBF8" title="blanc"></button>
-          </div>
-        </div>
       </div>
 
       <div class="group section-layout" data-section="08">
@@ -340,7 +399,7 @@
     <div id="readerSpread" class="spread reader-spread"></div>
   </div>
 </div>
-<script src="app.js?v=20260909-02"></script>
+<script src="app.js?v=20260910-47"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </body>
 </html>

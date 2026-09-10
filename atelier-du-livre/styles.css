@@ -13,12 +13,17 @@ body.dragging-stage{user-select:none;cursor:grabbing}
 .wrap{max-width:3400px;margin:0 auto;padding:0 48px;height:100vh;display:flex;flex-direction:column;overflow:hidden}
 
 /* ---- masthead ---- */
-.masthead{position:relative;display:flex;align-items:baseline;justify-content:space-between;gap:28px;margin:0;padding:14px 16px 10px;border-bottom:.5px solid var(--line);flex-shrink:0;background:rgba(179,154,98,.06);border-radius:8px 8px 0 0;margin-left:-16px;margin-right:-16px}
+.masthead{position:relative;display:flex;align-items:baseline;justify-content:space-between;gap:28px;margin:0;padding:14px 16px 10px;border-bottom:.5px solid var(--line);flex-shrink:0;background:linear-gradient(180deg,rgba(194,162,104,.135),rgba(194,162,104,.04));border-radius:8px 8px 0 0;margin-left:-16px;margin-right:-16px}
 /* Titre du livre au centre du bandeau, dans sa propre police.
    Hauteur volontairement contenue pour ne pas rallonger le bandeau. */
 .book-title{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);max-width:38%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;text-align:center;pointer-events:none}
 .book-title-main{font-size:23px;line-height:1.1;font-weight:700;color:#FBF6EC;letter-spacing:.2px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .book-title-sub{font-size:11px;line-height:1.2;font-style:italic;color:var(--mut);max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.book-title [data-book-edit]{pointer-events:auto;cursor:text;padding:1px 5px;border-radius:3px;outline:none;transition:background .15s,box-shadow .15s}
+.book-title [data-book-edit]:hover{background:rgba(236,226,208,.09)}
+.book-title [data-book-edit]:focus{background:rgba(236,226,208,.13);box-shadow:inset 0 0 0 1px rgba(194,162,104,.55)}
+.book-title [data-book-edit]:empty::before{content:attr(data-placeholder);opacity:.38}
+.book-title [data-book-edit][contenteditable=false]{pointer-events:none}
 .dashboard{display:flex;align-items:stretch;gap:10px;flex:0 0 auto}
 .lang-switch{display:inline-flex;align-items:center;gap:2px;flex:0 0 auto;border:.5px solid var(--line2);border-radius:999px;background:rgba(10,9,8,.46);padding:3px;margin-left:auto}
 .lang-switch button{min-width:34px;height:26px;border:0;border-radius:999px;background:transparent;color:var(--mut);font:700 10px/1 var(--mono);letter-spacing:1px;cursor:pointer}
@@ -36,8 +41,11 @@ body.dragging-stage{user-select:none;cursor:grabbing}
 h1{font-family:'Playfair Display',serif;font-weight:700;font-size:26px;margin:4px 0 2px;letter-spacing:-.3px;color:#F7F2E8}
 .tagline{color:var(--mut);font-size:12.5px;margin:0}
 /* ---- chemin de fer ---- */
-.rail{background:rgba(140,120,90,.05);border:0;border-bottom:.5px solid var(--line);border-radius:0;padding:8px 16px 10px;margin:0 -16px;box-shadow:none;flex-shrink:0}
-.rail-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin:0 0 8px;flex-wrap:wrap}
+.rail{background:linear-gradient(180deg,rgba(194,162,104,.08),rgba(183,154,91,.018));border:0;border-bottom:.5px solid var(--line);border-radius:0;padding:8px 16px 10px;margin:0 -16px;box-shadow:none;flex-shrink:0}
+/* La pellicule est logée dans le bandeau, entre le titre et les flèches :
+   une rangée en moins, donc autant de hauteur rendue au livre et au panneau. */
+.rail-head{display:flex;align-items:center;justify-content:space-between;gap:12px 18px;margin:0;flex-wrap:wrap}
+.rail-title{flex:0 0 auto}
 .rail h2{font-size:10px;font-weight:400;letter-spacing:2.2px;color:#F2ECE1;margin:0 0 5px;text-transform:uppercase;font-family:var(--mono)}
 #pageStatus{font-size:12px;color:var(--mut);margin:0}
 .rail-tools{display:flex;flex-direction:column;align-items:flex-end;gap:7px;margin-left:auto}
@@ -51,10 +59,19 @@ h1{font-family:'Playfair Display',serif;font-weight:700;font-size:26px;margin:4p
 .iconbtn:disabled,.act:disabled{opacity:.38;cursor:not-allowed}
 .iconbtn:disabled:hover,.act:disabled:hover{border-color:var(--line2);color:var(--tx)}
 .act.on{border-color:var(--brass-line);background:var(--brass-wash);color:#FBF6EC}
-.filmstrip{display:flex;gap:10px;overflow-x:auto;overscroll-behavior-x:contain;padding:2px 2px 10px;scrollbar-color:var(--mut2) transparent}
-.filmstrip-row{display:flex;align-items:stretch;gap:18px}
+/* overflow-x:scroll et non auto : la place de la barre est réservée en
+   permanence. Sinon la longueur du texte de statut fait varier la largeur de la
+   pellicule, la barre apparaît ou disparaît, et le rail — donc la scène, donc
+   le livre — change de hauteur en changeant simplement de page. */
+/* Barre de défilement supprimée : les flèches ‹ › à côté font la navigation.
+   Sans elle, la hauteur de la pellicule ne dépend plus du nombre de pages ni
+   de la largeur disponible — donc le rail, la scène et le livre ne bougent
+   plus quand on change de page. */
+.filmstrip{display:flex;gap:10px;overflow-x:auto;overscroll-behavior-x:contain;padding:2px 2px 6px;scrollbar-width:none}
+.filmstrip::-webkit-scrollbar{display:none}
+.filmstrip-row{display:flex;align-items:center;gap:14px;flex:1 1 340px;min-width:0}
 .filmstrip-row .filmstrip{flex:1;min-width:0}
-.strip-nav{display:flex;align-items:center;gap:10px;padding:2px 4px 10px;flex:0 0 auto}
+.strip-nav{display:flex;align-items:center;gap:10px;padding:2px 4px;flex:0 0 auto}
 .strip-arrow{width:52px;height:52px;border-radius:50%;border:.5px solid var(--line2);background:linear-gradient(180deg,rgba(236,226,208,.07),rgba(236,226,208,.02));color:var(--brass);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:border-color .15s ease,background .15s ease,transform .15s ease,box-shadow .15s ease,color .15s ease}
 .strip-arrow svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
 .strip-arrow:hover:not(:disabled){border-color:var(--brass-line);background:var(--brass-wash);color:#FBF6EC;transform:translateY(-2px);box-shadow:0 8px 18px -8px rgba(0,0,0,.75)}
@@ -98,10 +115,8 @@ h1{font-family:'Playfair Display',serif;font-weight:700;font-size:26px;margin:4p
 .thumb-full-cover>span:last-child{border-left:.5px solid rgba(255,255,255,.13)}
 .thumb-full-cover>i{background:rgba(0,0,0,.3);box-shadow:inset 1px 0 rgba(255,255,255,.13),inset -1px 0 rgba(255,255,255,.13)}
 .thumb-full-cover.empty:after{content:"";position:absolute;inset:25% 40%;border:.5px dashed rgba(255,255,255,.36);z-index:2}
-.thumb-label{display:block;margin-top:4px;font-family:var(--mono);font-size:9px;letter-spacing:.6px;color:var(--mut2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.thumb-name{display:block;margin-top:2px;font-size:10px;font-weight:500;color:#EDE7DC;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.thumb-name{display:block;margin-top:4px;font-size:10px;font-weight:500;color:#EDE7DC;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .thumb.on .thumb-name{color:#FBF6EC}
-.thumb.on .thumb-label{color:var(--brass)}
 
 /* ---- stage ---- */
 .stage{background:linear-gradient(rgba(0,0,0,.25),rgba(0,0,0,.25)),url('desk.jpg') center/cover no-repeat #070606;border:.5px solid var(--line);border-radius:var(--r);padding:24px 24px;display:flex;justify-content:center;align-items:center;min-height:420px;box-shadow:inset 0 1px 0 rgba(236,226,208,.03),inset 0 0 90px 10px rgba(0,0,0,.5)}
@@ -143,8 +158,18 @@ h1{font-family:'Playfair Display',serif;font-weight:700;font-size:26px;margin:4p
 .page.img.empty{background-image:radial-gradient(circle at center,rgba(93,145,104,.22) 0%,rgba(93,145,104,.22) 38%,rgba(205,221,201,.3) 38%,rgba(205,221,201,.3) 46%,rgba(73,115,88,.16) 46%,rgba(73,115,88,.16) 50%,transparent 51%),var(--grain);background-size:55% 55%,160px 160px;background-repeat:no-repeat,repeat;background-position:center,center;background-blend-mode:normal,overlay}
 :root{--grain:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.35'/></svg>")}
 .image-fit-contain,.image-fit-inset{background-color:var(--underbg,#FCFBF8)}
-.image-window{position:absolute;inset:var(--imginset,0);overflow:hidden}
-.image-window:after{content:"";position:absolute;inset:0;border:var(--imgborder,0) solid var(--acc,#6A2C5A);pointer-events:none;z-index:4}
+.image-window{position:absolute;inset:var(--imginset,0);overflow:hidden;border-radius:var(--imgradius,0)}
+.image-window:after{content:"";position:absolute;inset:0;border:var(--imgborder,0) solid var(--acc,#6A2C5A);pointer-events:none;z-index:4;border-radius:inherit}
+/* Découpe peinte : angles coupés et bords « vieille lettre » sont obtenus en
+   peignant la couleur du fond par-dessus l'image, à arrêt net. Un masque
+   (mask-image) ou un clip-path serait ignoré par html2canvas et ne sortirait
+   pas à l'impression. */
+.image-carve{position:absolute;inset:0;background:var(--imgcarve,none);pointer-events:none;z-index:3}
+/* Vagues du bord « vieille lettre » : demi-disques de la couleur du fond. */
+.image-carve i{position:absolute;border-radius:50%;background:var(--imgcarvecolor,#2F3B2E)}
+/* En « Voir entière », la fenêtre épouse l'image au lieu d'occuper toute la
+   page : sans cela la découpe s'appliquerait au cadre et raterait l'image. */
+.image-window.hug{inset:0;margin:auto;width:auto;height:auto;max-width:calc(100% * var(--imgwin,1));max-height:calc(100% * var(--imgwin,1));aspect-ratio:var(--imgaspect,1)}
 .image-layer{position:absolute;inset:0;width:100%;height:100%;object-fit:var(--imgfit,cover);transform:translate(var(--imgx,0),var(--imgy,0)) rotate(var(--imgrot,0deg)) scale(calc(var(--imgscale,1) * var(--imgflip,1)),var(--imgscale,1));transform-origin:center;pointer-events:none}
 
 /* ---- Fond perdu des pages intérieures ----
@@ -267,8 +292,9 @@ select option,.object-tools select option{background:#18131E;color:#ECE7E1}
 .cover-page.empty .cover-spine-zone span{color:var(--text-color,#171717)}
 .rule-page{--rweight:2px;--rscale:1;--rx:0px;--ry:0px}
 .intro{font-family:var(--text-font,var(--bodyfont,'Inter',Arial,sans-serif));font-size:var(--text-size,var(--bodysize,8px));font-weight:var(--text-weight,400);font-style:var(--text-style,normal);line-height:var(--text-leading,1.7);text-transform:var(--text-transform,none);color:var(--text-color,#4A453D);max-width:78%;margin:calc(10px + var(--copygap,0px)) 0 0;white-space:pre-line}
-.folio{position:absolute;right:calc(var(--pad,9%) + var(--or,0%));bottom:calc(var(--pad-y,9%) + var(--oy,0%));font-family:var(--mono);font-size:calc(8px * var(--preview));color:#6E685F}
-.spread.imgright .folio{left:calc(var(--pad,9%) + var(--ol,0%));right:auto}
+/* Folios posés sur la double-page : leur position est calculée en JS (en % de
+   la double-page, décalage de fond perdu compris) et passée en style en ligne. */
+.folio{position:absolute;font-size:calc(8px * var(--preview));color:#6E685F;line-height:1;z-index:4;pointer-events:none}
 .cover-page{background-color:var(--underbg,var(--cover,#FCFBF8));background-size:cover;background-position:center;color:#FFFDF7}
 .cover-page .drop{z-index:1;align-items:flex-start;padding-top:34%;color:rgba(255,255,255,.54)}
 .cover-copy.copy-block{left:12%;right:auto;top:12%;bottom:12%;width:var(--copyw,76%);max-width:88%;height:auto;display:flex;justify-content:flex-end;z-index:3;text-align:var(--copyalign,left)}
@@ -288,7 +314,13 @@ select option,.object-tools select option{background:#18131E;color:#ECE7E1}
 .cover-back-zone{left:var(--cover-back-x)}
 .cover-front-zone{left:var(--cover-front-x)}
 .cover-spine-zone{position:absolute;left:var(--cover-spine-x);top:var(--cover-bleed-y);bottom:var(--cover-bleed-y);width:max(2px,var(--cover-spine-w));display:flex;align-items:center;justify-content:center;background:linear-gradient(90deg,rgba(0,0,0,.3),rgba(0,0,0,.14),rgba(0,0,0,.32));border-left:.5px solid rgba(255,255,255,.16);border-right:.5px solid rgba(255,255,255,.16);z-index:3;overflow:hidden}
-.cover-spine-zone span{display:block;max-width:220px;transform:rotate(-90deg);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:var(--text-font,var(--titlefont,'Playfair Display',serif));font-size:var(--text-size,11px);font-weight:var(--text-weight,400);font-style:var(--text-style,normal);line-height:var(--text-leading,1.1);letter-spacing:1.8px;color:var(--text-color,rgba(255,255,255,.82));text-transform:var(--text-transform,uppercase)}
+/* Le dos se lit de haut en bas : le titre occupe le premier tiers, l'auteur le
+   dernier. Chaque texte est centré dans son tiers, d'où les repères à 1/6 et
+   5/6 de la hauteur. La rotation se fait après le centrage. */
+.cover-spine-zone span{position:absolute;left:50%;display:block;max-width:190px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:var(--text-font,var(--titlefont,'Playfair Display',serif));font-size:var(--text-size,11px);font-weight:var(--text-weight,400);font-style:var(--text-style,normal);line-height:var(--text-leading,1.1);letter-spacing:1.8px;color:var(--text-color,rgba(255,255,255,.82));text-transform:var(--text-transform,uppercase);text-align:center}
+.cover-spine-zone .spine-title{top:16.667%;transform:translate(-50%,-50%) rotate(-90deg)}
+.cover-spine-zone .spine-author{top:83.333%;transform:translate(-50%,-50%) rotate(-90deg)}
+.cover-spine-zone .spine-author:empty{display:none}
 .cover-spine-zone.too-small span{display:none}
 .cover-back-copy.copy-block{left:12%;top:13%;bottom:auto;width:min(var(--copyw,76%),76%);max-width:76%;height:auto;display:block;text-align:var(--copyalign,left)}
 .cover-back-copy .serie{font-size:var(--text-size,24px);line-height:var(--text-leading,1.12);margin:0 0 calc(12px + var(--copygap,0px));color:var(--text-color,#FFFDF7)}
@@ -360,11 +392,27 @@ select option,.object-tools select option{background:#18131E;color:#ECE7E1}
   box-shadow:none;
 }
 .group:first-child{border-top:0;padding-top:0}
-/* Alternance de fond sur toutes les sections : deux niveaux très proches,
-   assez pour découper les blocs à l'œil sans donner un effet rayé. */
-.panel .group{padding:20px 16px 22px;margin-left:-16px;margin-right:-16px;border-radius:8px}
-.panel .group:nth-of-type(odd){background:rgba(140,132,120,.075)}
-.panel .group:nth-of-type(even){background:rgba(140,132,120,.028)}
+.panel .group{padding:20px 16px 22px;margin-left:-16px;margin-right:-16px;border-radius:8px;border-top:0}
+/* Fond des sections : un dégradé dans la couleur propre à chaque section. Mises
+   bout à bout, elles composent la progression de « Pages » à « Enregistrer et
+   exporter » — laiton, gris chaud, ardoise, bleu, rosé, laiton, sauge, or.
+   L'ancien damier gris était propre mais éteint. */
+.panel .group{
+  background:linear-gradient(180deg,
+    rgba(var(--section-rgb,140,132,120),.165) 0%,
+    rgba(var(--section-rgb,140,132,120),.075) 55%,
+    rgba(var(--section-rgb,140,132,120),.03) 100%);
+}
+.panel .group:before{
+  content:"";
+  position:absolute;
+  left:0;right:0;top:0;
+  height:1px;
+  background:linear-gradient(90deg,
+    rgba(var(--section-rgb,140,132,120),.5),
+    rgba(var(--section-rgb,140,132,120),.08) 60%,
+    transparent);
+}
 .panel .group:first-child{padding-top:20px}
 .group:after{
   content:attr(data-section);
@@ -398,7 +446,16 @@ select option,.object-tools select option{background:#18131E;color:#ECE7E1}
   background:var(--section);
   flex:0 0 auto;
 }
-.section-pages{--section:#B39A62;--section-rgb:179,154,98;border-top:0}
+/* Sections repliables : on masque tout sauf le titre. Aucun stockage, l'état
+   revient à ses valeurs par défaut à chaque rechargement. */
+.panel .group>h2{cursor:pointer;user-select:none}
+.panel .group>h2:after{content:"\25BE";margin-left:auto;font-family:'Inter',system-ui,sans-serif;font-size:11px;color:var(--mut2);transition:transform .15s ease}
+.panel .group>h2:focus-visible{outline:1px solid var(--brass);outline-offset:3px}
+.panel .group.folded>h2{margin-bottom:0}
+.panel .group.folded>h2:after{transform:rotate(-90deg)}
+.panel .group.folded>*:not(h2){display:none}
+.panel-tools{grid-column:1/-1;display:flex;justify-content:flex-end;margin:0 0 6px}
+.section-pages{--section:#C2A268;--section-rgb:194,162,104;border-top:0}
 .preset-row{display:flex;flex-wrap:wrap;gap:5px;margin-top:2px}
 .preset-row button{flex:1 1 calc(33.3% - 4px);min-width:0;background:var(--panel2);border:.5px solid var(--line);border-radius:var(--r);color:var(--mut);font:500 10.5px/1.2 'Inter',system-ui,sans-serif;padding:8px 4px;cursor:pointer;min-height:36px;text-align:center}
 .preset-row button:hover:not(:disabled){border-color:var(--brass-line);color:#FBF6EC}
@@ -415,17 +472,17 @@ select option,.object-tools select option{background:#18131E;color:#ECE7E1}
 .page-section-divider:before,.page-section-divider:after{content:"";flex:1;height:.5px;background:linear-gradient(90deg,var(--brass-line),transparent)}
 .page-section-divider:before{flex:0 0 18px}
 .page-section-divider:after{flex:1}
-.section-format{--section:#A8926A;--section-rgb:168,146,106}
+.section-format{--section:#7C8A98;--section-rgb:124,138,152}
 .format-grid{grid-template-columns:repeat(3,1fr)}
 .format-grid button{display:flex;flex-direction:column;align-items:center;gap:2px}
 .format-grid button small{display:block;font-family:var(--mono);font-size:9px;letter-spacing:.4px;color:var(--mut2);font-weight:400}
 .format-grid button.on small{color:var(--brass)}
-.section-print{--section:#7E8F7C;--section-rgb:126,143,124}
-.section-image{--section:#7C8A98;--section-rgb:124,138,152}
-.section-decor{--section:#A2807C;--section-rgb:162,128,124}
-.section-text{--section:#B5A98F;--section-rgb:181,169,143}
-.section-copy{--section:#6E8A85;--section-rgb:110,138,133}
-.section-layout{--section:#BFA96B;--section-rgb:191,169,107}
+.section-print{--section:#7E9A8C;--section-rgb:126,154,140}
+.section-image{--section:#A8815C;--section-rgb:168,129,92}
+.section-decor{--section:#97788C;--section-rgb:151,120,140}
+.section-text{--section:#B79A5B;--section-rgb:183,154,91}
+.section-folio{--section:#A2807C;--section-rgb:162,128,124}
+.section-layout{--section:#86A177;--section-rgb:134,161,119}
 .field{margin:0 0 14px}
 .page-locked-badge{position:absolute;top:10px;left:50%;transform:translateX(-50%);z-index:14;display:flex;align-items:center;gap:6px;padding:5px 12px;border-radius:999px;background:rgba(10,9,8,.82);border:.5px solid var(--brass-line);color:var(--brass);font:600 10.5px/1 'Inter',system-ui,sans-serif;letter-spacing:.4px;pointer-events:none}
 .field-removed{opacity:.4}
@@ -436,6 +493,28 @@ select option,.object-tools select option{background:#18131E;color:#ECE7E1}
 .wrap:not(.is-panorama) .pano-only{display:none}
 .wrap:not(.is-dual) .dual-only{display:none}
 .wrap:not(.is-full-cover) .cover-only{display:none}
+/* Inverse : ce que la couverture double ne sait pas afficher (le paragraphe
+   n'y est pas rendu, seul le texte du verso l'est). */
+.wrap.is-full-cover .cover-hide{display:none}
+/* Section Pages resserrée : elle est au-dessus de « Textes », chaque pixel
+   gagné ici fait remonter tout le reste. */
+/* Trait décoratif : activation, couleur et teintes sur une seule ligne, et
+   réglages masqués tant que le trait n'est pas affiché — c'est un simple
+   trait, il n'a pas à occuper un écran de réglages en permanence. */
+.rule-head{display:flex;align-items:center;flex-wrap:wrap;gap:8px 10px}
+/* 14 cellules ne tiennent pas à côté du bouton : la rangée prend sa propre
+   ligne, sur toute la largeur, sinon une pastille orpheline s'étire. */
+.rule-head #rules{flex:1 1 100%;min-width:0}
+.rule-head .act{flex:0 0 auto}
+.section-decor.rule-off .rule-settings{display:none}
+.section-pages .preset-row button{min-height:30px;padding:6px 4px}
+.section-pages .preset-grid button{min-height:38px;padding:8px 6px}
+.section-pages .field,.section-text .field{margin-bottom:11px}
+/* Champs appariés : les deux colonnes doivent s'aligner par le haut, sinon un
+   champ à deux lignes décale son voisin. */
+.section-text .field.row{align-items:flex-end}
+.section-text .field.row>div{min-width:0}
+.section-pages .page-section-divider{margin:12px 0 10px}
 .image-files{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 label{display:block;font-size:11.5px;color:var(--mut);margin:0 0 7px;letter-spacing:.1px}
 .val{font-family:var(--mono);font-size:13px;font-weight:500;color:var(--tx);float:right;cursor:pointer;padding:0 6px;border-radius:var(--r);transition:background .15s}
@@ -461,11 +540,12 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
 .seg button.on:after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--brass)}
 .seg button:disabled{opacity:.38;cursor:not-allowed}
 .row{display:flex;gap:10px;align-items:center}
-.meta{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin:0 0 16px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
-.meta div{background:transparent;border:0;border-radius:0;padding:10px 12px 10px 0;min-width:0;box-shadow:none}
-.meta div+div{padding-left:14px;border-left:.5px solid var(--line)}
-.meta span{display:block;color:var(--mut2);font-size:10px;letter-spacing:.5px;text-transform:uppercase;font-family:var(--mono);margin:0 0 5px}
-.meta strong{display:block;color:var(--tx);font-size:12px;font-weight:400;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* Repère de page sur une seule ligne : l'information est déjà dans le bandeau
+   et la pellicule, inutile d'en faire un bloc de trois cartes. */
+.meta-line{display:flex;align-items:baseline;flex-wrap:wrap;gap:0 8px;margin:0 0 12px;padding:6px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);min-width:0}
+.meta-line span{color:var(--mut2);font-size:10px;letter-spacing:.5px;text-transform:uppercase;font-family:var(--mono)}
+.meta-line i{color:var(--mut2);font-style:normal;opacity:.6}
+.meta-line strong{color:var(--tx);font-size:12px;font-weight:400;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
 .print-readout{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0;margin-top:10px;border-top:.5px solid var(--line)}
 .print-readout div{background:transparent;border:0;border-bottom:.5px solid var(--line);border-radius:0;padding:9px 12px 9px 0;min-width:0;box-shadow:none}
 .print-readout div:nth-child(even){padding-left:14px;border-left:.5px solid var(--line)}
@@ -490,6 +570,14 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
 .sw button{width:26px;height:26px;border-radius:2px;border:.5px solid var(--line2);cursor:pointer;padding:0}
 .sw button:hover{border-color:rgba(236,226,208,.4)}
 .sw button.on{outline:1px solid var(--brass);outline-offset:2px}
+/* Rangée de teintes qui remplit la largeur, terminée par une pipette.
+   Partagée par le fond de page (#hueSwatches) et le trait (#rules). */
+.sw-fill{flex-wrap:wrap;gap:6px}
+.sw-fill button,.sw-fill .pick{width:auto;flex:1 1 26px;min-width:22px;height:26px;box-sizing:border-box}
+.sw-fill .pick{position:relative;display:block;border-radius:2px;border:.5px solid var(--line2);cursor:pointer;overflow:hidden;padding:0;background:conic-gradient(from 90deg,#c8503c,#d8b24a,#5a8f4e,#3f8f92,#3f5aa8,#8a4fa0,#c8503c)}
+.sw-fill .pick:hover{border-color:rgba(236,226,208,.4)}
+.sw-fill .pick.on{outline:1px solid var(--brass);outline-offset:2px}
+.sw-fill .pick input[type=color]{position:absolute;inset:0;width:100%;height:100%;margin:0;padding:0;border:0;opacity:0;cursor:pointer;background:none}
 input[type=color]{width:42px;height:30px;padding:0;border:.5px solid var(--line2);border-radius:2px;background:none;cursor:pointer}
 .actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:20px;padding-top:18px;border-top:.5px solid var(--line)}
 .export-total{margin:12px 0 0;padding:9px 14px;border-radius:8px;border:.5px solid var(--line2);border-left:2px solid rgba(194,162,104,.5);background:rgba(236,226,208,.04);font:600 11.5px/1.45 'Inter',system-ui,sans-serif;color:#FBF6EC}
@@ -587,10 +675,19 @@ input[type=color]{width:42px;height:30px;padding:0;border:.5px solid var(--line2
   .stage .spread.cover-full .full-cover-page{height:100%;width:auto;max-width:100%}
   .stage .spread.single{height:100%;width:auto;max-width:100%}
   .stage .spread.single .page{height:100%;width:100%}
-  .workspace .panel{align-self:stretch;overflow-y:auto;overflow-x:hidden;overscroll-behavior-y:contain;margin-top:0;grid-template-columns:1fr;gap:0;padding-right:10px;scrollbar-color:var(--mut2) transparent;min-height:0}
-  .workspace.preview-right .panel{padding-right:0;padding-left:10px}
+  .workspace .panel{align-self:stretch;overflow-y:auto;overflow-x:hidden;overscroll-behavior-y:contain;margin-top:0;grid-template-columns:1fr;gap:0;padding-right:10px;scrollbar-color:var(--brass-line) rgba(236,226,208,.07);min-height:0}
+  /* Barre de défilement du panneau au laiton de la charte : l'ancien gris
+     (--mut2) se confondait avec le fond. Les règles -webkit doublent la
+     propriété standard, pas encore reconnue par tous les navigateurs. */
+  .workspace .panel::-webkit-scrollbar{width:11px}
+  .workspace .panel::-webkit-scrollbar-track{background:rgba(236,226,208,.07);border-radius:7px}
+  .workspace .panel::-webkit-scrollbar-thumb{background:var(--brass-line);border-radius:7px;border:2px solid transparent;background-clip:padding-box}
+  .workspace .panel::-webkit-scrollbar-thumb:hover{background:var(--brass);background-clip:padding-box}
+  /* Même quand le livre est à droite, on garde une marge à droite du panneau :
+     sinon la barre de défilement vient se coller aux réglages. */
+  .workspace.preview-right .panel{padding-right:16px;padding-left:10px}
 }
 @media(max-width:860px){.masthead{display:block}.chips{justify-content:flex-start;margin-top:16px}}
-@media(max-width:680px){.wrap{padding:0 14px}body{padding-bottom:52px}h1{font-size:24px}.stage{padding:22px 12px;min-height:230px}.rail-head{display:block}.rail-actions{justify-content:flex-start;margin-top:12px}.thumb{flex-basis:110px}.rule-shapes{grid-template-columns:repeat(2,1fr)}.print-readout{grid-template-columns:1fr}.print-readout div:nth-child(even){padding-left:0;border-left:0}.meta{grid-template-columns:1fr}.meta div+div{padding-left:0;border-left:0;border-top:.5px solid var(--line)}.cover-spine-zone span{display:none}.guide-label{font-size:8px}}
+@media(max-width:680px){.wrap{padding:0 14px}body{padding-bottom:52px}h1{font-size:24px}.stage{padding:22px 12px;min-height:230px}.rail-head{display:block}.rail-actions{justify-content:flex-start;margin-top:12px}.thumb{flex-basis:110px}.rule-shapes{grid-template-columns:repeat(2,1fr)}.print-readout{grid-template-columns:1fr}.print-readout div:nth-child(even){padding-left:0;border-left:0}.cover-spine-zone span{display:none}.guide-label{font-size:8px}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
 @media print{body{background:#fff;padding:0}.wrap>*{display:none}.wrap .stage{display:flex;border:0;background:#fff;padding:0}.wrap .stage{display:flex!important}}
