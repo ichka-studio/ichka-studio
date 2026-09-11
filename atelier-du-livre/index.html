@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ICHKA · Atelier du livre</title>
-<link rel="stylesheet" href="styles.css?v=20260910-47">
+<link rel="stylesheet" href="styles.css?v=20260911-21">
 </head>
 <body>
 <div class="wrap full-ui" id="appWrap">
@@ -60,6 +60,7 @@
 
     <div class="panel">
       <div class="panel-tools"><button class="act" id="foldAll" type="button">Tout replier</button></div>
+      <p class="hint lock-note" id="lockNote" hidden>🔒 Page verrouillée : ses réglages sont grisés. Cliquer le cadenas de la vignette pour la libérer.</p>
       <div class="group section-pages" data-section="01">
         <h2>Pages</h2>
         <p class="meta-line"><span>Page</span><strong id="spreadPos">1 / 1</strong><i>·</i><strong id="spreadPages">p. 1-2</strong><i>·</i><strong id="spreadType">Image + texte</strong></p>
@@ -67,11 +68,12 @@
         <div class="field"><label>Pages intérieures <span class="val" id="bookPagesV">2 pages</span></label>
           <div class="row page-count-row">
             <button class="page-count-btn" id="pagesDown" type="button" aria-label="Moins de pages">&minus;</button>
-            <input type="number" id="bookPages" min="2" max="240" step="2" value="8">
+            <input type="number" id="bookPages" min="2" max="600" step="2" value="8">
             <button class="page-count-btn" id="pagesUp" type="button" aria-label="Plus de pages">&plus;</button>
             <button class="act" id="buildBook" type="button">Appliquer</button>
           </div>
-          <p class="hint">Hors couverture. Ex. : 8, 32, 120 pages.</p>
+          <p class="hint">Hors couverture. Le compteur ajoute ou retire des doubles-pages ; les couvertures, le début et la fin restent tels que tu les as faits. Cewe accepte 26 à 154 pages, Amazon KDP 24 à 600.</p>
+          <p class="hint alert-hint" id="bookPagesAlert" hidden></p>
         </div>
         <input type="hidden" id="pageKind" value="Image + texte">
         <div class="page-section-divider">Page sélectionnée</div>
@@ -108,6 +110,10 @@
         </div>
         <div class="field"><label>Titre</label><input type="text" id="serie" value="Titre de cette page" placeholder="Le titre affiché en grand"></div>
         <div class="field cover-hide"><label>Paragraphe de la page</label><textarea id="intro" placeholder="Une légende, une présentation, quelques lignes...">Une courte légende ou un texte de présentation pour cette double page.</textarea></div>
+        <div class="field"><label>Lignes déplacées par les curseurs</label>
+          <div class="seg seg-multi" id="lignesChoix"></div>
+          <p class="hint" id="lignesChoixNote"></p>
+        </div>
         <div class="field row">
           <div style="flex:1"><label>Texte gauche / droite <span class="val" id="txV">0</span></label><input type="range" id="tx" min="-320" max="320" value="0"></div>
           <div style="flex:1"><label>Texte haut / bas <span class="val" id="tyV">0</span></label><input type="range" id="ty" min="-420" max="420" value="0"></div>
@@ -120,6 +126,34 @@
           <div style="flex:1"><label>Largeur du texte <span class="val" id="twV">78 %</span></label><input type="range" id="tw" min="20" max="100" value="78"></div>
           <div style="flex:1"><label>Alignement du texte</label>
             <div class="seg" id="textAlign"><button data-v="left" class="on" type="button">Gauche</button><button data-v="center" type="button">Centre</button><button data-v="right" type="button">Droite</button></div>
+          </div>
+        </div>
+        <div class="field lift-field"><label>Lisibilité sur l'image</label>
+          <div class="seg seg-multi" id="liftMode">
+            <button data-v="none" type="button">Aucune</button><button data-v="shadow" type="button">Ombre douce</button><button data-v="halo" type="button">Halo</button><button data-v="outline" type="button">Contour</button><button data-v="plate" type="button">Cartouche</button><button data-v="scrimTop" type="button">Voile haut</button><button data-v="scrimBottom" type="button">Voile bas</button>
+          </div>
+          <p class="hint">Pour faire ressortir le texte posé sur une image. Ombre douce : discrète, le choix des pros. Voile : assombrit le bord porte-texte. Cartouche : plaque derrière le bloc. Identique à l'écran et à l'export.</p>
+        </div>
+        <div class="field row lift-settings">
+          <div style="flex:0 0 38%"><label>Intensité <span class="val" id="liftAmountV">50</span></label><input type="range" id="liftAmount" min="0" max="100" value="50"></div>
+          <div style="flex:1"><label>Couleur de l'effet</label>
+            <div class="sw sw-fill" id="lifts">
+              <button type="button" data-c="auto" class="sw-auto" title="Automatique : sombre sous un texte clair, claire sous un texte sombre"></button>
+              <button type="button" data-c="#1A1714" style="background:#1A1714" title="noir doux"></button>
+              <button type="button" data-c="#F7F3EA" style="background:#F7F3EA" title="crème"></button>
+              <button type="button" data-c="#2F3B2E" style="background:#2F3B2E" title="vert profond"></button>
+              <button type="button" data-c="#5A6650" style="background:#5A6650" title="sauge"></button>
+              <button type="button" data-c="#4E5B5A" style="background:#4E5B5A" title="vert-de-gris"></button>
+              <button type="button" data-c="#8A6D23" style="background:#8A6D23" title="doré"></button>
+              <button type="button" data-c="#B79A5B" style="background:#B79A5B" title="vieil or"></button>
+              <button type="button" data-c="#7C4A32" style="background:#7C4A32" title="brun chaud"></button>
+              <button type="button" data-c="#9B3D2E" style="background:#9B3D2E" title="terracotta"></button>
+              <button type="button" data-c="#6B2D3C" style="background:#6B2D3C" title="bordeaux"></button>
+              <button type="button" data-c="#3C4A5A" style="background:#3C4A5A" title="bleu ardoise"></button>
+              <button type="button" data-c="#6E685F" style="background:#6E685F" title="gris chaud"></button>
+              <button type="button" data-c="#4A453D" style="background:#4A453D" title="gris foncé"></button>
+              <label class="pick" title="Couleur libre (pipette)"><input type="color" id="liftColor" value="#1A1714" aria-label="Couleur libre (pipette)"></label>
+            </div>
           </div>
         </div>
         <div class="field advanced-field"><button class="act" id="resetTextBlock" type="button">Recentrer le texte</button></div>
@@ -395,11 +429,11 @@
     <button class="iconbtn" id="readerNext" type="button" title="Page suivante" aria-label="Page suivante">›</button>
     <button class="act" id="readerClose" type="button">Retour à l'édition</button>
   </div>
-  <div class="reader-stage">
-    <div id="readerSpread" class="spread reader-spread"></div>
+  <div class="reader-stage" id="readerStage">
+    <div id="readerBook" class="reader-book"></div>
   </div>
 </div>
-<script src="app.js?v=20260910-47"></script>
+<script src="app.js?v=20260911-21"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </body>
 </html>

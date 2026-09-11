@@ -344,6 +344,28 @@ const I18N_EN={
   "Cadre figé":"Frame locked",
   "Le cadre suit le zoom de l'image jusqu'au bord de la page. Une fois figé, le zoom ne déplace plus que l'image à l'intérieur.":"The frame follows the image zoom up to the page edge. Once locked, zooming only moves the image inside it.",
   "Non disponible en « Remplir » : l'image doit déborder pour être massicotée. Choisis « Voir entière » juste au-dessus pour pouvoir la détourer.":"Not available in Fill mode: the image must bleed off to be trimmed. Choose Fit whole just above to shape it.",
+  "Lignes déplacées par les curseurs":"Lines moved by the sliders",
+  "Déplacer cette ligne":"Move this line",
+  "Lisibilité sur l'image":"Legibility on the image",
+  "Aucune":"None",
+  "Ombre douce":"Soft shadow",
+  "Halo":"Halo",
+  "Contour":"Outline",
+  "Cartouche":"Plate",
+  "Voile haut":"Top scrim",
+  "Voile bas":"Bottom scrim",
+  "Intensité":"Intensity",
+  "Couleur de l'effet":"Effect colour",
+  "Automatique : sombre sous un texte clair, claire sous un texte sombre":"Automatic: dark under light text, light under dark text",
+  "Pour faire ressortir le texte posé sur une image. Ombre douce : discrète, le choix des pros. Voile : assombrit le bord porte-texte. Cartouche : plaque derrière le bloc. Identique à l'écran et à l'export.":"Makes text stand out on an image. Soft shadow: discreet, the pros' choice. Scrim: darkens the text edge. Plate: a panel behind the block. Identical on screen and in export.",
+  "Hors limites":"Out of range",
+  "minimum":"minimum",
+  "maximum":"maximum",
+  "Les curseurs déplacent les lignes cochées, chacune par rapport à sa place dans le bloc.":"The sliders move the checked lines, each relative to its place in the block.",
+  "Toutes les lignes cochées : les curseurs déplacent le bloc entier.":"All lines checked: the sliders move the whole block.",
+  "🔒 Page verrouillée : ses réglages sont grisés. Cliquer le cadenas de la vignette pour la libérer.":"🔒 Page locked: its settings are greyed out. Click the padlock on the thumbnail to unlock it.",
+  "Couverture":"Cover",
+  "Quatrième de couverture":"Back cover",
   "Numéros de page":"Page numbers",
   "Réglage valable pour tout le livre. Le numéro se pose sur la page de papier, jamais sur une image à fond perdu ni sur une couverture — comme dans un livre imprimé.":"Applies to the whole book. The number sits on the paper page, never on a full-bleed image or a cover — like a printed book.",
   "Où les placer":"Where to place them",
@@ -479,7 +501,7 @@ const I18N_EN={
 };
 const I18N_TEXT_BASES=new WeakMap();
 const I18N_ATTR_BASES=new WeakMap();
-const I18N_SKIP='script,style,noscript,#spread,#readerSpread,#filmstrip,.book-title,input,textarea,select,option';
+const I18N_SKIP='script,style,noscript,#spread,#readerBook,#filmstrip,.book-title,input,textarea,select,option';
 function translatePattern(base){
   const t=String(base);
   let m=t.match(/^Page affichée (\d+) \/ (\d+)(.*)$/);
@@ -519,7 +541,7 @@ function translateTextNode(node){
   node.nodeValue=left+tr(base.trim())+right;
 }
 function translateAttributes(node){
-  if(!node||node.closest?.('#spread,#readerSpread,#filmstrip,.book-title'))return;
+  if(!node||node.closest?.('#spread,#readerBook,#filmstrip,.book-title'))return;
   const attrs=['aria-label','title','placeholder','data-placeholder'];
   let bases=I18N_ATTR_BASES.get(node);
   if(!bases){bases={};I18N_ATTR_BASES.set(node,bases);}
@@ -554,6 +576,8 @@ function applyLanguage(root=document.body){
 function setInterfaceLanguage(lang){
   currentLang=lang==='en'?'en':'fr';
   applyLanguage();
+  syncBookPages();                // l'alerte de pagination est composée en JS
+  if(readerOpen)renderReader();   // le statut du lecteur est composé en JS
 }
 function initLanguageSwitch(){
   const box=el('langSwitch');
@@ -574,8 +598,10 @@ function isTextHidden(page,key){
 function textLine(page,key,tag,className,label,extraStyle='',value=page[key],area='main'){
   if(isTextHidden(page,key))return '';
   const locked=isPageLocked(page);
-  return `<div class="text-line-wrap">
+  const off=textOffset(page,key);
+  return `<div class="text-line-wrap" style="--line-dx:${off.dx}px;--line-dy:${off.dy}px" data-line="${key}">
       ${locked?'':textTools(page,key,[key],area)}
+      ${locked?'':`<button class="line-grip" type="button" data-drag="line" data-key="${key}" title="Déplacer cette ligne" aria-label="Déplacer cette ligne" data-html2canvas-ignore="true"></button>`}
       <${tag} class="${className}" style="${extraStyle}${textStyleVars(page,key)}" ${editAttrs(key,label,locked)}>${esc(value)}</${tag}>
     </div>`;
 }
@@ -835,6 +861,7 @@ function imageUrl(page,slot='img'){
   return page[imageField(slot,'url')];
 }
 function setImageSetting(page,slot,key,value){
+  if(isPageLocked(page))return;   // le verrou tient aussi au niveau du modèle
   page[imageField(slot,key)]=value;
 }
 // Miroir horizontal : ce qui est à gauche dans l'image passe à droite. Utile pour
@@ -963,6 +990,7 @@ function currentTextArea(page=currentPage(),area=activeTextArea){
   return 'main';
 }
 function setTextAreaValue(page,area,prop,value){
+  if(isPageLocked(page))return;
   page[textAreaField(currentTextArea(page,area),prop)]=value;
 }
 function copyAreaFromElement(target){
@@ -984,6 +1012,59 @@ function textGap(page,area='main'){
 function textAlign(page,area='main'){
   const value=textAreaValue(page,area,'Align',page.textAlign);
   return ['left','center','right'].includes(value)?value:PAGE_TEMPLATE.textAlign;
+}
+// Lisibilité du texte sur l'image : effet, intensité et couleur, réglés par
+// zone de texte (recto, verso, page) comme la position du bloc. Par défaut :
+// ombre douce sur une couverture qui porte une image, rien ailleurs.
+const LIFT_MODES=['none','shadow','halo','outline','plate','scrimTop','scrimBottom'];
+function textLift(page,area='main'){
+  area=currentTextArea(page,area);
+  const v=textAreaValue(page,area,'Lift',null);
+  if(LIFT_MODES.includes(v))return v;
+  return ((isFullCover(page)||isSingleCover(page))&&page.img)?'shadow':'none';
+}
+function textLiftAmount(page,area='main'){
+  return clamp(+textAreaValue(page,currentTextArea(page,area),'LiftAmount',50)||0,0,100);
+}
+function textLiftColorInput(page,area='main'){
+  const v=textAreaValue(page,currentTextArea(page,area),'LiftColor','auto');
+  return /^#[0-9a-f]{6}$/i.test(v||'')?v:'auto';
+}
+// Couleur effective : en automatique, sombre sous un titre clair, claire sous un titre sombre.
+function textLiftColor(page,area='main'){
+  const v=textLiftColorInput(page,area);
+  if(v!=='auto')return v;
+  const cle=currentTextArea(page,area)==='back'?'coverBackTitle':'serie';
+  const [r,g,b]=hexToRgb(textColorInput(page,cle));
+  return (0.2126*r+0.7152*g+0.0722*b)/255>0.55?'#1A1714':'#F7F3EA';
+}
+// Variables CSS posées sur le bloc de texte. Le texte porte l'ombre en
+// text-shadow (rendu par html2canvas) ; cartouche et voile sont de vrais
+// éléments (copyPlate / copyScrim), donc exportés eux aussi.
+function liftVars(page,area='main'){
+  const mode=textLift(page,area);
+  const a=textLiftAmount(page,area)/100;
+  const c=textLiftColor(page,area);
+  const px=n=>n.toFixed(1)+'px';
+  let shadow='none';
+  if(mode==='shadow')shadow=`0 ${px(1+a*2)} ${px(3+a*12)} ${rgba(c,.35+a*.5)}`;
+  else if(mode==='halo')shadow=`0 0 ${px(3+a*12)} ${rgba(c,.6+a*.4)},0 0 ${px(1+a*4)} ${rgba(c,.8)}`;
+  else if(mode==='outline'){
+    const r=0.6+a*1.6;
+    shadow=[[r,0],[-r,0],[0,r],[0,-r],[r,r],[-r,-r],[r,-r],[-r,r]].map(([x,y])=>`${px(x)} ${px(y)} 0 ${c}`).join(',');
+  }
+  return `--lift-shadow:${shadow};--lift-plate:${mode==='plate'?rgba(c,.45+a*.55):'transparent'};`;
+}
+function copyPlate(page,area='main'){
+  return textLift(page,area)==='plate'?'<div class="copy-plate"></div>':'';
+}
+function copyScrim(page,area='main'){
+  const mode=textLift(page,area);
+  if(mode!=='scrimTop'&&mode!=='scrimBottom')return '';
+  const a=textLiftAmount(page,area)/100;
+  const c=textLiftColor(page,area);
+  const al=.3+a*.6;
+  return `<div class="copy-scrim" style="background:linear-gradient(to ${mode==='scrimTop'?'bottom':'top'},${rgba(c,al)} 0%,${rgba(c,al*.7)} 30%,${rgba(c,0)} 62%)"></div>`;
 }
 function bodySize(page){
   return Math.max(7,Math.min(18,+page.bodySize||PAGE_TEMPLATE.bodySize));
@@ -1072,13 +1153,22 @@ function textColorInput(page,key){
   if(key==='serie')return TITLE_ACCENT;
   return '#171717';
 }
+// Décalage propre à une ligne, en plus de la position du bloc. Appliqué en
+// transform : la ligne bouge à l'écran sans faire refluer ses voisines.
+function textOffset(page,key){
+  const s=textStyle(page,normalizeTextKey(key));
+  return {dx:Math.round(+s.dx||0),dy:Math.round(+s.dy||0)};
+}
 function textStyleVars(page,key){
   key=normalizeTextKey(key);
   return `--text-size:${textSize(page,key)}px;--text-leading:${textLeading(page,key)};--text-font:${textFontCss(page,key)};--text-weight:${textBool(page,key,'bold')?700:400};--text-style:${textBool(page,key,'italic')?'italic':'normal'};--text-transform:${textBool(page,key,'upper')?'uppercase':'none'};--text-color:${textColorInput(page,key)};`;
 }
 function setTextStyle(page,key,prop,value){
+  if(isPageLocked(page))return;
   key=normalizeTextKey(key);
   const style=textStyle(page,key);
+  if(prop==='dx'){style.dx=Math.max(-320,Math.min(320,Math.round(+value||0)));return;}
+  if(prop==='dy'){style.dy=Math.max(-420,Math.min(420,Math.round(+value||0)));return;}
   if(prop==='size'){
     style.size=Math.max(5,Math.min(96,+value||textDefaultSize(page,key)));
     if(key==='serie')page.tsize=style.size;
@@ -1110,7 +1200,7 @@ function canvasBodyFont(page){
 }
 function copyVars(page,area='main'){
   area=currentTextArea(page,area);
-  return `--copyw:${textWidth(page,area)}%;--copyx:${textX(page,area)}px;--copyy:${textY(page,area)}px;--copygap:${textGap(page,area)}px;--copyalign:${textAlign(page,area)};--bodysize:${bodySize(page)}px;`;
+  return `--copyw:${textWidth(page,area)}%;--copyx:${textX(page,area)}px;--copyy:${textY(page,area)}px;--copygap:${textGap(page,area)}px;--copyalign:${textAlign(page,area)};--bodysize:${bodySize(page)}px;${liftVars(page,area)}`;
 }
 function copyClass(page,area='main'){
   return 'align-'+textAlign(page,currentTextArea(page,area));
@@ -1568,8 +1658,10 @@ function galerie(page,index){
     </div>`;
   const paper=`<div class="page paper rule-page ${ruleClass(page)}" style="--paper:${page.paper};${padPct}${ruleVars(page)}${copyVars(page)}${fontVars(page)}--tsize:${page.tsize}px">
       ${ruleOrnament(page)}
+      ${copyScrim(page)}
       <div class="copy-block ${copyClass(page)}">
         <div class="copy-stack">
+          ${copyPlate(page)}
           ${moveHandle('text')}
           ${undoBadge(page)}
           ${textLine(page,'kick','p','kick','Mention du haut')}
@@ -1606,8 +1698,10 @@ function fullCover(page){
       ${imageTools(page,'img')}
       ${topImageLayer(page,'img')}
       <div class="cover-zone cover-back-zone">
+        ${copyScrim(page,'back')}
         <div class="cover-back-copy copy-block ${copyClass(page,'back')}" data-text-area="back" style="${copyVars(page,'back')}">
           <div class="copy-stack">
+            ${copyPlate(page,'back')}
             ${moveHandle('text')}
             ${undoBadge(page)}
             ${textLine(page,'coverBackKick','p','kick','Mention du haut','',backKick,'back')}
@@ -1622,8 +1716,10 @@ function fullCover(page){
       </div>
       <div class="cover-zone cover-front-zone">
         ${ruleOrnament(page)}
+        ${copyScrim(page,'front')}
         <div class="cover-copy copy-block ${copyClass(page,'front')}" data-text-area="front" style="${copyVars(page,'front')}">
           <div class="copy-stack">
+            ${copyPlate(page,'front')}
             ${moveHandle('text')}
             ${undoBadge(page)}
             ${textLine(page,'kick','p','kick','Mention du haut','',page.kick,'front')}
@@ -1642,8 +1738,10 @@ function coverPage(page){
       ${imageLayer(page)}
       ${imageTools(page,'img')}
       ${topImageLayer(page,'img')}
+      ${copyScrim(page)}
       <div class="cover-copy copy-block ${copyClass(page)}">
         <div class="copy-stack">
+          ${copyPlate(page)}
           ${moveHandle('text')}
           ${undoBadge(page)}
           ${textLine(page,'kick','p','kick','Mention du haut')}
@@ -1758,7 +1856,7 @@ function sizeSpreadNode(sp){
 }
 function sizeSpread(){
   sizeSpreadNode(el('spread'));
-  if(readerOpen)sizeSpreadNode(el('readerSpread'));
+  if(readerOpen)renderReader();
 }
 function spreadDisplayRatio(sp=el('spread')){
   if(sp&&sp.classList.contains('cover-full'))return coverMetrics().ratio;
@@ -1779,42 +1877,141 @@ function renderSpread(){
   }
 }
 
-function renderReader(turn=0){
-  if(!readerOpen)return;
-  const page=currentPage();
-  const readerSpread=el('readerSpread');
-  readerSpread.className=spreadClass(page,false)+' reader-spread';
-  readerSpread.innerHTML=spreadMarkup(page,activeIndex,{zones:false,guides:false});
-  el('readerStatus').textContent=`Page ${activeIndex+1} / ${pages.length} · ${pageRange(activeIndex)}`;
-  el('readerPrev').disabled=activeIndex===0;
-  el('readerNext').disabled=activeIndex===pages.length-1;
-  sizeSpreadNode(readerSpread);
-  if(turn){
-    readerSpread.classList.remove('turn-next','turn-prev');
-    void readerSpread.offsetWidth;
-    readerSpread.classList.add(turn>0?'turn-next':'turn-prev');
+// ===== Lecteur : le livre tel qu'on le lit =====
+// La couverture double n'est jamais montrée à plat. Elle donne deux vues : le
+// plat avant seul (livre fermé) en tête, le plat arrière seul en fin. Tout le
+// reste défile en double-pages. Pour changer de page, une vraie feuille tourne
+// autour du dos, recto puis verso, avec le contenu réel des pages.
+let readerIndex=0;
+let readerTurning=false;
+const READER_TURN_MS=980;
+function readerViews(){
+  const vues=[];
+  const c=pages.findIndex(p=>isFullCover(p));
+  if(c>=0)vues.push({index:c,part:'front'});
+  pages.forEach((p,i)=>{if(!isFullCover(p))vues.push({index:i,part:'spread'});});
+  if(c>=0)vues.push({index:c,part:'back'});
+  return vues.length?vues:[{index:0,part:'spread'}];
+}
+function readerViewLabel(v){
+  const p=pages[v.index];
+  if(v.part==='front')return 'Couverture';
+  if(v.part==='back')return 'Quatrième de couverture';
+  if(isSingleCover(p))return p.surface==='cover-front'?'Couverture':'Quatrième de couverture';
+  return pageRange(v.index,p);
+}
+// Le livre ouvert a la taille d'une double-page intérieure ; tout le reste se
+// cale dessus, à la même échelle mm → px.
+function sizeReaderBook(){
+  const stage=el('readerStage'),book=el('readerBook');
+  if(!stage||!book)return null;
+  const ratio=innerMetrics(2).ratio;
+  const dispoW=Math.max(200,stage.clientWidth-60),dispoH=Math.max(200,stage.clientHeight-60);
+  let h=Math.min(dispoH,dispoW/ratio);let w=h*ratio;
+  book.style.width=w+'px';book.style.height=h+'px';
+  book.dataset.w=String(w);book.dataset.h=String(h);
+  return {w,h};
+}
+// Une « feuille » = une vue rendue à la taille du livre ouvert. Pour les plats
+// de la couverture double, on rend la couverture entière à la même échelle et
+// on la décale pour que le bon plat tombe sur la bonne moitié ; la feuille
+// rogne le reste. Rien n'est re-rendu autrement : le cadrage de l'image et
+// les textes sont exactement ceux de l'éditeur.
+function readerSheetHtml(v,w,h){
+  const p=pages[v.index];
+  const demi=w/2;
+  const pxParMm=w/innerMetrics(2).totalW;
+  let cls,left,largeur;
+  if(v.part==='front'||v.part==='back'){
+    const m=coverMetrics();
+    largeur=m.totalW*pxParMm;
+    const frontX=(BLEED_MM+TRIM_W_MM+m.spine)*pxParMm;
+    // Le rendu vit dans la demi-feuille du plat (qui commence au dos pour le
+    // plat avant) : on le décale de la position du plat DANS la couverture.
+    left=v.part==='front'?-frontX:0;
+    cls=spreadClass(p,false);
+  }else if(isSingleCover(p)){
+    largeur=innerMetrics(1).totalW*pxParMm;
+    left=p.surface==='cover-front'?w-largeur:0;
+    cls=spreadClass(p,false);
+  }else{
+    largeur=w;left=0;cls=spreadClass(p,false);
   }
+  const rendu=`<div class="${cls}" style="position:absolute;top:0;left:${left.toFixed(2)}px;width:${largeur.toFixed(2)}px;height:${h}px">${spreadMarkup(p,v.index,{zones:false,guides:false})}</div>`;
+  // Livre fermé : la feuille ne porte qu un plat, l autre moitié reste vide.
+  // Ce rognage est dans la feuille elle-même pour que la rotation en hérite.
+  const dedans=v.part==="front"?`<div class="reader-half right">${rendu}</div>`
+             :v.part==="back" ?`<div class="reader-half left">${rendu}</div>`:rendu;
+  return `<div class="reader-sheet" style="width:${w}px;height:${h}px">${dedans}</div>`;
+}
+function renderReader(){
+  if(!readerOpen)return;
+  const vues=readerViews();
+  readerIndex=Math.max(0,Math.min(vues.length-1,readerIndex));
+  const v=vues[readerIndex];
+  const taille=sizeReaderBook();
+  if(!taille)return;
+  const book=el('readerBook');
+  book.className='reader-book'+(v.part==='front'?' closed-front':v.part==='back'?' closed-back':'');
+  book.innerHTML=`<div class="reader-layer">${readerSheetHtml(v,taille.w,taille.h)}</div>`;
+  el('readerStatus').textContent=`${tr(readerViewLabel(v))} · ${readerIndex+1} / ${vues.length}`;
+  el('readerPrev').disabled=readerIndex===0;
+  el('readerNext').disabled=readerIndex===vues.length-1;
+  activeIndex=v.index;
+}
+function readerTurn(de,vers,dir){
+  const book=el('readerBook');
+  const w=+book.dataset.w,h=+book.dataset.h;
+  const A=readerSheetHtml(de,w,h),B=readerSheetHtml(vers,w,h);
+  const moitie=(cote,feuille)=>`<div class="reader-half ${cote}">${feuille}</div>`;
+  // dir > 0 : la page de droite se soulève vers la gauche ; son verso (la page
+  // de gauche de la vue suivante) vient se poser. dir < 0 : l'inverse.
+  const socleGauche=dir>0?moitie('left',A):moitie('left',B);
+  const socleDroit =dir>0?moitie('right',B):moitie('right',A);
+  const feuilleRecto=dir>0?moitie('right',A):moitie('left',A);
+  const feuilleVerso=dir>0?moitie('left',B):moitie('right',B);
+  const sens=dir>0?'to-left':'to-right';
+  book.className='reader-book turning';
+  book.innerHTML=`<div class="reader-layer">${socleGauche}${socleDroit}</div>
+    <div class="reader-leaf leaf-back ${sens}">${feuilleVerso}<i class="leaf-shade"></i></div>
+    <div class="reader-leaf leaf-front ${sens}">${feuilleRecto}<i class="leaf-shade"></i></div>`;
+  readerTurning=true;
+  el("readerPrev").disabled=true;el("readerNext").disabled=true;
+  // Fin sur animationend : fiable même si le navigateur retarde les minuteries
+  // (onglet en arrière-plan). La minuterie ne sert que de filet.
+  let termine=false;
+  const finir=()=>{if(termine)return;termine=true;readerTurning=false;renderReader();};
+  const recto=book.querySelector(".leaf-front");
+  if(recto)recto.addEventListener("animationend",e=>{if(e.target===recto&&/^leaf/.test(e.animationName))finir();});
+  setTimeout(finir,READER_TURN_MS+600);
 }
 function openReader(){
   readerOpen=true;
+  const vues=readerViews();
+  let i=vues.findIndex(v=>v.index===activeIndex&&v.part!=='back');
+  if(i<0)i=vues.findIndex(v=>v.index===activeIndex);
+  readerIndex=Math.max(0,i);
   const reader=el('reader');
   reader.hidden=false;
   reader.setAttribute('aria-hidden','false');
-  renderReader(0);
+  renderReader();
 }
 function closeReader(){
-  readerOpen=false;
+  readerOpen=false;readerTurning=false;
   const reader=el('reader');
   reader.hidden=true;
   reader.setAttribute('aria-hidden','true');
-}
-function navigateReader(delta){
-  const next=activeIndex+delta;
-  if(next<0||next>=pages.length)return;
-  activeIndex=next;
   syncControls();
   refresh();
-  renderReader(delta);
+}
+function navigateReader(delta){
+  if(readerTurning)return;
+  const vues=readerViews();
+  const suivant=readerIndex+delta;
+  if(suivant<0||suivant>=vues.length)return;
+  const de=vues[readerIndex],vers=vues[suivant];
+  readerIndex=suivant;
+  readerTurn(de,vers,delta);
 }
 
 function thumbMarkup(page,index){
@@ -1948,6 +2145,12 @@ function syncBookPages(){
   const count=Math.max(2,totalInteriorPages());
   el('bookPages').value=count;
   el('bookPagesV').textContent=count+' pages';
+  const alerte=el('bookPagesAlert');
+  if(alerte){
+    const txt=avertissementPages(count);
+    alerte.hidden=!txt;
+    alerte.textContent=txt?tr('Hors limites')+' — '+txt+'.':'';
+  }
   if(el('stripPrev'))el('stripPrev').disabled=activeIndex===0;
   if(el('stripNext'))el('stripNext').disabled=activeIndex===pages.length-1;
   setText('exportCount',pages.length+(pages.length>1?' fichiers':' fichier'));
@@ -2070,17 +2273,40 @@ function decorPossible(page=currentPage()){
 // aucun effet. Même convention de grisage que pour le trait.
 function syncTexteDisponible(page=currentPage()){
   const sansTexte=(page.layout==='dual'||page.layout==='panorama')&&!isFullCover(page)&&!isSingleCover(page);
-  ['kick','chapt','serie','intro','tw','tx','ty','tg','m','resetTextBlock'].forEach(id=>{
+  ['kick','chapt','serie','intro','tw','tx','ty','tg','m','resetTextBlock','liftAmount','liftColor'].forEach(id=>{
     const n=el(id);
     if(n)n.disabled=sansTexte;
   });
-  const align=el('textAlign');
-  if(align)align.querySelectorAll('button').forEach(b=>{b.disabled=sansTexte;});
+  ['textAlign','liftMode','lifts'].forEach(id=>{
+    const box=el(id);
+    if(box)box.querySelectorAll('button').forEach(b=>{b.disabled=sansTexte;});
+  });
   const note=el('textNote');
   if(note){
     note.hidden=!sansTexte;
     note.textContent=sansTexte?"Non disponible : ce modèle remplit la double page d'images, aucun texte n'y est affiché.":'';
   }
+}
+// Verrou de page : jusqu'ici il ne retirait que les outils de la page, le
+// panneau restait entièrement actif (zoom compris). Un verrou doit tout tenir :
+// on grise tout ce qui modifie LA page. Les réglages du livre entier (numéros
+// de page, format, export) restent accessibles.
+const CONTROLES_DE_PAGE='.section-text input,.section-text button,.section-text select,.section-text textarea,'+
+  '.section-image input,.section-image button,.section-image select,'+
+  '.section-decor input,.section-decor button,#presets button,#presetsInner button,#pageName';
+function syncPageLockUI(page=currentPage()){
+  const verrou=isPageLocked(page);
+  document.querySelectorAll(CONTROLES_DE_PAGE).forEach(n=>{
+    if(verrou){
+      if(!n.disabled){n.disabled=true;n.dataset.lockDisabled='1';}
+    }else if(n.dataset.lockDisabled){
+      n.disabled=false;delete n.dataset.lockDisabled;
+    }
+  });
+  const wrap=el('appWrap');
+  if(wrap)wrap.classList.toggle('is-page-locked',verrou);
+  const note=el('lockNote');
+  if(note)note.hidden=!verrou;
 }
 function syncDecorDisponible(){
   const possible=decorPossible();
@@ -2296,8 +2522,17 @@ function syncControls(){
   renderImageQuality(page);
   renderPrintReadout();
   syncBookPages();
+  syncLignesChoisies(page);
+  syncLift(page);
+  if(lignesChoisies){
+    const premiere=[...lignesChoisies][0];
+    const o=textOffset(page,premiere);
+    if(el('tx')){el('tx').value=o.dx;el('txV').textContent=String(o.dx);}
+    if(el('ty')){el('ty').value=o.dy;el('tyV').textContent=String(o.dy);}
+  }
   syncCoverPresets();
   syncTemplatePresets();
+  syncPageLockUI(page);   // en dernier : il ne fait que griser par-dessus le reste
 }
 // Un plat de couverture ajouté automatiquement et resté vide peut être repris
 // sans rien perdre : il ne doit donc pas bloquer le retour à la couverture double.
@@ -2462,10 +2697,27 @@ function addPage(){
   pages.splice(activeIndex+1,0,next);
   activatePage(activeIndex+1);
 }
+// Bornes des imprimeurs (pages intérieures). Le studio laisse faire un livre
+// minuscule ou énorme, mais prévient dès qu'on sort de ce qu'ils acceptent.
+const LIMITES_IMPRIMEUR={
+  kdp:{min:24,max:600,nom:'Amazon KDP'},      // papier couleur premium
+  cewe:{min:26,max:154,nom:'Cewe'}            // livre photo, selon le format
+};
+const PAGES_MAX=LIMITES_IMPRIMEUR.kdp.max;
 function normalizeBookPageCount(value){
-  let count=Math.max(2,Math.min(240,Math.round(+value||8)));
+  let count=Math.max(2,Math.min(PAGES_MAX,Math.round(+value||8)));
   if(count%2)count+=1;
-  return Math.min(240,count);
+  return Math.min(PAGES_MAX,count);
+}
+// Texte d'alerte quand le nombre de pages sort des bornes d'un imprimeur.
+function avertissementPages(count){
+  const hors=[];
+  for(const k of ['cewe','kdp']){
+    const l=LIMITES_IMPRIMEUR[k];
+    if(count<l.min)hors.push(`${l.nom} : ${tr("minimum")} ${l.min} ${tr("pages")}`);
+    else if(count>l.max)hors.push(`${l.nom} : ${tr("maximum")} ${l.max} ${tr("pages")}`);
+  }
+  return hors.join(' · ');
 }
 function makeBookPages(count){
   const built=[
@@ -2498,28 +2750,39 @@ function generatedInteriorPage(pageNo,view){
   });
 }
 function applyBookPageCount(count){
+  // Le compteur n'impose plus de moule (couverture double + début + fin). Il
+  // ajoute ou retire des doubles-pages intérieures et laisse tout le reste
+  // tel que l'utilisateur l'a construit : une couverture recto seule, deux
+  // pages et une couverture verso, c'est un livre valable.
   count=normalizeBookPageCount(count);
-  if(count===totalInteriorPages())return;
-  const previous=pages;
-  const previousActive=currentPage();
-  const cover=previous.find(isFullCover)||makePage(PRESETS.fullCover);
-  const start=previous.find(page=>page.surface==='inside-front')||makePage(PRESETS.insideFront);
-  const end=previous.find(page=>page.surface==='inside-back')||makePage(PRESETS.insideBack);
-  const existingInterior=previous.filter(page=>page.surface==='interior'&&interiorPageCount(page)===2);
-  const neededInteriorSpreads=Math.max(0,(count-2)/2);
-  const built=[cover,start];
-  for(let i=0;i<neededInteriorSpreads;i++){
-    const pageNo=2+i*2;
-    built.push(existingInterior[i]||generatedInteriorPage(pageNo,i+1));
+  let delta=count-totalInteriorPages();
+  if(delta===0){syncBookPages();return;}
+  const estInterieur=p=>p.surface==='interior';
+  const positionInsertion=()=>{
+    let i=-1;
+    pages.forEach((p,k)=>{if(estInterieur(p))i=k;});
+    if(i>=0)return i+1;                                   // après la dernière page intérieure
+    const finLivre=pages.findIndex(p=>p.surface==='inside-back'||p.surface==='cover-back');
+    if(finLivre>=0)return finLivre;                        // avant la fin du livre
+    return pages.length;
+  };
+  let numero=1;
+  while(delta>=2){
+    const vues=pages.filter(estInterieur).length+1;
+    const pageNo=2+(vues-1)*2;
+    pages.splice(positionInsertion(),0,generatedInteriorPage(pageNo,vues));
+    delta-=2;
   }
-  built.push(end);
-  const kept=new Set(built);
-  releaseImageSet(previous.filter(page=>!kept.has(page)));
-  pages=built;
-  const nextActiveIndex=built.indexOf(previousActive);
-  activeIndex=nextActiveIndex>=0?nextActiveIndex:Math.min(built.length-1,1);
-  el('bookPages').value=count;
-  el('bookPagesV').textContent=count+' pages';
+  while(delta<=-2){
+    // on retire par la fin, sans toucher aux pages verrouillées
+    let i=-1;
+    for(let k=pages.length-1;k>=0;k--){if(estInterieur(pages[k])&&!isPageLocked(pages[k])){i=k;break;}}
+    if(i<0)break;
+    const retiree=pages.splice(i,1)[0];
+    releaseImage(retiree.img);releaseImage(retiree.img2);releaseImage(retiree.topImg);
+    delta+=2;
+  }
+  activeIndex=Math.min(activeIndex,pages.length-1);
   syncControls();
   refresh();
 }
@@ -2567,7 +2830,7 @@ el('bookPages').addEventListener('change',()=>applyBookPageCount(el('bookPages')
 el('bookPages').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();applyBookPageCount(el('bookPages').value);}});
 el('buildBook').addEventListener('click',buildBook);
 el('pagesDown').addEventListener('click',()=>{const v=Math.max(2,(+el('bookPages').value||8)-2);el('bookPages').value=v;applyBookPageCount(v);});
-el('pagesUp').addEventListener('click',()=>{const v=Math.min(240,(+el('bookPages').value||8)+2);el('bookPages').value=v;applyBookPageCount(v);});
+el('pagesUp').addEventListener('click',()=>{const v=Math.min(PAGES_MAX,(+el('bookPages').value||8)+2);el('bookPages').value=v;applyBookPageCount(v);});
 el('hue').addEventListener('input',e=>{currentPage().hue=e.target.value;syncHueSwatches();refresh();});
 onEl('hueSwatches','click',e=>{
   const b=e.target.closest('button[data-c]');
@@ -2614,6 +2877,57 @@ el('panoColor').addEventListener('input',e=>{currentPage().panoColor=e.target.va
 el('panoWidth').addEventListener('input',e=>{currentPage().panoWidth=+e.target.value;el('panoWidthV').textContent=e.target.value+' px';refresh();});
 el('panoOpacity').addEventListener('input',e=>{currentPage().panoOpacity=+e.target.value;el('panoOpacityV').textContent=e.target.value+' %';refresh();});
 el('int').addEventListener('input',e=>{currentPage().intensity=+e.target.value;el('intV').textContent=e.target.value;refresh();});
+// Lignes que déplacent les curseurs « gauche/droite » et « haut/bas ».
+// null = toutes : les curseurs déplacent le bloc entier (comportement d'origine).
+// Un sous-ensemble : ils déplacent ces lignes-là, chacune par son propre décalage.
+let lignesChoisies=null;
+function clesDeLaZone(page,area){
+  area=currentTextArea(page,area);
+  const cles=area==='back'?['coverBackKick','coverBackTitle','coverBackText']:['kick','chapt','serie','intro'];
+  return cles.filter(k=>!(isFullCover(page)&&k==='intro'));   // pas de paragraphe sur la couverture double
+}
+function peindreDecalage(key){
+  const off=textOffset(currentPage(),key);
+  document.querySelectorAll('#spread .text-line-wrap[data-line="'+key+'"]').forEach(w=>{
+    w.style.setProperty('--line-dx',off.dx+'px');
+    w.style.setProperty('--line-dy',off.dy+'px');
+  });
+}
+function syncLignesChoisies(page=currentPage()){
+  const box=el('lignesChoix');
+  if(!box)return;
+  const cles=clesDeLaZone(page,activeTextArea);
+  if(lignesChoisies&&![...lignesChoisies].some(k=>cles.includes(k)))lignesChoisies=null;
+  box.innerHTML=cles.map(k=>{
+    const on=!lignesChoisies||lignesChoisies.has(k);
+    return '<button type="button" data-key="'+k+'" class="'+(on?'on':'')+'" aria-pressed="'+(on?'true':'false')+'">'+esc(TEXT_TARGETS[k].label)+'</button>';
+  }).join('');
+  applyLanguage(box);
+  const aide=el('lignesChoixNote');
+  if(aide){
+    aide.textContent=lignesChoisies
+      ?'Les curseurs déplacent les lignes cochées, chacune par rapport à sa place dans le bloc.'
+      :'Toutes les lignes cochées : les curseurs déplacent le bloc entier.';
+    applyLanguage(aide);
+  }
+}
+onEl('lignesChoix','click',e=>{
+  const b=e.target.closest('button[data-key]');
+  if(!b)return;
+  const page=currentPage();
+  const cles=clesDeLaZone(page,activeTextArea);
+  const actuel=new Set(lignesChoisies||cles);
+  if(actuel.has(b.dataset.key)){if(actuel.size>1)actuel.delete(b.dataset.key);}
+  else actuel.add(b.dataset.key);
+  lignesChoisies=(actuel.size===cles.length)?null:actuel;
+  syncControls();
+});
+function bougerLignesOuBloc(axe,valeur){
+  if(!lignesChoisies)return updateActiveTextAreaSetting(axe==='dx'?'X':'Y',valeur,axe==='dx'?'txV':'tyV');
+  const page=currentPage();
+  lignesChoisies.forEach(k=>{setTextStyle(page,k,axe,valeur);peindreDecalage(k);});
+  el(axe==='dx'?'txV':'tyV').textContent=String(valeur);
+}
 function updateActiveTextAreaSetting(prop,value,readoutId,suffix=''){
   const page=currentPage();
   activeTextArea=currentTextArea(page,activeTextArea);
@@ -2622,8 +2936,8 @@ function updateActiveTextAreaSetting(prop,value,readoutId,suffix=''){
   refresh();
 }
 el('tw').addEventListener('input',e=>updateActiveTextAreaSetting('Width',+e.target.value,'twV',' %'));
-el('tx').addEventListener('input',e=>updateActiveTextAreaSetting('X',+e.target.value,'txV'));
-el('ty').addEventListener('input',e=>updateActiveTextAreaSetting('Y',+e.target.value,'tyV'));
+el('tx').addEventListener('input',e=>bougerLignesOuBloc('dx',+e.target.value));
+el('ty').addEventListener('input',e=>bougerLignesOuBloc('dy',+e.target.value));
 el('tg').addEventListener('input',e=>updateActiveTextAreaSetting('Gap',+e.target.value,'tgV'));
 el('m').addEventListener('input',e=>{currentPage().margin=+e.target.value;el('mV').textContent=e.target.value+' mm';refresh();});
 ['kick','chapt','serie','intro','coverBackKick','coverBackTitle','coverBackText','spineText'].forEach(id=>onEl(id,'input',e=>{
@@ -2664,6 +2978,53 @@ function seg(box,key){
 seg('side','side');
 seg('imgFit','imgFit');
 seg('panoSep','panoSep');
+// Lisibilité : mêmes zones que les curseurs du bloc (recto / verso / page).
+function setLiftColorButton(value){
+  const box=el('lifts');
+  if(!box)return;
+  const courant=String(value||'auto').toLowerCase();
+  let connu=false;
+  box.querySelectorAll('button[data-c]').forEach(b=>{
+    const on=b.dataset.c.toLowerCase()===courant;
+    b.classList.toggle('on',on);
+    if(on)connu=true;
+  });
+  const pick=el('liftColor');
+  if(pick){
+    if(courant!=='auto')pick.value=courant;
+    const cell=pick.closest('.pick');
+    if(cell)cell.classList.toggle('on',!connu);
+  }
+}
+function syncLift(page=currentPage()){
+  const area=currentTextArea(page,activeTextArea);
+  const mode=textLift(page,area);
+  setSegment('liftMode',mode);
+  const s=el('liftAmount');
+  if(s){s.value=textLiftAmount(page,area);setText('liftAmountV',String(s.value));}
+  setLiftColorButton(textLiftColorInput(page,area));
+  const section=document.querySelector('.section-text');
+  if(section)section.classList.toggle('lift-off',mode==='none');
+}
+function setLiftSetting(prop,value){
+  const page=currentPage();
+  activeTextArea=currentTextArea(page,activeTextArea);
+  setTextAreaValue(page,activeTextArea,prop,value);
+  syncLift(page);
+  refresh();
+}
+onEl('liftMode','click',e=>{
+  const b=e.target.closest('button[data-v]');
+  if(!b||b.disabled)return;
+  setLiftSetting('Lift',b.dataset.v);
+});
+onEl('liftAmount','input',e=>setLiftSetting('LiftAmount',+e.target.value));
+onEl('lifts','click',e=>{
+  const b=e.target.closest('button[data-c]');
+  if(!b||b.disabled)return;
+  setLiftSetting('LiftColor',b.dataset.c);
+});
+onEl('liftColor','input',e=>setLiftSetting('LiftColor',e.target.value));
 el('textAlign').addEventListener('click',e=>{
   const b=e.target.closest('button');
   if(!b||b.disabled)return;
@@ -2833,6 +3194,18 @@ function setLiveImageReadout(slot,x,y){
 }
 function startStageDrag(e,kind,target,slot='img'){
   const page=currentPage();
+  if(kind==='line'){
+    // Une ligne seule, ou toutes les lignes cochées si la ligne saisie en fait partie.
+    const cle=slot;
+    const cles=(lignesChoisies&&lignesChoisies.has(cle))?[...lignesChoisies]:[cle];
+    stageDrag={kind,cles,target,started:true,startClientX:e.clientX,startClientY:e.clientY,
+      depart:Object.fromEntries(cles.map(k=>[k,textOffset(page,k)]))};
+    activeTextKey=normalizeTextKey(cle);
+    document.body.classList.add('dragging-stage');
+    suppressSpreadClick=true;
+    e.preventDefault();
+    return;
+  }
   const bounds=(target.closest('.page,.full-cover-page')||target).getBoundingClientRect();
   const area=kind==='text'?currentTextArea(page,copyAreaFromElement(target)):'main';
   if(kind==='text')activeTextArea=area;
@@ -2866,6 +3239,17 @@ function moveStageDrag(e){
   }
   const page=currentPage();
   e.preventDefault();
+  if(stageDrag.kind==='line'){
+    stageDrag.cles.forEach(k=>{
+      const d=stageDrag.depart[k];
+      setTextStyle(page,k,'dx',d.dx+dx);
+      setTextStyle(page,k,'dy',d.dy+dy);
+      peindreDecalage(k);
+    });
+    const o=textOffset(page,stageDrag.cles[0]);
+    setLiveTextReadout(o.dx,o.dy);
+    return;
+  }
   if(stageDrag.kind==='text'){
     const x=Math.max(-320,Math.min(320,Math.round(stageDrag.startX+dx)));
     const y=Math.max(-420,Math.min(420,Math.round(stageDrag.startY+dy)));
@@ -2976,10 +3360,28 @@ function useTextTool(action,value,key=activeTextKey,area=activeTextArea){
   syncControls();
   if(needsRefresh)refresh();
   else{
+    // La boîte d'outils suit la ligne ; si la ligne change de hauteur, la boîte
+    // glisserait sous le curseur. On mesure avant/après et on compense.
+    const boite=toolbarFor(key,activeTextArea);
+    const avant=boite?boite.getBoundingClientRect().top:null;
     syncTextSizePanel(key,activeTextArea);
     applyLiveTextStyle(key);
     updateTextToolbars();
+    if(boite&&avant!=null)stabiliserBoite(boite,avant);
   }
+}
+function toolbarFor(key,area){
+  const page=currentPage();
+  const lignes=[...document.querySelectorAll(`#spread .text-line-wrap [data-edit="${key}"]`)];
+  const ligne=lignes.find(n=>currentTextArea(page,copyAreaFromElement(n))===area)||lignes[0];
+  return ligne?ligne.closest('.text-line-wrap').querySelector('.text-tools'):null;
+}
+function stabiliserBoite(boite,avant){
+  const delta=avant-boite.getBoundingClientRect().top;
+  if(Math.abs(delta)<.5)return;
+  const cumul=(parseFloat(boite.dataset.shift)||0)+delta;
+  boite.dataset.shift=String(cumul);
+  boite.style.setProperty('--tb-shift',cumul.toFixed(2)+'px');
 }
 el('spread').addEventListener('pointerdown',e=>{
   const range=e.target.closest('[data-text-range="size"]');
@@ -3020,6 +3422,11 @@ el('spread').addEventListener('pointerdown',e=>{
   const topImage=e.target.closest('[data-top-img]');
   if(topImage){
     startStageDrag(e,'topImage',topImage,topImageSlot(currentPage()));
+    return;
+  }
+  const grip=e.target.closest('[data-drag="line"]');
+  if(grip){
+    startStageDrag(e,'line',grip.closest('.text-line-wrap'),grip.dataset.key);
     return;
   }
   const handle=e.target.closest('[data-drag="text"]');
@@ -3301,9 +3708,9 @@ onEl('bookTitle','focusout',e=>{
   if(!(e.target.closest&&e.target.closest('[data-book-edit]')))return;
   refresh();
 });
-// Sections repliables. Pas de stockage navigateur : « Format du livre » et
-// « Repères d'impression » démarrent repliées (on les règle une fois), tout le
-// reste est déplié, et on repart de ces valeurs à chaque rechargement.
+// Sections repliables. Pas de stockage navigateur : à l'ouverture, seule
+// « Pages » est dépliée (vue de départ voulue), tout le reste est replié, et on
+// repart de ces valeurs à chaque rechargement.
 function groupesPanneau(){
   return [...document.querySelectorAll('.panel .group')];
 }
@@ -3335,7 +3742,7 @@ function basculerGroupe(titre){
   groupesPanneau().forEach(g=>{
     const titre=g.querySelector('h2');
     if(titre){titre.setAttribute('role','button');titre.setAttribute('tabindex','0');}
-    setGroupeReplie(g,g.classList.contains('section-format')||g.classList.contains('section-print'));
+    setGroupeReplie(g,!g.classList.contains('section-pages'));
   });
   panneau.addEventListener('click',e=>{
     const titre=titreDeGroupe(e.target);
@@ -3901,35 +4308,37 @@ function drawPaperPage(ctx,page,index,x,y,w,h){
   ctx.fillStyle=page.paper;
   ctx.fillRect(x,y,w,h);
   drawRuleOrnamentCanvas(ctx,page,x,y,w,h,Math.min(pad,w*.1));
-  if(!isTextHidden(page,'kick')){
+  peindreTextesLisibles(ctx,page,'main',{x,y,w,h,cx:copyX,cw:copyW},ctx=>{
+  if(!isTextHidden(page,'kick')){ctx.save();decalerLigne(ctx,page,'kick');
     ctx.fillStyle=textColorInput(page,'kick');
     ctx.font=`${textSize(page,'kick')}px ${canvasBodyFont(page)}`;
     drawTrackedText(ctx,page.kick,textAnchor,y+pad+textY(page)+8,3,align);
-  }
+  ctx.restore();}
 
-  if(!isTextHidden(page,'chapt')){
+  if(!isTextHidden(page,'chapt')){ctx.save();decalerLigne(ctx,page,'chapt');
     ctx.fillStyle=textColorInput(page,'chapt');
     ctx.font=`italic ${textSize(page,'chapt')}px ${canvasTitleFont(page)}`;
     ctx.textAlign=align;
     ctx.fillText(page.chapt,textAnchor,midY);
-  }
+  ctx.restore();}
 
   const serieSize=textSize(page,'serie');
   let textYPos=midY+serieSize+2+gap;
-  if(!isTextHidden(page,'serie')){
+  if(!isTextHidden(page,'serie')){ctx.save();decalerLigne(ctx,page,'serie');
     ctx.fillStyle=textColorInput(page,'serie');
     ctx.font=`700 ${serieSize}px ${canvasTitleFont(page)}`;
     textYPos=drawWrappedText(ctx,page.serie,copyX,textYPos,copyW,serieSize*textLeading(page,'serie'),3,align);
-  }
+  ctx.restore();}
 
   textYPos+=10+gap;
   const ruleBottom=textYPos;
 
-  if(!isTextHidden(page,'intro')){
+  if(!isTextHidden(page,'intro')){ctx.save();decalerLigne(ctx,page,'intro');
     ctx.fillStyle=textColorInput(page,'intro');
     ctx.font=`${textSize(page,'intro')}px ${canvasBodyFont(page)}`;
     drawWrappedText(ctx,page.intro,copyX,ruleBottom+16+gap,copyW,textSize(page,'intro')*textLeading(page,'intro'),4,align);
-  }
+  ctx.restore();}
+  });
 
   // Le folio n'est plus dessiné ici : il est posé au niveau de la double-page
   // par drawFolios(), pour pouvoir apparaître à gauche, à droite ou des deux
@@ -3960,11 +4369,11 @@ function drawEditorialRight(ctx,page,img,index,x,y,w,h){
   const folio=pad2(interiorPageStart(index)+1);
   ctx.fillStyle=page.paper;
   ctx.fillRect(x,y,w,h);
-  if(!isTextHidden(page,'kick')){
+  if(!isTextHidden(page,'kick')){ctx.save();decalerLigne(ctx,page,'kick');
     ctx.fillStyle=textColorInput(page,'kick');
     ctx.font=`${textSize(page,'kick')}px ${canvasBodyFont(page)}`;
     drawTrackedText(ctx,page.kick,x+w*.09,y+h*.08+8,3);
-  }
+  ctx.restore();}
   drawEditorialTile(ctx,page,img,x+w*.09,y+h*.16,w*.40,h*.44,'#04342C');
   drawEditorialLines(ctx,x+w*.53,y+h*.18,w*.38,3);
   drawEditorialTile(ctx,page,img,x+w*.09,y+h*.64,w*.82,h*.24,'#501313');
@@ -4016,33 +4425,35 @@ function drawSingleCover(ctx,page,img,topImg,x,y,w,h){
   const copyX=x+pad+textX(page);
   const textAnchor=alignedTextX(copyX,copyW,align);
   let textYPos=y+h*.62+textY(page);
-  if(!isTextHidden(page,'kick')){
+  peindreTextesLisibles(ctx,page,'main',{x,y,w,h,cx:copyX,cw:copyW},ctx=>{
+  if(!isTextHidden(page,'kick')){ctx.save();decalerLigne(ctx,page,'kick');
     ctx.fillStyle=textColorInput(page,'kick');
     ctx.font=`${textSize(page,'kick')}px ${canvasBodyFont(page)}`;
     drawTrackedText(ctx,page.kick,textAnchor,textYPos,3,align);
-  }
+  ctx.restore();}
   textYPos+=h*.065+gap;
-  if(!isTextHidden(page,'chapt')){
+  if(!isTextHidden(page,'chapt')){ctx.save();decalerLigne(ctx,page,'chapt');
     ctx.fillStyle=textColorInput(page,'chapt');
     ctx.font=`italic ${textSize(page,'chapt')}px ${canvasTitleFont(page)}`;
     ctx.textAlign=align;
     ctx.fillText(page.chapt,textAnchor,textYPos);
-  }
+  ctx.restore();}
   const serieSize=textSize(page,'serie');
   textYPos+=serieSize*1.08+gap;
-  if(!isTextHidden(page,'serie')){
+  if(!isTextHidden(page,'serie')){ctx.save();decalerLigne(ctx,page,'serie');
     ctx.fillStyle=textColorInput(page,'serie');
     ctx.font=`700 ${serieSize}px ${canvasTitleFont(page)}`;
     textYPos=drawWrappedText(ctx,page.serie,copyX,textYPos,copyW,serieSize*textLeading(page,'serie'),3,align);
-  }
+  ctx.restore();}
   textYPos+=12+gap;
   const ruleBottom=textYPos;
-  if(!isTextHidden(page,'intro')){
+  if(!isTextHidden(page,'intro')){ctx.save();decalerLigne(ctx,page,'intro');
     const introSize=textSize(page,'intro');
     ctx.fillStyle=textColorInput(page,'intro');
     ctx.font=`${introSize}px ${canvasBodyFont(page)}`;
     drawWrappedText(ctx,page.intro,copyX,ruleBottom+18+gap,copyW,introSize*textLeading(page,'intro'),5,align);
-  }
+  ctx.restore();}
+  });
   ctx.restore();
 }
 function drawFullCoverCanvas(ctx,page,img,topImg,x,y,w,h){
@@ -4070,23 +4481,25 @@ function drawFullCoverCanvas(ctx,page,img,topImg,x,y,w,h){
   const backCopyX=backX+panelW*.12+textX(page,'back');
   const backAnchor=alignedTextX(backCopyX,backCopyW,backAlign);
   let backTextY=top+panelH*.18+textY(page,'back');
-  if(!isTextHidden(page,'coverBackKick')){
+  peindreTextesLisibles(ctx,page,'back',{x:backX,y:top,w:panelW,h:panelH,cx:backCopyX,cw:backCopyW},ctx=>{
+  if(!isTextHidden(page,'coverBackKick')){ctx.save();decalerLigne(ctx,page,'coverBackKick');
     ctx.fillStyle=textColorInput(page,'coverBackKick');
     ctx.font=`${textSize(page,'coverBackKick')}px ${canvasBodyFont(page)}`;
     drawTrackedText(ctx,page.coverBackKick||page.kick,backAnchor,backTextY,3,backAlign);
-  }
+  ctx.restore();}
   backTextY+=Math.max(20,textSize(page,'coverBackKick')*2)+backGap;
-  if(!isTextHidden(page,'coverBackTitle')){
+  if(!isTextHidden(page,'coverBackTitle')){ctx.save();decalerLigne(ctx,page,'coverBackTitle');
     ctx.fillStyle=textColorInput(page,'coverBackTitle');
     ctx.font=`700 ${textSize(page,'coverBackTitle')}px ${canvasTitleFont(page)}`;
     backTextY=drawWrappedText(ctx,page.coverBackTitle||page.chapt,backCopyX,backTextY,backCopyW,textSize(page,'coverBackTitle')*textLeading(page,'coverBackTitle'),3,backAlign);
-  }
+  ctx.restore();}
   backTextY+=12+backGap;
-  if(!isTextHidden(page,'coverBackText')){
+  if(!isTextHidden(page,'coverBackText')){ctx.save();decalerLigne(ctx,page,'coverBackText');
     ctx.fillStyle=textColorInput(page,'coverBackText');
     ctx.font=`${textSize(page,'coverBackText')}px ${canvasBodyFont(page)}`;
     drawWrappedText(ctx,page.coverBackText||page.intro,backCopyX,backTextY,backCopyW,textSize(page,'coverBackText')*textLeading(page,'coverBackText'),8,backAlign);
-  }
+  ctx.restore();}
+  });
 
   drawRuleOrnamentCanvas(ctx,page,frontX,top,panelW,panelH,panelW*.07);
   const align=textAlign(page,'front');
@@ -4095,24 +4508,26 @@ function drawFullCoverCanvas(ctx,page,img,topImg,x,y,w,h){
   const copyX=frontX+panelW*.12+textX(page,'front');
   const textAnchor=alignedTextX(copyX,copyW,align);
   let textYPos=top+panelH*.62+textY(page,'front');
-  if(!isTextHidden(page,'kick')){
+  peindreTextesLisibles(ctx,page,'front',{x:frontX,y:top,w:panelW,h:panelH,cx:copyX,cw:copyW},ctx=>{
+  if(!isTextHidden(page,'kick')){ctx.save();decalerLigne(ctx,page,'kick');
     ctx.fillStyle=textColorInput(page,'kick');
     ctx.font=`${textSize(page,'kick')}px ${canvasBodyFont(page)}`;
     drawTrackedText(ctx,page.kick,textAnchor,textYPos,3,align);
-  }
+  ctx.restore();}
   textYPos+=panelH*.065+gap;
-  if(!isTextHidden(page,'chapt')){
+  if(!isTextHidden(page,'chapt')){ctx.save();decalerLigne(ctx,page,'chapt');
     ctx.fillStyle=textColorInput(page,'chapt');
     ctx.font=`italic ${textSize(page,'chapt')}px ${canvasTitleFont(page)}`;
     ctx.textAlign=align;
     ctx.fillText(page.chapt,textAnchor,textYPos);
-  }
+  ctx.restore();}
   textYPos+=textSize(page,'serie')*1.08+gap;
-  if(!isTextHidden(page,'serie')){
+  if(!isTextHidden(page,'serie')){ctx.save();decalerLigne(ctx,page,'serie');
     ctx.fillStyle=textColorInput(page,'serie');
     ctx.font=`700 ${textSize(page,'serie')}px ${canvasTitleFont(page)}`;
     drawWrappedText(ctx,page.serie,copyX,textYPos,copyW,textSize(page,'serie')*textLeading(page,'serie'),3,align);
-  }
+  ctx.restore();}
+  });
   // Dos : titre dans le premier tiers, auteur dans le dernier — mêmes repères
   // qu'à l'écran (1/6 et 5/6 de la hauteur).
   if(m.pageCount>=79&&spineW>8){
@@ -4191,6 +4606,89 @@ async function captureSpreadNative(scale=2){
 }
 // Rendu de secours des folios : doit suivre exactement les mêmes règles que
 // folioMarks() côté écran (position, police, pages numérotées).
+// Même décalage par ligne qu'à l'écran (transform), appliqué au repère canvas.
+// Rendu de secours : même lisibilité qu'à l'écran. Les textes d'une zone sont
+// peints sur un calque à part, ce qui donne l'ombre et le halo (calque posé
+// avec une ombre), le contour (calque teinté redessiné en huit décalages) et
+// le cartouche (mesuré sur le calque avant d'être posé dessous). Le voile est
+// un dégradé peint sur la zone avant les textes.
+function peindreTextesLisibles(ctx,page,area,zone,peindre){
+  const mode=textLift(page,area);
+  if(mode==='none'){peindre(ctx);return;}
+  const a=textLiftAmount(page,area)/100;
+  const c=textLiftColor(page,area);
+  const t=ctx.getTransform();
+  const k=t.a||1;
+  if(mode==='scrimTop'||mode==='scrimBottom'){
+    const haut=mode==='scrimTop';
+    ctx.save();
+    const g=ctx.createLinearGradient(0,haut?zone.y:zone.y+zone.h,0,haut?zone.y+zone.h:zone.y);
+    const al=.3+a*.6;
+    g.addColorStop(0,rgba(c,al));g.addColorStop(.3,rgba(c,al*.7));g.addColorStop(.62,rgba(c,0));
+    ctx.fillStyle=g;
+    ctx.fillRect(zone.x,zone.y,zone.w,zone.h);
+    ctx.restore();
+    peindre(ctx);
+    return;
+  }
+  const calque=document.createElement('canvas');
+  calque.width=ctx.canvas.width;calque.height=ctx.canvas.height;
+  const cc=calque.getContext('2d');
+  cc.setTransform(t);
+  cc.font=ctx.font;cc.textAlign=ctx.textAlign;cc.textBaseline=ctx.textBaseline;
+  peindre(cc);
+  ctx.save();
+  ctx.setTransform(1,0,0,1,0,0);
+  if(mode==='plate'){
+    const b=boiteDuCalque(cc,zone,t);
+    if(b){
+      const px=18*k,py=14*k;
+      const bx=t.e+zone.cx*k,bw=zone.cw*k;      // même largeur que le bloc à l'écran
+      ctx.fillStyle=rgba(c,.45+a*.55);
+      ctx.fillRect(bx-px,b.y-py,bw+px*2,b.h+py*2);
+    }
+  }else if(mode==='shadow'){
+    ctx.shadowColor=rgba(c,.35+a*.5);ctx.shadowBlur=(3+a*12)*k;ctx.shadowOffsetY=(1+a*2)*k;
+  }else if(mode==='halo'){
+    ctx.shadowColor=rgba(c,.6+a*.4);ctx.shadowBlur=(3+a*12)*k;
+    ctx.drawImage(calque,0,0);
+    ctx.shadowColor=rgba(c,.8);ctx.shadowBlur=(1+a*4)*k;
+  }else if(mode==='outline'){
+    const teinte=document.createElement('canvas');
+    teinte.width=calque.width;teinte.height=calque.height;
+    const tc=teinte.getContext('2d');
+    tc.drawImage(calque,0,0);
+    tc.globalCompositeOperation='source-in';
+    tc.fillStyle=c;tc.fillRect(0,0,teinte.width,teinte.height);
+    const r=(0.6+a*1.6)*k;
+    [[r,0],[-r,0],[0,r],[0,-r],[r,r],[-r,-r],[r,-r],[-r,r]].forEach(([dx,dy])=>ctx.drawImage(teinte,dx,dy));
+  }
+  ctx.drawImage(calque,0,0);
+  ctx.restore();
+}
+// Boîte des pixels peints sur le calque, dans la zone donnée (pixels appareil).
+function boiteDuCalque(cc,zone,t){
+  const k=t.a||1;
+  const x0=Math.max(0,Math.floor(t.e+zone.x*k)),y0=Math.max(0,Math.floor(t.f+zone.y*k));
+  const x1=Math.min(cc.canvas.width,Math.ceil(t.e+(zone.x+zone.w)*k)),y1=Math.min(cc.canvas.height,Math.ceil(t.f+(zone.y+zone.h)*k));
+  if(x1<=x0||y1<=y0)return null;
+  const data=cc.getImageData(x0,y0,x1-x0,y1-y0).data;
+  const w=x1-x0;
+  let minX=Infinity,minY=Infinity,maxX=-1,maxY=-1;
+  for(let y=0;y<y1-y0;y+=2){
+    for(let x=0;x<w;x+=2){
+      if(data[(y*w+x)*4+3]>40){
+        if(x<minX)minX=x;if(x>maxX)maxX=x;if(y<minY)minY=y;if(y>maxY)maxY=y;
+      }
+    }
+  }
+  if(maxX<0)return null;
+  return {x:x0+minX,y:y0+minY,w:maxX-minX+2,h:maxY-minY+2};
+}
+function decalerLigne(ctx,page,key){
+  const off=textOffset(page,key);
+  if(off.dx||off.dy)ctx.translate(off.dx,off.dy);
+}
 function drawFolios(ctx,page,index,w,h){
   if(folioPosition==='none')return;
   if(isFullCover(page)||isSingleCover(page))return;
