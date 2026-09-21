@@ -241,6 +241,7 @@ const I18N_EN={
   "ICHKA Studio":"ICHKA Studio",
   "Atelier du livre":"Book Atelier",
   "Composer un livre illustré, page par page.":"Compose an illustrated book, page by page.",
+  "L’Atelier du livre n’est pas conçu pour une utilisation sur téléphone. Pour une expérience correcte, utilisez-le sur ordinateur, ou à défaut sur tablette.":"The Book Atelier is not designed for phone use. For a proper experience, use it on a computer, or on a tablet if needed.",
   "Liste des pages":"Page list",
   "Pages":"Pages",
   "Page affichée":"Current page",
