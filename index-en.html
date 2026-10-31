@@ -1209,7 +1209,7 @@ body::before {
 
 .gen-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 2px;
   background: var(--border);
   border: 1px solid var(--border);
@@ -2849,7 +2849,7 @@ footer {
   <div class="hero-top fu fu1">
     <ul class="hero-nav">
       <li><a href="#portfolio">Portfolio</a></li>
-      <li><a href="#generators">AI Tools</a></li>
+      <li><a href="#generators">Tools</a></li>
       <li><a href="#knowledge">Guides</a></li>
       <li><a href="#about">About</a></li>
       <li><a href="#contact">Contact</a></li>
@@ -2864,7 +2864,7 @@ footer {
 <nav class="mobile-nav" id="mobile-nav" aria-label="Navigation mobile">
   <button class="mobile-nav-close" id="mobile-nav-close" aria-label="Close">×</button>
   <a href="#portfolio">Portfolio</a>
-  <a href="#generators">AI Tools</a>
+  <a href="#generators">Tools</a>
   <a href="#knowledge">Guides</a>
   <a href="#about">About</a>
   <a href="#contact">Contact</a>
@@ -6948,15 +6948,24 @@ footer {
   <div class="section-inner">
     <div class="section-head" id="generators-return">
       <div>
-        <p class="section-label">AI Tools</p>
-        <h2 class="section-title">Free AI Tools</h2>
+        <p class="section-label">Creative Tools</p>
+        <h2 class="section-title">Free Creative Tools</h2>
       </div>
       <p style="font-size:0.77rem;color:var(--muted);max-width:200px;text-align:right;line-height:1.6;">
-        Assistants to write, frame, enrich and prepare AI creations.
+        Standalone tools and assistants to explore and prepare creative work.
       </p>
     </div>
 
     <div class="gen-grid">
+      <a class="gen-card" href="/outils/base-de-donnees-premiere-pro-effets-transitions.html">
+        <div class="gen-card-img" style="padding:0;overflow:hidden;"><img src="assets/images/premiere-pro-catalogue.svg" style="width:100%;height:100%;object-fit:cover;display:block;" alt="Premiere Pro effects and transitions database"></div>
+        <span class="gen-badge free">Free web tool</span>
+        <div class="gen-body">
+          <p class="gen-title">Premiere Pro Effects &amp; Transitions Database</p>
+          <p class="gen-desc">Browse 177 Premiere Pro effects and transitions with search, filters and CSV export. Interface in French.</p>
+          <p class="gen-action go">Open French catalogue →</p>
+        </div>
+      </a>
       <a rel="noopener" class="gen-card" href="https://tactical-fr.ichkastudio.workers.dev/" target="_blank">
         <div class="gen-card-img" style="padding:0;overflow:hidden;">
           <img src="assets/images/tactical-dark-thumb.webp?v=2" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block;" alt="Tactical Dark">
@@ -6966,83 +6975,6 @@ footer {
           <p class="gen-title">Tactical Dark — Character Generator</p>
           <p class="gen-desc">ICHKA STUDIO · Series 01 — Build dark tactical characters for Midjourney, with gear, posture and atmosphere.</p>
           <p class="gen-action go">Open generator →</p>
-        </div>
-      </a>
-      <a rel="noopener" class="gen-card" href="https://chatgpt.com/g/g-69f06dbd10748191a1832c628fa6f226-ichka-studio-prompter" target="_blank">
-        <div class="gen-card-img" style="padding:0;overflow:hidden;">
-          <img src="assets/images/gpt-triple-shot.webp" style="width:100%;height:100%;object-fit:cover;object-position:center center;display:block;" alt="Triple Shot">
-        </div>
-        <span class="gen-badge free">Free GPT</span>
-        <div class="gen-body">
-          <p class="gen-title">Triple Shot</p>
-          <p class="gen-desc">Generate 3 Midjourney v8.1 prompt variants from your ideas. A structured workflow built on a dedicated knowledge base for high-impact visuals.</p>
-          <p class="gen-action go">Open GPT →</p>
-        </div>
-      </a>
-      <a rel="noopener" class="gen-card" href="https://chatgpt.com/g/g-693f1f1beb988191989b619e109b7f4c-ichka-studio-expert-magnific-images" target="_blank">
-        <div class="gen-card-img" style="padding:0;overflow:hidden;">
-          <img src="assets/images/gpt-pixel-forge.webp" style="width:100%;height:100%;object-fit:cover;object-position:center center;display:block;" alt="Pixel Forge">
-        </div>
-        <span class="gen-badge free">Free GPT</span>
-        <div class="gen-body">
-          <p class="gen-title">Pixel Forge</p>
-          <p class="gen-desc">Analyze your image and get the exact settings to apply in Magnific's image enhancement tools for a professional result. Built for portraits, landscapes, illustrations, 3D renders, cinematic images and product visuals.</p>
-          <p class="gen-action go">Open GPT →</p>
-        </div>
-      </a>
-      <a rel="noopener" class="gen-card" href="https://chatgpt.com/g/g-69f8398b1364819184a99bc07b045808-ichka-studio-director-s-cut" target="_blank">
-        <div class="gen-card-img" style="padding:0;overflow:hidden;">
-          <img src="assets/images/gpt-directors-cut.webp" style="width:100%;height:100%;object-fit:cover;object-position:center center;display:block;" alt="Director's Cut">
-        </div>
-        <span class="gen-badge free">Free GPT</span>
-        <div class="gen-body">
-          <p class="gen-title">Director's Cut</p>
-          <p class="gen-desc">Turn your ideas into cinematic video prompts ready to paste into Runway (Seedance 2.0 or Gen-4) and other platforms. Storyboard, continuity, timeline and shot grammar.</p>
-          <p class="gen-action go">Open GPT →</p>
-        </div>
-      </a>
-      <a rel="noopener" class="gen-card" href="https://chatgpt.com/g/g-69f272d2dcd08191b44353cbb76072c0-ichka-studio-brand-forge" target="_blank">
-        <div class="gen-card-img" style="padding:0;overflow:hidden;">
-          <img src="assets/images/gpt-brand-forge.webp" style="width:100%;height:100%;object-fit:cover;object-position:center center;display:block;" alt="Brand Forge">
-        </div>
-        <span class="gen-badge free">Free GPT</span>
-        <div class="gen-body">
-          <p class="gen-title">Brand Forge</p>
-          <p class="gen-desc">Turn your ideas into gpt-image-2 prompts ready to generate: 8-visual campaigns, stories, posters and brand variations.</p>
-          <p class="gen-action go">Open GPT →</p>
-        </div>
-      </a>
-      <a rel="noopener" class="gen-card" href="https://chatgpt.com/g/g-69f86ae54c0081919c7a7f0e64345029-ichka-studio-raw-cut" target="_blank">
-        <div class="gen-card-img" style="padding:0;overflow:hidden;">
-          <img src="assets/images/gpt-raw-cut.webp" style="width:100%;height:100%;object-fit:cover;object-position:center center;display:block;" alt="Raw Cut">
-        </div>
-        <span class="gen-badge free">Free GPT</span>
-        <div class="gen-body">
-          <p class="gen-title">Raw Cut</p>
-          <p class="gen-desc">Step 1/3 of the Story Engine workflow. Turn a raw idea into a usable visual mini-outline.</p>
-          <p class="gen-action go">Open GPT →</p>
-        </div>
-      </a>
-      <a rel="noopener" class="gen-card" href="https://chatgpt.com/g/g-69f8493d2a8c81918a98c4f823ec5a78-ichka-studio-board-master" target="_blank">
-        <div class="gen-card-img" style="padding:0;overflow:hidden;">
-          <img src="assets/images/gpt-board-master.webp" style="width:100%;height:100%;object-fit:cover;object-position:center center;display:block;" alt="Board Master">
-        </div>
-        <span class="gen-badge free">Free GPT</span>
-        <div class="gen-body">
-          <p class="gen-title">Board Master</p>
-          <p class="gen-desc">Step 2/3 of the Story Engine workflow. Paste your mini-outline (created by RAW CUT) and generate a complete cinematic preproduction board.</p>
-          <p class="gen-action go">Open GPT →</p>
-        </div>
-      </a>
-      <a rel="noopener" class="gen-card" href="https://chatgpt.com/g/g-69f8a096d1748191adbeacd3dc89f394-ichka-studio-shot-killer" target="_blank">
-        <div class="gen-card-img" style="padding:0;overflow:hidden;">
-          <img src="assets/images/gpt-shot-killer.webp" style="width:100%;height:100%;object-fit:cover;object-position:center center;display:block;" alt="Shot Killer">
-        </div>
-        <span class="gen-badge free">Free GPT</span>
-        <div class="gen-body">
-          <p class="gen-title">Shot Killer</p>
-          <p class="gen-desc">Step 3/3 of the Story Engine workflow. Turn your preproduction board into a Seedance shot grid and ready-to-use video prompts. Upload your board, choose audio or not, and go.</p>
-          <p class="gen-action go">Open GPT →</p>
         </div>
       </a>
       <a class="gen-card" href="/atelier-du-livre/">
@@ -7056,15 +6988,6 @@ footer {
           <p class="gen-action go">Open atelier →</p>
         </div>
       </a>
-      <div class="gen-card soon">
-        <div class="gen-card-img locked" data-initials="SN"></div>
-        <span class="gen-badge soon">GPT soon</span>
-        <div class="gen-body">
-          <p class="gen-title">Film Music with Suno</p>
-          <p class="gen-desc">An assistant for cinematic music direction: mood, structure, instrumentation and creative intent.</p>
-          <p class="gen-action dim">In preparation</p>
-        </div>
-      </div>
     </div>
   </div>
 </section>

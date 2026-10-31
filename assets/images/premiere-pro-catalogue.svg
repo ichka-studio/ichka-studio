@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 470" role="img" aria-labelledby="title desc">
+  <title id="title">Premiere Pro effects and transitions catalogue</title>
+  <desc id="desc">A dark purple and cyan visual for the Premiere Pro effects and transitions database.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#12111c"/><stop offset="1" stop-color="#101c25"/></linearGradient>
+    <linearGradient id="mark" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#b7a9ff"/><stop offset="1" stop-color="#69d4e7"/></linearGradient>
+    <radialGradient id="glow"><stop stop-color="#7969e8" stop-opacity=".38"/><stop offset="1" stop-color="#7969e8" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="800" height="470" fill="url(#bg)"/>
+  <ellipse cx="180" cy="100" rx="320" ry="250" fill="url(#glow)"/>
+  <path d="M0 385 800 160v310H0z" fill="#0b1119" opacity=".55"/>
+  <g fill="none" stroke="#b2a7ff" stroke-opacity=".2">
+    <rect x="482" y="116" width="250" height="48" rx="10"/><rect x="482" y="180" width="250" height="48" rx="10"/>
+    <rect x="482" y="244" width="250" height="48" rx="10"/><rect x="482" y="308" width="250" height="48" rx="10"/>
+  </g>
+  <g fill="url(#mark)" opacity=".8"><rect x="500" y="132" width="11" height="17" rx="3"/><rect x="518" y="132" width="112" height="7" rx="3.5"/><rect x="518" y="143" width="76" height="5" rx="2.5"/><rect x="500" y="196" width="11" height="17" rx="3"/><rect x="518" y="196" width="148" height="7" rx="3.5"/><rect x="518" y="207" width="91" height="5" rx="2.5"/><rect x="500" y="260" width="11" height="17" rx="3"/><rect x="518" y="260" width="128" height="7" rx="3.5"/><rect x="518" y="271" width="102" height="5" rx="2.5"/><rect x="500" y="324" width="11" height="17" rx="3"/><rect x="518" y="324" width="103" height="7" rx="3.5"/><rect x="518" y="335" width="139" height="5" rx="2.5"/></g>
+  <text x="70" y="214" fill="url(#mark)" font-family="Arial, sans-serif" font-size="142" font-weight="800" letter-spacing="-12">Pr</text>
+  <text x="77" y="270" fill="#f4f1ff" font-family="Arial, sans-serif" font-size="24" font-weight="700" letter-spacing="4">PREMIERE PRO</text>
+  <text x="78" y="309" fill="#a8a4b5" font-family="Arial, sans-serif" font-size="18" letter-spacing="3">EFFETS · TRANSITIONS</text>
+  <rect x="78" y="346" width="100" height="34" rx="17" fill="#27243a" stroke="#7068b0"/>
+  <text x="128" y="369" text-anchor="middle" fill="#cbc2ff" font-family="Arial, sans-serif" font-size="14" font-weight="700">CATALOGUE</text>
+</svg>
